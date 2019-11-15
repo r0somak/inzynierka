@@ -1,3 +1,4 @@
 *.pyc
 .idea
 venv
+frontend/node_modules
