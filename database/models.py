@@ -45,7 +45,11 @@ class Pacjent(models.Model):
     wojewodztwo = models.CharField(max_length=100)
     email = models.EmailField(null=True)
     telefon = models.CharField(max_length=100, null=True)
-    dokumenty = models.ManyToManyField(Dokument, null=True)
+    dokumenty = models.ForeignKey(
+        Dokument,
+        null=True,
+        on_delete=models.CASCADE
+    )
 
 
 class CustomUser(AbstractUser):
@@ -83,8 +87,4 @@ class Wizyta(models.Model):
         on_delete=models.CASCADE,
     )
 
-    dokumenty = models.ForeignKey(
-        Dokument,
-        null=True,
-        on_delete=models.CASCADE,
-    )
+    dokumenty = models.ManyToManyField(Dokument)
