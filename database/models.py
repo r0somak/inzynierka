@@ -83,4 +83,8 @@ class Wizyta(models.Model):
         on_delete=models.CASCADE,
     )
 
-    dokumenty = models.ManyToManyField(Dokument, null=True)
+    dokumenty = models.ForeignKey(
+        Dokument,
+        null=True,
+        on_delete=models.CASCADE,
+    )
