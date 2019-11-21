@@ -52,6 +52,13 @@ class Pacjent(models.Model):
     )
 
 
+class Administrator(models.Model):
+    name = models.CharField(max_length=100)
+    nazwisko = models.CharField(max_length=100)
+    email = models.EmailField
+    telefon = models.CharField(max_length=100)
+
+
 class CustomUser(AbstractUser):
     fk_id_Lekarz = models.OneToOneField(
         Lekarz,
@@ -66,6 +73,33 @@ class CustomUser(AbstractUser):
         blank=True,
         null=True,
     )
+
+    fk_id_admin = models.OneToOneField(
+        Administrator,
+        models.SET_NULL,
+        blank=True,
+        null=True,
+    )
+
+
+class Objawy(models.Model):
+    nazwa = models.CharField(max_length=250)
+
+
+class JednostkaChorobowa(models.Model):
+    opis = models.CharField(max_length=500)
+    nr_icd = models.CharField(max_length=100)
+    objawy = models.ManyToManyField(Objawy)
+
+
+class DaneStatystyczne(models.Model):
+    wojewodztwo = models.CharField(max_length=100)
+    liczba_zachorowan = models.BigIntegerField()
+    choroba = models.ManyToManyField(JednostkaChorobowa)
+
+
+class Badanie(models.Model):
+    nazwa = models.CharField(max_length=200)
 
 
 class Wizyta(models.Model):
@@ -86,5 +120,6 @@ class Wizyta(models.Model):
         Przychodnia,
         on_delete=models.CASCADE,
     )
-
     dokumenty = models.ManyToManyField(Dokument)
+    objawy = models.ManyToManyField(Objawy)
+    badania = models.ManyToManyField(Badanie)
