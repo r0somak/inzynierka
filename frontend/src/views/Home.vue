@@ -1,18 +1,25 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <BackgroundImage />
+    <div class="divek"/>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue';
+import BackgroundImage from '@/components/BackgroundImage.vue';
+
 
 export default {
   name: 'home',
   components: {
-    HelloWorld,
+    BackgroundImage,
   },
 };
 </script>
+
+<style lang="scss" scoped>
+  .divek {
+    height:800px;
+    background-color:white;
+  }
+</style>
