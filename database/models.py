@@ -8,7 +8,6 @@ class Lekarz(models.Model):
     surname = models.CharField(max_length=100)
     specjalizacja = models.CharField(max_length=100, null=True)
     nr_pwz = models.CharField(max_length=100)
-    email = models.EmailField(null=True)
     telefon = models.CharField(max_length=100, null=True)
 
 
@@ -34,16 +33,15 @@ class Dokument(models.Model):
 
 
 class Pacjent(models.Model):
-    name = models.CharField(max_length=100)
-    surname = models.CharField(max_length=100)
-    pesel = models.CharField(max_length=100)
-    ulica = models.CharField(max_length=100)
-    nr_ulicy = models.CharField(max_length=20)
+    name = models.CharField(max_length=100, null=True)
+    surname = models.CharField(max_length=100, null=True)
+    pesel = models.CharField(max_length=100, null=True)
+    ulica = models.CharField(max_length=100, null=True)
+    nr_ulicy = models.CharField(max_length=20, null=True)
     nr_mieszkania = models.CharField(max_length=20, null=True)
-    kod_pocztowy = models.CharField(max_length=10)
-    miasto = models.CharField(max_length=100)
-    wojewodztwo = models.CharField(max_length=100)
-    email = models.EmailField(null=True)
+    kod_pocztowy = models.CharField(max_length=10, null=True)
+    miasto = models.CharField(max_length=100, null=True)
+    wojewodztwo = models.CharField(max_length=100, null=True)
     telefon = models.CharField(max_length=100, null=True)
     dokumenty = models.ForeignKey(
         Dokument,
@@ -55,11 +53,12 @@ class Pacjent(models.Model):
 class Administrator(models.Model):
     name = models.CharField(max_length=100)
     nazwisko = models.CharField(max_length=100)
-    email = models.EmailField
     telefon = models.CharField(max_length=100)
 
 
 class CustomUser(AbstractUser):
+    username = models.CharField(max_length=30, unique=True)
+    email = models.EmailField(max_length=200, unique=True)
     fk_id_Lekarz = models.OneToOneField(
         Lekarz,
         models.SET_NULL,
