@@ -1,12 +1,17 @@
 <template>
   <ValidationObserver v-slot="{ invalid }">
     <form @submit.prevent="onSubmit">
-      <ValidationProvider name="Login" rules="required|alpha_num|min:3" v-slot="{ errors }">
+      <ValidationProvider name="Login" rules="required|alpha_dash|min:3" v-slot="{ errors }">
         <input v-model="login" type="text" placeholder="Login">
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
 
-      <ValidationProvider name="Password" rules="required|alpha_num|minmax:7,30"
+      <ValidationProvider name="Email" rules="required|email" v-slot="{ errors }">
+        <input v-model="email" type="email" placeholder="Email">
+        <span>{{ errors[0] }}</span>
+      </ValidationProvider>
+
+      <ValidationProvider name="Hasło" rules="required|alpha_dash|minmax:7,30"
        v-slot="{ errors }">
         <input v-model="password" type="password" placeholder="Hasło">
         <span>{{ errors[0] }}</span>
@@ -17,19 +22,27 @@
 </template>
 
 <script>
-import { extend } from 'vee-validate';
+import { extend, localize } from 'vee-validate';
 // eslint-disable-next-line camelcase
-import { required, alpha_num } from 'vee-validate/dist/rules';
+import { required, alpha_dash, email } from 'vee-validate/dist/rules';
+import pl from 'vee-validate/dist/locale/pl.json';
+
+localize('pl', pl);
 
 extend('required', {
   ...required,
-  message: 'Wypełnij pole!',
+  message: 'Pole {_field_} jest wymagane',
 });
 
-extend('alpha_num', {
+extend('alpha_dash', {
   // eslint-disable-next-line camelcase
-  ...alpha_num,
-  message: 'Może zawierać litery, liczby i znaki: - _',
+  ...alpha_dash,
+  message: 'Pole {_field_} może zawierać litery, cyfry oraz myślnik lub podkreślnik',
+});
+
+extend('email', {
+  ...email,
+  message: 'Pole {_field_} musi być poprawnym adresem email',
 });
 
 extend('min', {
@@ -37,7 +50,7 @@ extend('min', {
     return value.length >= args.length;
   },
   params: ['length'],
-  message: 'Login musi zawierać min 3 znaki',
+  message: 'Pole {_field_} musi być długie na co najmniej {length} znaki',
 });
 
 extend('minmax', {
@@ -45,13 +58,14 @@ extend('minmax', {
     return value.length >= min && value.length <= max;
   },
   params: ['min', 'max'],
-  message: 'Hasło musi zawierać min 7 znaków, a max 30',
+  message: 'Pole {_field_} musi zawierać min {min} znaków, a max {max}',
 });
 
 export default {
   name: 'RegisterForm',
   data: () => ({
     login: '',
+    email: '',
     password: '',
   }),
   methods: {
