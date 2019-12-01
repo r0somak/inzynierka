@@ -22,6 +22,7 @@ WOJEWODZTWO = [
     ('ZACHODNIOPOMORSKIE', u'Zachodniopomorskie'),
 ]
 
+
 class Lekarz(models.Model):
     name = models.CharField(max_length=100, null=True)
     surname = models.CharField(max_length=100, null=True)
@@ -86,7 +87,7 @@ class Administrator(models.Model):
 class CustomUser(AbstractUser):
     username = models.CharField(max_length=30, unique=True)
     email = models.EmailField(max_length=200, unique=True)
-    fk_id_Lekarz = models.OneToOneField(
+    fk_id_lekarz = models.OneToOneField(
         Lekarz,
         models.SET_NULL,
         blank=True,
