@@ -1,6 +1,6 @@
 <template>
   <ValidationObserver v-slot="{ invalid }">
-    <form @submit.prevent="onSubmit">
+    <form @submit.prevent="registerUser">
       <ValidationProvider name="Login" rules="required|alpha_dash|min:3" v-slot="{ errors }">
         <input v-model="login" type="text" placeholder="Login">
         <span>{{ errors[0] }}</span>
@@ -63,14 +63,36 @@ extend('minmax', {
 
 export default {
   name: 'RegisterForm',
-  data: () => ({
-    login: '',
-    email: '',
-    password: '',
-  }),
+  data() {
+    return {
+      login: '',
+      email: '',
+      password: '',
+    };
+  },
   methods: {
-    onSubmit() {
-      alert('Rejestracja przebiegła pomyślnie!');
+    registerUser() {
+      // eslint-disable-next-line no-shadow
+      const { login, email, password } = this;
+      const data = { login, email, password };
+      const URL = 'http://localhost:8000/create_user';
+      this.axios({
+        method: 'post',
+        url: URL,
+        headers: {
+          Accept: 'application/json',
+          Content: 'application/json',
+        },
+        data,
+      })
+        .then((res) => {
+          sessionStorage.setItem('token', res.data.token);
+          this.$router.push('/dashboard');
+        })
+        .catch((err) => {
+          // eslint-disable-next-line
+          console.log(err)
+        });
     },
   },
 };

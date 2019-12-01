@@ -8,6 +8,7 @@ import * as rules from 'vee-validate/dist/rules';
 import App from './App.vue';
 import router from './router';
 
+
 // install rules and localization
 Object.keys(rules).forEach((rule) => {
   extend(rule, rules[rule]);
