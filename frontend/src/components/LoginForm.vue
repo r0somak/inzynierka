@@ -1,9 +1,13 @@
 <template>
   <div class="loginForm">
+    <div class="title"><h3>Zaloguj się</h3></div>
     <div class="input">
-    <input class="email" label="Twój email" type="email"/>
-    <input class="password" label="Twoje hasło" type="password"/>
+    <input class="email" type="email"/>
+      <span class ="label-input">Email</span>
+    <input class="password" type="password"/>
+      <span class ="label-input">Password</span>
     </div>
+    <div class="loginbButton">Zaloguj się</div>
   </div>
 </template>
 
@@ -15,20 +19,19 @@ export default {
 
 <style lang="scss" scoped>
   .loginForm {
-    width:100%;
+    width: 50%;
+    height: 100%;
   }
-
-.input {
-}
-  .email,.password {
-    width: 30%;
-    margin-top: 30px;
-    margin-left: 450px;
-    background-color: transparent;
-    border: none;
-    border-bottom: 1px solid black;
+  .title {
+    margin-top: 50px;
+    font-size: 30px;
+  }
+  .input {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  width: 100%;
+  height: 80px;
+  position: relative;
   }
 </style>
