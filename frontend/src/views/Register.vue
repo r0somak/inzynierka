@@ -5,13 +5,19 @@
     <router-link to="/login">Logowanie</router-link>
     <router-link to="/register">Rejestracja</router-link>
   </div>
-  <p>REGISTER SITE</p>
+  <p>REJESTRACJA</p>
+    <RegisterForm/>
   </div>
 </template>
 
 <script>
+import RegisterForm from '@/components/RegisterForm.vue';
+
 export default {
   name: 'Register',
+  components: {
+    RegisterForm,
+  },
 };
 </script>
 
@@ -41,6 +47,10 @@ export default {
       padding: 5px;
     }
   }
+  }
+  p {
+    font-size: 35px;
+    font-family: 'Abril Fatface', cursive;
   }
 
 </style>
