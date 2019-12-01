@@ -49,19 +49,11 @@ class UserEditProfileView(generics.RetrieveUpdateAPIView):
         user = request.user
         if user.is_anonymous is False and user.fk_id_pacjent is not None:
             profile = Pacjent.objects.get(id=user.fk_id_pacjent.id)
-            return Response({
-                'name': profile.name,
-                'surname': profile.surname,
-                'pesel': profile.pesel,
-                'ulica': profile.ulica,
-                'nr_ulicy': profile.nr_ulicy,
-                'nr_mieszkania': profile.nr_mieszkania,
-                'kod_pocztowy': profile.kod_pocztowy,
-                'miasto': profile.miasto,
-                'wojewodztwo': profile.wojewodztwo,
-                'telefon': profile.telefon,
-                'dokumenty': profile.dokumenty,
-            })
+            serializer = UserProfileSerializer(profile, data=request.data)
+            if serializer.is_valid():
+                return Response(serializer.data)
+            else:
+                return Response(status.HTTP_400_BAD_REQUEST)
         else:
             return Response(status.HTTP_401_UNAUTHORIZED)
 
