@@ -8,9 +8,9 @@ from rest_framework import authentication, permissions
 
 from django.contrib.auth import authenticate
 
-from .serializers import UserSerializer, DoctorSerializer, UserProfileSerializer
+from .serializers import UserSerializer, DoctorSerializer, UserProfileSerializer, DoctorProfileSerializer
 
-from database.models import Pacjent
+from database.models import Pacjent, Lekarz
 from database.models import CustomUser
 import logging
 
@@ -28,6 +28,7 @@ class ApiRootView(generics.GenericAPIView):
                 'user_login': reverse(GetAuthTokenView.name, request=request),
                 'create_doctor': reverse(DoctorCreateView.name, request=request),
                 'user_profile': reverse(UserEditProfileView.name, request=request),
+                'doctor_profile': reverse(DoctorEditProfileView.name, request=request),
             }
         )
 
@@ -49,19 +50,11 @@ class UserEditProfileView(generics.RetrieveUpdateAPIView):
         user = request.user
         if user.is_anonymous is False and user.fk_id_pacjent is not None:
             profile = Pacjent.objects.get(id=user.fk_id_pacjent.id)
-            return Response({
-                'name': profile.name,
-                'surname': profile.surname,
-                'pesel': profile.pesel,
-                'ulica': profile.ulica,
-                'nr_ulicy': profile.nr_ulicy,
-                'nr_mieszkania': profile.nr_mieszkania,
-                'kod_pocztowy': profile.kod_pocztowy,
-                'miasto': profile.miasto,
-                'wojewodztwo': profile.wojewodztwo,
-                'telefon': profile.telefon,
-                'dokumenty': profile.dokumenty,
-            })
+            serializer = UserProfileSerializer(profile, data=request.data)
+            if serializer.is_valid():
+                return Response(serializer.data)
+            else:
+                return Response(status.HTTP_400_BAD_REQUEST)
         else:
             return Response(status.HTTP_401_UNAUTHORIZED)
 
@@ -102,3 +95,36 @@ class DoctorCreateView(generics.CreateAPIView):
     authentication_classes = ()
     permission_classes = ()
     serializer_class = DoctorSerializer
+
+
+class DoctorEditProfileView(generics.RetrieveUpdateAPIView):
+    name = 'doctor-edit-profile'
+    serializer_class = DoctorProfileSerializer
+
+    # authentication_classes = [authentication.TokenAuthentication]
+    # permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        if user.is_anonymous is False and user.fk_id_lekarz is not None:
+            profile = Lekarz.objects.get(id=user.fk_id_lekarz.id)
+            serializer = DoctorProfileSerializer(profile, data=request.data)
+            if serializer.is_valid():
+                return Response(serializer.data)
+            else:
+                return Response(status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(status.HTTP_401_UNAUTHORIZED)
+
+    def patch(self, request, *args, **kwargs):
+        user = request.user
+        if user.is_anonymous is False and user.fk_id_lekarz is not None:
+            profile = Lekarz.objects.get(id=user.fk_id_lekarz.id)
+            serializer = DoctorProfileSerializer(profile, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            else:
+                return Response(status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(status.HTTP_401_UNAUTHORIZED)

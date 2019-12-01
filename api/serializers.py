@@ -79,3 +79,15 @@ class DoctorSerializer(serializers.ModelSerializer):
         user.save()
         Token.objects.create(user=user)
         return user
+
+
+class DoctorProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Lekarz
+        fields = (
+            'name',
+            'surname',
+            'specjalizacja',
+            'nr_pwz',
+            'telefon',
+        )
