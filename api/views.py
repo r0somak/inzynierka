@@ -4,37 +4,82 @@ from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.exceptions import PermissionDenied
 from rest_framework import status
+from rest_framework import authentication, permissions
 
 from django.contrib.auth import authenticate
 
-from .serializers import UserSerializer
+from .serializers import UserSerializer, DoctorSerializer, UserProfileSerializer
 
+from database.models import Pacjent
 from database.models import CustomUser
+import logging
 
-
+logger = logging.getLogger(__name__)
 # Create your views here.
 
 
-class ApiRoot(generics.GenericAPIView):
+class ApiRootView(generics.GenericAPIView):
     name = 'api-root'
 
     def get(self, request, *args, **kwargs):
         return Response(
             {
-                'create_user': reverse(UserCreate.name, request=request),
-                'user_login': reverse(GetAuthToken.name, request=request),
+                'create_user': reverse(UserCreateView.name, request=request),
+                'user_login': reverse(GetAuthTokenView.name, request=request),
+                'create_doctor': reverse(DoctorCreateView.name, request=request),
+                'user_profile': reverse(UserEditProfileView.name, request=request),
             }
         )
 
 
-class UserCreate(generics.CreateAPIView):
+class UserCreateView(generics.CreateAPIView):
     name = 'create-user'
     authentication_classes = ()
     permission_classes = ()
     serializer_class = UserSerializer
 
 
-class GetAuthToken(APIView):
+class UserEditProfileView(generics.RetrieveUpdateAPIView):
+    name = 'user-edit-profile'
+    serializer_class = UserProfileSerializer
+    # authentication_classes = [authentication.TokenAuthentication]
+    # permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        if user.is_anonymous is False and user.fk_id_pacjent is not None:
+            profile = Pacjent.objects.get(id=user.fk_id_pacjent.id)
+            return Response({
+                'name': profile.name,
+                'surname': profile.surname,
+                'pesel': profile.pesel,
+                'ulica': profile.ulica,
+                'nr_ulicy': profile.nr_ulicy,
+                'nr_mieszkania': profile.nr_mieszkania,
+                'kod_pocztowy': profile.kod_pocztowy,
+                'miasto': profile.miasto,
+                'wojewodztwo': profile.wojewodztwo,
+                'telefon': profile.telefon,
+                'dokumenty': profile.dokumenty,
+            })
+        else:
+            return Response(status.HTTP_401_UNAUTHORIZED)
+
+    def patch(self, request, *args, **kwargs):
+        user = request.user
+        if user.is_anonymous is False and user.fk_id_pacjent is not None:
+            profile = Pacjent.objects.get(id=user.fk_id_pacjent.id)
+            serializer = UserProfileSerializer(profile, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            else:
+                return Response(status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(status.HTTP_401_UNAUTHORIZED)
+
+
+class GetAuthTokenView(APIView):
     name = 'user-login'
     permission_classes = ()
 
@@ -50,3 +95,10 @@ class GetAuthToken(APIView):
             return Response({
                 'error': "Wrong Credentials"
             }, status=status.HTTP_400_BAD_REQUEST)
+
+
+class DoctorCreateView(generics.CreateAPIView):
+    name = 'create-doctor'
+    authentication_classes = ()
+    permission_classes = ()
+    serializer_class = DoctorSerializer
