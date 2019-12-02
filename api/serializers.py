@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
-from database.models import CustomUser, Pacjent, Lekarz
+from database.models import CustomUser, Pacjent, Lekarz, Przychodnia
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -90,4 +90,21 @@ class DoctorProfileSerializer(serializers.ModelSerializer):
             'specjalizacja',
             'nr_pwz',
             'telefon',
+        )
+
+
+class PrzychodniaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Przychodnia
+        fields = (
+            'nazwa',
+            'ulica',
+            'nr_ulicy',
+            'nr_mieszkania',
+            'kod_pocztowy',
+            'miasto',
+            'wojewodztwo',
+            'email',
+            'telefon',
+            'lekarze',
         )

@@ -32,12 +32,12 @@ class Lekarz(models.Model):
 
 
 class Przychodnia(models.Model):
-    nazwa = models.CharField(max_length=100)
-    uica = models.CharField(max_length=100)
-    nr_ulicy = models.CharField(max_length=100)
+    nazwa = models.CharField(max_length=100, null=True)
+    ulica = models.CharField(max_length=100, null=True)
+    nr_ulicy = models.CharField(max_length=100, null=True)
     nr_mieszkania = models.CharField(max_length=100, null=True)
-    kod_pocztowy = models.CharField(max_length=100)
-    miasto = models.CharField(max_length=100)
+    kod_pocztowy = models.CharField(max_length=100, null=True)
+    miasto = models.CharField(max_length=100, null=True)
     wojewodztwo = models.CharField(
         max_length=30,
         choices=WOJEWODZTWO,
