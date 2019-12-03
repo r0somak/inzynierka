@@ -5,9 +5,12 @@ import {
 } from 'vee-validate';
 import en from 'vee-validate/dist/locale/en.json';
 import * as rules from 'vee-validate/dist/rules';
+import axios from 'axios';
+import VueAxios from 'vue-axios';
 import App from './App.vue';
 import router from './router';
 
+Vue.use(VueAxios, axios);
 
 // install rules and localization
 Object.keys(rules).forEach((rule) => {

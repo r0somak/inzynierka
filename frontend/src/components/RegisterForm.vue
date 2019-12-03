@@ -26,6 +26,7 @@ import { extend, localize } from 'vee-validate';
 // eslint-disable-next-line camelcase
 import { required, alpha_dash, email } from 'vee-validate/dist/rules';
 import pl from 'vee-validate/dist/locale/pl.json';
+import axios from 'axios';
 
 localize('pl', pl);
 
@@ -75,8 +76,8 @@ export default {
       // eslint-disable-next-line no-shadow
       const { login, email, password } = this;
       const data = { login, email, password };
-      const URL = 'http://localhost:8000/create_user';
-      this.axios({
+      const URL = 'http://localhost:8000/create/user/';
+      axios({
         method: 'post',
         url: URL,
         headers: {
@@ -87,7 +88,7 @@ export default {
       })
         .then((res) => {
           sessionStorage.setItem('token', res.data.token);
-          this.$router.push('/dashboard');
+          this.$router.push('/homeloged');
         })
         .catch((err) => {
           // eslint-disable-next-line
