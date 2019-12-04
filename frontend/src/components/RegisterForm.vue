@@ -75,7 +75,11 @@ export default {
     registerUser() {
       // eslint-disable-next-line no-shadow
       const { login, email, password } = this;
-      const data = { login, email, password };
+      const data = {
+        username: login,
+        email,
+        password,
+      };
       const URL = 'http://localhost:8000/create/user/';
       axios({
         method: 'post',
@@ -91,8 +95,8 @@ export default {
           this.$router.push('/homeloged');
         })
         .catch((err) => {
-          // eslint-disable-next-line
-          console.log(err)
+        // eslint-disable-next-line
+        console.log('error pobierania tokena'+err)
         });
     },
   },
