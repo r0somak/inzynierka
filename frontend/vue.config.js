@@ -18,7 +18,7 @@ module.exports = {
       .port(8080)
       .hotOnly(true)
       .watchOptions({ poll: 1000 })
-      .https(true)
+      .https(false)
       // eslint-disable-next-line no-useless-escape
       .headers({ 'Access-Control-Allow-Origin': '*' });
   },

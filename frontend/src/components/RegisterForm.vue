@@ -93,10 +93,6 @@ export default {
         .then((res) => {
           sessionStorage.setItem('token', res.data.token);
           this.$router.push('/homeloged');
-        })
-        .catch((err) => {
-        // eslint-disable-next-line
-        console.log('error pobierania tokena'+err)
         });
     },
   },
