@@ -37,6 +37,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pacjent
         fields = (
+            'id',
             'name',
             'surname',
             'pesel',
@@ -49,6 +50,12 @@ class UserProfileSerializer(serializers.ModelSerializer):
             'telefon',
             'dokumenty',
         )
+        extra_kwargs = {
+            'id':
+                {
+                    'read_only': True
+                }
+        }
 
 
 class DoctorSerializer(serializers.ModelSerializer):
@@ -85,18 +92,26 @@ class DoctorProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lekarz
         fields = (
+            'id',
             'name',
             'surname',
             'specjalizacja',
             'nr_pwz',
             'telefon',
         )
+        extra_kwargs = {
+            'id':
+                {
+                    'read_only': True
+                }
+        }
 
 
 class PrzychodniaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Przychodnia
         fields = (
+            'id',
             'nazwa',
             'ulica',
             'nr_ulicy',
@@ -108,3 +123,9 @@ class PrzychodniaSerializer(serializers.ModelSerializer):
             'telefon',
             'lekarze',
         )
+        extra_kwargs = {
+            'id':
+                {
+                    'read_only': True
+                }
+        }
