@@ -168,21 +168,22 @@ class WizytaCreateView(generics.CreateAPIView):
     name = 'create-wizyta'
     serializer_class = WizytaSerializer
 
-    # def post(self, request, *args, **kwargs):
-    #     user = request.user
-    #     if user.is_anonymous is False and user.fk_id_pacjent is not None:
-    #         fk_id_pacjent = Pacjent.objects.get(id=user.fk_id_pacjent.id)
-    #         serializer = WizytaSerializer(fk_id_pacjent, data=request.data)
-    #         if serializer.is_valid():
-    #             serializer.save()
-    #             return Response(serializer.data)
-    #         else:
-    #             return Response(status.HTTP_400_BAD_REQUEST)
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        if user.is_anonymous is False and user.fk_id_pacjent is not None:
+            serializer = WizytaSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save(fk_id_pacjent=user.fk_id_pacjent)
+                return Response(serializer.data)
+            else:
+                return Response(status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(status.HTTP_401_UNAUTHORIZED)
+
+    # def perform_create(self, serializer):
+    #     if self.request.user.is_anonymous is False and self.request.user.fk_id_pacjent is not None:
+    #         serializer.save(
+    #             fk_id_pacjent=self.request.user.fk_id_pacjent
+    #         )
     #     else:
     #         return Response(status.HTTP_401_UNAUTHORIZED)
-
-    def perform_create(self, serializer):
-        if self.request.user.is_anonymous is False and self.request.user.fk_id_pacjent is not None:
-            serializer.save(
-                fk_id_pacjent=self.request.user.fk_id_pacjent
-            )
