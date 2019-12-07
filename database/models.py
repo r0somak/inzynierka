@@ -24,8 +24,8 @@ WOJEWODZTWO = [
 
 
 class Lekarz(models.Model):
-    name = models.CharField(max_length=100, null=True)
-    surname = models.CharField(max_length=100, null=True)
+    name = models.CharField(max_length=100, blank=True)
+    surname = models.CharField(max_length=100, blank=True)
     specjalizacja = models.CharField(max_length=100, null=True, default='BRAK')
     nr_pwz = models.CharField(max_length=100, null=True)
     telefon = models.CharField(max_length=100, null=True)
@@ -39,19 +39,19 @@ class Lekarz(models.Model):
 
 
 class Przychodnia(models.Model):
-    nazwa = models.CharField(max_length=100, null=True)
-    ulica = models.CharField(max_length=100, null=True)
-    nr_ulicy = models.CharField(max_length=100, null=True)
-    nr_mieszkania = models.CharField(max_length=100, null=True)
-    kod_pocztowy = models.CharField(max_length=100, null=True)
-    miasto = models.CharField(max_length=100, null=True)
+    nazwa = models.CharField(max_length=100, blank=True)
+    ulica = models.CharField(max_length=100, blank=True)
+    nr_ulicy = models.CharField(max_length=100, blank=True)
+    nr_mieszkania = models.CharField(max_length=100, blank=True)
+    kod_pocztowy = models.CharField(max_length=100, blank=True)
+    miasto = models.CharField(max_length=100, blank=True)
     wojewodztwo = models.CharField(
         max_length=30,
         choices=WOJEWODZTWO,
         default='BRAK',
     )
-    email = models.CharField(max_length=100, null=True)
-    telefon = models.CharField(max_length=100, null=True)
+    email = models.CharField(max_length=100, blank=True)
+    telefon = models.CharField(max_length=100, blank=True)
     lekarze = models.ManyToManyField(Lekarz)
 
 
@@ -64,25 +64,32 @@ class Dokument(models.Model):
 
 
 class Pacjent(models.Model):
-    name = models.CharField(max_length=100, null=True)
-    surname = models.CharField(max_length=100, null=True)
-    pesel = models.CharField(max_length=100, null=True)
-    ulica = models.CharField(max_length=100, null=True)
-    nr_ulicy = models.CharField(max_length=20, null=True)
-    nr_mieszkania = models.CharField(max_length=20, null=True)
-    kod_pocztowy = models.CharField(max_length=10, null=True)
-    miasto = models.CharField(max_length=100, null=True)
+    name = models.CharField(max_length=100, blank=True)
+    surname = models.CharField(max_length=100, blank=True)
+    pesel = models.CharField(max_length=100, blank=True)
+    ulica = models.CharField(max_length=100, blank=True)
+    nr_ulicy = models.CharField(max_length=20, blank=True)
+    nr_mieszkania = models.CharField(max_length=20, blank=True)
+    kod_pocztowy = models.CharField(max_length=10, blank=True)
+    miasto = models.CharField(max_length=100, blank=True)
     wojewodztwo = models.CharField(
         max_length=30,
         choices=WOJEWODZTWO,
         default='BRAK',
     )
-    telefon = models.CharField(max_length=100, null=True)
+    telefon = models.CharField(max_length=100, blank=True)
     dokumenty = models.ForeignKey(
         Dokument,
         null=True,
         on_delete=models.CASCADE
     )
+
+    class Meta:
+        ordering = ('id', )
+
+    def __str__(self):
+        id_string = str(self.id) + u': ' + self.name + u' ' + self.surname
+        return id_string
 
 
 class Administrator(models.Model):
@@ -121,8 +128,8 @@ class Objawy(models.Model):
 
 
 class JednostkaChorobowa(models.Model):
-    opis = models.CharField(max_length=500)
-    nr_icd = models.CharField(max_length=100)
+    opis = models.CharField(max_length=500, blank=True)
+    nr_icd = models.CharField(max_length=100, blank=True)
     objawy = models.ManyToManyField(Objawy)
 
 
@@ -138,7 +145,7 @@ class Badanie(models.Model):
 
 class Wizyta(models.Model):
     data_wizyty = models.DateTimeField()
-    uwagi = models.CharField(max_length=500)
+    uwagi = models.CharField(max_length=500, blank=True)
 
     fk_id_pacjent = models.ForeignKey(
         Pacjent,
@@ -154,6 +161,13 @@ class Wizyta(models.Model):
         Przychodnia,
         on_delete=models.CASCADE,
     )
-    dokumenty = models.ManyToManyField(Dokument)
-    objawy = models.ManyToManyField(Objawy)
-    badania = models.ManyToManyField(Badanie)
+    dokumenty = models.ManyToManyField(Dokument, blank=True)
+    objawy = models.ManyToManyField(Objawy, blank=True)
+    badania = models.ManyToManyField(Badanie, blank=True)
+
+    class Meta:
+        ordering = ('id', )
+
+    def __str__(self):
+        id_string = str(self.id) + u': ' + str(self.data_wizyty) + u', pacjent: ' + str(self.fk_id_pacjent)
+        return id_string

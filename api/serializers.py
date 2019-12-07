@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
-from database.models import CustomUser, Pacjent, Lekarz, Przychodnia
+from database.models import CustomUser, Pacjent, Lekarz, Przychodnia, Wizyta
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -86,6 +86,33 @@ class DoctorSerializer(serializers.ModelSerializer):
         user.save()
         Token.objects.create(user=user)
         return user
+
+
+class WizytaSerializer(serializers.ModelSerializer):
+    ## Format daty 2013-01-29T12:34:56.000000Z
+    class Meta:
+        model = Wizyta
+        fields = (
+            'id',
+            'data_wizyty',
+            'uwagi',
+            'fk_id_pacjent',
+            'fk_id_przychodnia',
+            'fk_id_lekarz',
+            'dokumenty',
+            'objawy',
+            'badania',
+        )
+        extra_kwargs = {
+            'id':
+                {
+                    'read_only': True
+                },
+            'fk_id_pacjent':
+                {
+                    'read_only': True
+                },
+        }
 
 
 class DoctorProfileSerializer(serializers.ModelSerializer):

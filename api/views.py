@@ -8,7 +8,7 @@ from rest_framework import authentication, permissions
 
 from django.contrib.auth import authenticate
 
-from .serializers import UserSerializer, DoctorSerializer, UserProfileSerializer, DoctorProfileSerializer, PrzychodniaSerializer
+from .serializers import UserSerializer, DoctorSerializer, UserProfileSerializer, DoctorProfileSerializer, PrzychodniaSerializer, WizytaSerializer
 
 from database.models import Pacjent, Lekarz, Przychodnia
 from database.models import CustomUser
@@ -28,6 +28,7 @@ class ApiRootView(generics.GenericAPIView):
                 'create_patient': reverse(UserCreateView.name, request=request),
                 'create_przychodnia': reverse(PrzychodniaCreateView.name, request=request),
                 'create_doctor': reverse(DoctorCreateView.name, request=request),
+                'create_wizyta': reverse(WizytaCreateView.name, request=request),
                 'AUTHTOKEN': 'ENDPOINT DO UZYSKANIA AUTHTOKEN',
                 'user_login': reverse(GetAuthTokenView.name, request=request),
                 'EDYCJA PROFILU': 'ENDPOINTY DO EDYCJI PROFILU',
@@ -162,3 +163,26 @@ class PrzychodniaListView(generics.ListAPIView):
     queryset = Przychodnia.objects.all()
     serializer_class = PrzychodniaSerializer
 
+
+class WizytaCreateView(generics.CreateAPIView):
+    name = 'create-wizyta'
+    serializer_class = WizytaSerializer
+
+    # def post(self, request, *args, **kwargs):
+    #     user = request.user
+    #     if user.is_anonymous is False and user.fk_id_pacjent is not None:
+    #         fk_id_pacjent = Pacjent.objects.get(id=user.fk_id_pacjent.id)
+    #         serializer = WizytaSerializer(fk_id_pacjent, data=request.data)
+    #         if serializer.is_valid():
+    #             serializer.save()
+    #             return Response(serializer.data)
+    #         else:
+    #             return Response(status.HTTP_400_BAD_REQUEST)
+    #     else:
+    #         return Response(status.HTTP_401_UNAUTHORIZED)
+
+    def perform_create(self, serializer):
+        if self.request.user.is_anonymous is False and self.request.user.fk_id_pacjent is not None:
+            serializer.save(
+                fk_id_pacjent=self.request.user.fk_id_pacjent
+            )
