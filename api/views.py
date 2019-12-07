@@ -10,7 +10,7 @@ from django.contrib.auth import authenticate
 
 from .serializers import UserSerializer, DoctorSerializer, UserProfileSerializer, DoctorProfileSerializer, PrzychodniaSerializer
 
-from database.models import Pacjent, Lekarz
+from database.models import Pacjent, Lekarz, Przychodnia
 from database.models import CustomUser
 import logging
 
@@ -36,6 +36,7 @@ class ApiRootView(generics.GenericAPIView):
                 'LISTA': 'ENDPOINTY DO UZYSKANIA LISTY WSZYSTKICH OBIEKTÓW DANEGO TYPU',
                 'user_list': reverse(UserListView.name, request=request),
                 'doctor_list': reverse(DoctorListView.name, request=request),
+                'przychodnia_list': reverse(PrzychodniaListView.name, request=request),
             }
         )
 
@@ -154,3 +155,10 @@ class UserListView(generics.ListAPIView):
     name = 'user-list'
     queryset = Pacjent.objects.all()
     serializer_class = UserProfileSerializer
+
+
+class PrzychodniaListView(generics.ListAPIView):
+    name = 'przychodnia-list'
+    queryset = Przychodnia.objects.all()
+    serializer_class = PrzychodniaSerializer
+

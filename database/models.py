@@ -26,9 +26,16 @@ WOJEWODZTWO = [
 class Lekarz(models.Model):
     name = models.CharField(max_length=100, null=True)
     surname = models.CharField(max_length=100, null=True)
-    specjalizacja = models.CharField(max_length=100, null=True)
+    specjalizacja = models.CharField(max_length=100, null=True, default='BRAK')
     nr_pwz = models.CharField(max_length=100, null=True)
     telefon = models.CharField(max_length=100, null=True)
+
+    class Meta:
+        ordering = ('id', )
+
+    def __str__(self):
+        id_string = str(self.id) + u': ' + self.name + ' ' + self.surname + ', ' + self.specjalizacja
+        return id_string
 
 
 class Przychodnia(models.Model):
