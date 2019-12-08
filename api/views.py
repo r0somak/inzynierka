@@ -67,7 +67,7 @@ class UserEditProfileView(generics.RetrieveUpdateAPIView):
             else:
                 return Response(status.HTTP_400_BAD_REQUEST)
         else:
-            return Response(status.HTTP_401_UNAUTHORIZED)
+            return Response(status.HTTP_403_FORBIDDEN)
 
     def patch(self, request, *args, **kwargs):
         user = request.user
@@ -80,7 +80,7 @@ class UserEditProfileView(generics.RetrieveUpdateAPIView):
             else:
                 return Response(status.HTTP_400_BAD_REQUEST)
         else:
-            return Response(status.HTTP_401_UNAUTHORIZED)
+            return Response(status.HTTP_403_FORBIDDEN)
 
 
 class GetAuthTokenView(APIView):
@@ -125,7 +125,7 @@ class DoctorEditProfileView(generics.RetrieveUpdateAPIView):
             else:
                 return Response(status.HTTP_400_BAD_REQUEST)
         else:
-            return Response(status.HTTP_401_UNAUTHORIZED)
+            return Response(status.HTTP_403_FORBIDDEN)
 
     def patch(self, request, *args, **kwargs):
         user = request.user
@@ -138,7 +138,7 @@ class DoctorEditProfileView(generics.RetrieveUpdateAPIView):
             else:
                 return Response(status.HTTP_400_BAD_REQUEST)
         else:
-            return Response(status.HTTP_401_UNAUTHORIZED)
+            return Response(status.HTTP_403_FORBIDDEN)
 
 
 class PrzychodniaCreateView(generics.CreateAPIView):
@@ -183,7 +183,7 @@ class WizytaCreateView(generics.CreateAPIView):
             else:
                 return Response(status.HTTP_400_BAD_REQUEST)
         else:
-            return Response(status.HTTP_401_UNAUTHORIZED)
+            return Response(status.HTTP_403_FORBIDDEN)
 
     # def perform_create(self, serializer):
     #     if self.request.user.is_anonymous is False and self.request.user.fk_id_pacjent is not None:
@@ -198,19 +198,33 @@ class WizytaListView(generics.ListAPIView):
     name = 'wizyta-list'
     serializer_class = WizytaSerializer
 
-    def get(self, request, *args, **kwargs):
-        user = request.user
+    # def get(self, request, *args, **kwargs):
+    #     user = request.user
+    #     if user.is_anonymous is False:
+    #         if user.fk_id_pacjent is not None:
+    #             pacjent = Pacjent.objects.filter(id=user.fk_id_pacjent.id)
+    #             serializer = WizytaSerializer(pacjent, data=request.data)
+    #             if serializer.is_valid():
+    #                 return Response(serializer.data)
+    #             else:
+    #                 return Response(status.HTTP_400_BAD_REQUEST)
+    #         elif user.fk_id_lekarz is not None:
+    #             pass
+    #         else:
+    #             pass
+    #     else:
+    #         return Response(status.HTTP_403_FORBIDDEN)
+
+    def get_queryset(self):
+        user = self.request.user
         if user.is_anonymous is False:
             if user.fk_id_pacjent is not None:
-                wizyty = Wizyta.objects.filter(fk_id_pacjent=user.fk_id_pacjent)
-                serializer = WizytaSerializer(wizyty, data=request.data)
-                if serializer.is_valid():
-                    return Response(serializer.data)
-                else:
-                    return Response(status.HTTP_400_BAD_REQUEST)
+                queryset = Wizyta.objects.filter(fk_id_pacjent=user.fk_id_pacjent)
+                return queryset
             elif user.fk_id_lekarz is not None:
-                pass
+                queryset = Wizyta.objects.filter(fk_id_lekarz=user.fk_id_lekarz)
+                return queryset
             else:
                 pass
         else:
-            return Response(status.HTTP_401_UNAUTHORIZED)
+            return Response(status.HTTP_403_FORBIDDEN)

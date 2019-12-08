@@ -101,6 +101,7 @@ class WizytaSerializer(serializers.ModelSerializer):
             'dokumenty',
             'objawy',
             'badania',
+            'diagnoza',
         )
         extra_kwargs = {
             'id':
