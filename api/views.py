@@ -1,3 +1,4 @@
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework import generics
@@ -5,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.exceptions import PermissionDenied
 from rest_framework import status
 from rest_framework import authentication, permissions
+from rest_framework import filters
 
 from django.contrib.auth import authenticate
 from django.db import IntegrityError
@@ -56,6 +58,7 @@ class UserEditProfileView(generics.RetrieveUpdateAPIView):
     serializer_class = UserProfileSerializer
     # authentication_classes = [authentication.TokenAuthentication]
     # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request, *args, **kwargs):
         user = request.user
@@ -111,6 +114,7 @@ class DoctorCreateView(generics.CreateAPIView):
 class DoctorEditProfileView(generics.RetrieveUpdateAPIView):
     name = 'doctor-edit-profile'
     serializer_class = DoctorProfileSerializer
+    permission_classes = (IsAuthenticated,)
 
     # authentication_classes = [authentication.TokenAuthentication]
     # permission_classes = [permissions.IsAuthenticated]
@@ -146,29 +150,34 @@ class PrzychodniaCreateView(generics.CreateAPIView):
     authentication_classes = ()
     permission_classes = ()
     serializer_class = PrzychodniaSerializer
+    permission_classes = (IsAuthenticated,)
 
 
 class DoctorListView(generics.ListAPIView):
     name = 'doctor-list'
     queryset = Lekarz.objects.all()
     serializer_class = DoctorProfileSerializer
+    permission_classes = (IsAuthenticated,)
 
 
 class UserListView(generics.ListAPIView):
     name = 'user-list'
     queryset = Pacjent.objects.all()
     serializer_class = UserProfileSerializer
+    permission_classes = (IsAuthenticated,)
 
 
 class PrzychodniaListView(generics.ListAPIView):
     name = 'przychodnia-list'
     queryset = Przychodnia.objects.all()
     serializer_class = PrzychodniaSerializer
+    permission_classes = (IsAuthenticated,)
 
 
 class WizytaCreateView(generics.CreateAPIView):
     name = 'create-wizyta'
     serializer_class = WizytaSerializer
+    permission_classes = (IsAuthenticated,)
 
     def post(self, request, *args, **kwargs):
         user = request.user
@@ -197,7 +206,10 @@ class WizytaCreateView(generics.CreateAPIView):
 class WizytaListView(generics.ListAPIView):
     name = 'wizyta-list'
     serializer_class = WizytaSerializer
-
+    permission_classes = (IsAuthenticated,)
+    filter_backends = [filters.OrderingFilter, filters.SearchFilter]
+    ordering_fields = ['data_wizyty']
+    search_fields = [u'data_wizyty', u'fk_id_lekarz__name', u'fk_id_lekarz__surname']
     # def get(self, request, *args, **kwargs):
     #     user = request.user
     #     if user.is_anonymous is False:
@@ -226,5 +238,4 @@ class WizytaListView(generics.ListAPIView):
                 return queryset
             else:
                 pass
-        else:
-            return Response(status.HTTP_403_FORBIDDEN)
+
