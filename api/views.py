@@ -7,6 +7,7 @@ from rest_framework import status
 from rest_framework import authentication, permissions
 
 from django.contrib.auth import authenticate
+from django.db import IntegrityError
 
 from .serializers import UserSerializer, DoctorSerializer, UserProfileSerializer, DoctorProfileSerializer, PrzychodniaSerializer, WizytaSerializer
 
@@ -173,7 +174,10 @@ class WizytaCreateView(generics.CreateAPIView):
         if user.is_anonymous is False and user.fk_id_pacjent is not None:
             serializer = WizytaSerializer(data=request.data)
             if serializer.is_valid():
-                serializer.save(fk_id_pacjent=user.fk_id_pacjent)
+                try:
+                    serializer.save(fk_id_pacjent=user.fk_id_pacjent)
+                except IntegrityError as e:
+                    return Response(status.HTTP_400_BAD_REQUEST)
                 return Response(serializer.data)
             else:
                 return Response(status.HTTP_400_BAD_REQUEST)

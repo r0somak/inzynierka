@@ -54,6 +54,13 @@ class Przychodnia(models.Model):
     telefon = models.CharField(max_length=100, blank=True)
     lekarze = models.ManyToManyField(Lekarz)
 
+    class Meta:
+        ordering = ('id', )
+
+    def __str__(self):
+        id_string = str(self.id) + u': ' + self.nazwa + u', ' + self.wojewodztwo + u', ' + self.miasto
+        return id_string
+
 
 def user_dir_path(instance, filename):
     return 'user_{0}/{1}'.format(instance.user.id, filename)
@@ -61,6 +68,13 @@ def user_dir_path(instance, filename):
 
 class Dokument(models.Model):
     dokument = models.FileField(upload_to=user_dir_path)
+
+    class Meta:
+        ordering = ('id', )
+
+    def __str__(self):
+        id_string = str(self.id) + u': ' + str(self.dokument)
+        return id_string
 
 
 class Pacjent(models.Model):
@@ -122,21 +136,58 @@ class CustomUser(AbstractUser):
         null=True,
     )
 
+    class Meta:
+        ordering = ('id', )
+
+    def __str__(self):
+        id_string = str(self.id) + u': ' + self.username + u', ' + self.email
+        return id_string
+
 
 class Objawy(models.Model):
     nazwa = models.CharField(max_length=250)
 
+    class Meta:
+        ordering = ('id', )
+
+    def __str__(self):
+        id_string = str(self.id) + u': ' + self.nazwa
+        return id_string
+
 
 class JednostkaChorobowa(models.Model):
+    nazwa = models.CharField(max_length=200, blank=True)
     opis = models.CharField(max_length=500, blank=True)
     nr_icd = models.CharField(max_length=100, blank=True)
     objawy = models.ManyToManyField(Objawy)
 
+    class Meta:
+        ordering = ('id', )
+
+    def __str__(self):
+        id_string = str(self.id) + u': ' + self.nazwa + u', ' + self.nr_icd
+        return id_string
+
 
 class DaneStatystyczne(models.Model):
-    wojewodztwo = models.CharField(max_length=100)
+    wojewodztwo = models.CharField(
+        max_length=100,
+        choices=WOJEWODZTWO,
+        default='BRAK',
+    )
     liczba_zachorowan = models.BigIntegerField()
-    choroba = models.ManyToManyField(JednostkaChorobowa)
+    choroba = models.ForeignKey(
+        JednostkaChorobowa,
+        on_delete=models.CASCADE,
+        null=True,
+    )
+
+    class Meta:
+        ordering = ('id', )
+
+    def __str__(self):
+        id_string = str(self.id) + u': ' + self.wojewodztwo + u', ' + str(self.choroba)
+        return id_string
 
 
 class Badanie(models.Model):
@@ -167,6 +218,16 @@ class Wizyta(models.Model):
 
     class Meta:
         ordering = ('id', )
+        constraints = [
+            models.UniqueConstraint(
+                fields=[
+                    'data_wizyty',
+                    'fk_id_lekarz',
+                    'fk_id_pacjent',
+                ],
+                name='Unikatowosc wizyty'
+            )
+        ]
 
     def __str__(self):
         id_string = str(self.id) + u': ' + str(self.data_wizyty) + u', pacjent: ' + str(self.fk_id_pacjent)
