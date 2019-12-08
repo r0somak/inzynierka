@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 # Create your models here.
@@ -63,10 +65,11 @@ class Przychodnia(models.Model):
 
 
 def user_dir_path(instance, filename):
-    return 'user_{0}/{1}'.format(instance.user.id, filename)
+    return 'user_{0}/'.format(instance)
 
 
 class Dokument(models.Model):
+    data_dodania = models.DateTimeField(default=datetime.datetime.now)
     dokument = models.FileField(upload_to=user_dir_path)
 
     class Meta:
@@ -95,7 +98,8 @@ class Pacjent(models.Model):
     dokumenty = models.ForeignKey(
         Dokument,
         null=True,
-        on_delete=models.CASCADE
+        blank=True,
+        on_delete=models.SET_NULL,
     )
 
     class Meta:

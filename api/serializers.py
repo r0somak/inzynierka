@@ -48,7 +48,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
             'miasto',
             'wojewodztwo',
             'telefon',
-            'dokumenty',
         )
         extra_kwargs = {
             'id':
