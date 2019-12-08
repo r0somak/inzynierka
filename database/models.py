@@ -219,6 +219,12 @@ class Wizyta(models.Model):
     dokumenty = models.ManyToManyField(Dokument, blank=True)
     objawy = models.ManyToManyField(Objawy, blank=True)
     badania = models.ManyToManyField(Badanie, blank=True)
+    diagnoza = models.ForeignKey(
+        JednostkaChorobowa,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
 
     class Meta:
         ordering = ('id', )
