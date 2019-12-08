@@ -11,7 +11,7 @@ from django.db import IntegrityError
 
 from .serializers import UserSerializer, DoctorSerializer, UserProfileSerializer, DoctorProfileSerializer, PrzychodniaSerializer, WizytaSerializer
 
-from database.models import Pacjent, Lekarz, Przychodnia
+from database.models import Pacjent, Lekarz, Przychodnia, Wizyta
 from database.models import CustomUser
 import logging
 
@@ -39,6 +39,7 @@ class ApiRootView(generics.GenericAPIView):
                 'user_list': reverse(UserListView.name, request=request),
                 'doctor_list': reverse(DoctorListView.name, request=request),
                 'przychodnia_list': reverse(PrzychodniaListView.name, request=request),
+                'wizyta_list': reverse(WizytaListView.name, request=request),
             }
         )
 
@@ -191,3 +192,25 @@ class WizytaCreateView(generics.CreateAPIView):
     #         )
     #     else:
     #         return Response(status.HTTP_401_UNAUTHORIZED)
+
+
+class WizytaListView(generics.ListAPIView):
+    name = 'wizyta-list'
+    serializer_class = WizytaSerializer
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        if user.is_anonymous is False:
+            if user.fk_id_pacjent is not None:
+                wizyty = Wizyta.objects.filter(fk_id_pacjent=user.fk_id_pacjent)
+                serializer = WizytaSerializer(wizyty, data=request.data)
+                if serializer.is_valid():
+                    return Response(serializer.data)
+                else:
+                    return Response(status.HTTP_400_BAD_REQUEST)
+            elif user.fk_id_lekarz is not None:
+                pass
+            else:
+                pass
+        else:
+            return Response(status.HTTP_401_UNAUTHORIZED)
