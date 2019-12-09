@@ -29,14 +29,15 @@ export default {
         wojewodztwo,
         id,
       };
-      const token = sessionStorage.getItem('token');
-      const URL = 'http://http://localhost:8000/users/patient/profile/';
+      const token = localStorage.getItem('token');
+      const URL = 'http://localhost:8000/users/patient/profile/';
+      console.log('TOKEN: {0}', token);
       axios({
         method: 'get',
         url: URL,
         headers: {
           Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: `Token ${token}`,
         },
         data,
       })
