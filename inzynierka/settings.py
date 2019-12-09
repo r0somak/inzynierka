@@ -134,6 +134,7 @@ CORS_ALLOW_METHODS = list(default_methods) + [
 CORS_ALLOW_HEADERS = list(default_headers) + [
     'Token',
     'content',
+    'Authorization',
 ]
 
 WEBPACK_LOADER = {
