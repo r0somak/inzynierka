@@ -92,7 +92,7 @@ export default {
       })
         .then((res) => {
           sessionStorage.setItem('token', res.data.token);
-          this.$router.push('/homeloged');
+          this.$router.push('/');
         });
     },
   },

@@ -1,6 +1,6 @@
 <template>
   <ValidationObserver v-slot="{ invalid }">
-    <form @submit.prevent="Login">
+    <form @submit.prevent="loginUser">
       <ValidationProvider name="Login" rules="required" v-slot="{ errors }">
         <input v-model="login" type="text" placeholder="Login">
         <span>{{ errors[0] }}</span>
@@ -11,12 +11,6 @@
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
       <button type="submit" :disabled="invalid">Zaloguj się</button>
-      <ul v-if="photos && photos.length">
-        <li v-for="photo of photos" v-bind:key="photo.id">
-          <p><strong>{{photo.title}}</strong></p>
-          <img :src="photo.url">
-        </li>
-      </ul>
     </form>
   </ValidationObserver>
 </template>
@@ -40,21 +34,36 @@ export default {
     return {
       login: '',
       password: '',
-      photos: [],
     };
   },
-  created() {
-    axios.get('http://jsonplaceholder.typicode.com/photos').then((response) => {
-      this.photos = response.data;
-    })
-      .catch((e) => {
-        console.error(e);
-      });
-  },
   methods: {
-    Login() {
-      console.log(this.login);
-      console.log(this.password);
+    loginUser() {
+      const { login, password } = this;
+      const data = {
+        username: login,
+        password,
+      };
+      const URL = 'http://localhost:8000/login_user/';
+      axios({
+        method: 'post',
+        url: URL,
+        headers: {
+          Accept: 'application/json',
+          Content: 'application/json',
+        },
+        data,
+      })
+        .then((res) => {
+          console.log(res);
+          const { token } = res.data;
+          localStorage.setItem('token', token);
+          this.$router.push('/homeloged');
+        })
+        .catch((err) => {
+          alert('Nieprawidłowa nazwa użytkownika lub hasło!');
+          // eslint-disable-next-line
+        console.log(err)
+        });
     },
   },
 };
