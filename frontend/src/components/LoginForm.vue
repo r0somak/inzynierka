@@ -76,29 +76,53 @@ export default {
     color: red;
   }
   input {
-    width: 30%;
+    width: 40%;
     padding: 1%;
     border: 2px solid lightblue;
-    border-radius: 5px;
+    border-radius: 40px;
+    font-size: 1em;
     font-family: 'Abril Fatface', cursive;
   }
   input:focus {
-    border: 2px solid blue;
-    border-radius: 4px;
+    border: 2px solid lightblue;
+    border-radius: 40px;
+    box-shadow: inset 0 0 0 0px #fff,
+    0 0 0 0px #fff,
+    -4px 4px 20px lightblue,
+    4px -4px 20px #10abff;
   }
   button {
     margin: 20px;
-    padding: 10px 20px 10px 20px;
+    width: 30%;
+    padding: 1%;
     text-align: center;
-    font-size: 14px;
+    font-size: 16px;
     font-family: 'Abril Fatface', cursive;
     background-color: lightblue;
     border: 3px solid lightblue;
-    border-radius: 5px;
+    border-radius: 40px;
     box-shadow: none;
   }
   button:focus {
     background-color: transparent;
     border: 3px solid lightblue;
+    border-radius: 40px;
+  }
+  button, button:focus, input, input:focus, span {
+    @media (max-width: 1400px) {
+      font-size: 15px;
+    }
+    @media (max-width: 920px) {
+      font-size: 12px;
+      padding: 5px 0 10px 0;
+    }
+    @media (max-width: 800px) {
+      font-size: 10px;
+      padding: 5px 0 5px 0;
+    }
+    @media (max-width: 650px) {
+      font-size: 5px;
+      padding: 5px 0 3px 0;
+    }
   }
 </style>

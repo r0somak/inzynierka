@@ -1,7 +1,7 @@
 <template>
 <div>
   <p>homeloged</p>
-  <p>Witaj {{ name }} {{ wojewodztwo }} {{ id }}!</p>
+  <p>Witaj {{ name }} {{ id }}!</p>
   <button @click="logOut">Wyloguj się</button>
 </div>
 </template>
@@ -53,14 +53,14 @@ export default {
         });
     },
     logOut() {
-      const token = sessionStorage.getItem('token');
-      const URL = 'http://http://localhost:8000/users/patient/profile/';
+      const token = localStorage.getItem('token');
+      const URL = 'http://localhost:8000/users/patient/profile/';
       axios({
         method: 'get',
         url: URL,
         headers: {
           Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: `Token ${token}`,
         },
       })
         .then(() => {

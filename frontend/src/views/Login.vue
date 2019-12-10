@@ -1,20 +1,27 @@
 <template>
   <div class="login">
+    <div class="form">
     <div class="nav">
       <router-link to="/">Strona główna</router-link>
       <router-link to="/login">Logowanie</router-link>
       <router-link to="/register">Rejestracja</router-link>
           </div>
-    <p>LOGOWANIE</p>
+      <p>LOGOWANIE</p>
         <LoginForm />
+    </div>
+    <div class="backgroundimage">
+      <BackgroundImageHalf/>
+    </div>
   </div>
 </template>
 
 <script>
 import LoginForm from '@/components/LoginForm.vue';
+import BackgroundImageHalf from '@/components/BackgroundImageHalf.vue';
 
 export default {
   components: {
+    BackgroundImageHalf,
     LoginForm,
   },
 };
@@ -39,19 +46,52 @@ export default {
         color: royalblue;
       }
     }
-    @media (max-width: 700px){
+    @media (max-width: 1400px){
       font-size: 20px;
+      a {
+        padding: 5px;
+      }
     }
-    @media (max-width: 500px){
-      font-size: 15px;
+    @media (max-width: 920px){
+      font-size: 17px;
+    }
+    @media (max-width: 800px){
+      font-size: 12px;
+      a {
+        padding: 5px;
+      }
+    }
+    @media (max-width: 650px){
+      font-size: 8px;
       a {
         padding: 5px;
       }
     }
   }
   p {
+    margin-top: 100px;
     font-size: 35px;
     font-family: 'Abril Fatface', cursive;
+    @media (max-width: 1400px) {
+      font-size: 25px;
+    }
+    @media (max-width: 920px) {
+      font-size: 20px;
+    }
+    @media (max-width: 800px) {
+      font-size: 15px;
+    }
+    @media (max-width: 650px) {
+      font-size: 10px;
+    }
+  }
+  .form {
+    float:right;
+    width:50%;
+  }
+  #BackgroundImageHalf {
+    float:left;
+    width:50%;
   }
 
 </style>
