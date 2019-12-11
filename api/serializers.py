@@ -33,6 +33,15 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
+class CustomUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = (
+            'username',
+            'email',
+        )
+
+
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pacjent

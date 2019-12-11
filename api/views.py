@@ -10,8 +10,8 @@ from django.contrib.auth import authenticate
 from django.db import IntegrityError
 
 from .serializers import UserSerializer, DoctorSerializer, UserProfileSerializer, DoctorProfileSerializer, PrzychodniaSerializer, WizytaSerializer
-
-from database.models import Pacjent, Lekarz, Przychodnia, Wizyta
+from .serializers import CustomUserSerializer
+from database.models import Pacjent, Lekarz, Przychodnia, Wizyta, CustomUser
 import logging
 
 logger = logging.getLogger(__name__)
@@ -39,6 +39,8 @@ class ApiRootView(generics.GenericAPIView):
                 'doctor_list': reverse(DoctorListView.name, request=request),
                 'przychodnia_list': reverse(PrzychodniaListView.name, request=request),
                 'wizyta_list': reverse(WizytaListView.name, request=request),
+                'CUSTOM_USER': 'ENDPOINT DO UZYSKANIA EMAIL I USERNAME',
+                'basic_user_info': reverse(GetCustomUserDataView.name, request=request),
             }
         )
 
@@ -48,6 +50,21 @@ class UserCreateView(generics.CreateAPIView):
     authentication_classes = ()
     permission_classes = ()
     serializer_class = UserSerializer
+
+
+class GetCustomUserDataView(generics.RetrieveAPIView):
+    name = 'custom-user-data'
+    permission_classes = (IsAuthenticated,)
+    serializer_class = CustomUserSerializer
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        return Response(
+            {
+                "username": user.username,
+                "email": user.email,
+            }
+        )
 
 
 class UserEditProfileView(generics.RetrieveUpdateAPIView):
