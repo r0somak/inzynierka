@@ -60,6 +60,7 @@ export default {
           this.$router.push('/homeloged');
         })
         .catch((err) => {
+          // eslint-disable-next-line
           alert('Nieprawidłowa nazwa użytkownika lub hasło!');
           // eslint-disable-next-line
         console.log(err)

@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import Register from '../views/Register.vue';
 import HomeLoged from '../views/HomeLoged.vue';
+import EditProfile from '../views/EditProfile.vue';
 
 Vue.use(VueRouter);
 
@@ -29,6 +30,11 @@ const routes = [
     path: '/homeloged',
     name: 'homeloged',
     component: HomeLoged,
+  },
+  {
+    path: '/editprofile',
+    name: 'editprofile',
+    component: EditProfile,
   },
 ];
 
