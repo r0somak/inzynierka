@@ -1,6 +1,5 @@
 <template>
-  <ValidationObserver>
-    <form @submit.prevent="EditUser">
+    <form @submit.prevent="editUser">
       <ValidationProvider name="Imię" rules="alpha|min:3" v-slot="{ errors }">
         <input v-model="name" type="text" placeholder="Imię">
         <span>{{ errors[0] }}</span>
@@ -41,10 +40,12 @@
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
 
-      <ValidationProvider name="Wojewodztwo" rules="alpha|min:3" v-slot="{ errors }">
-        <input v-model="woj" type="text" placeholder="Województwo">
-        <span>{{ errors[0] }}</span>
-      </ValidationProvider>
+      <select v-model="selected">
+        <option disabled value="">Wybierz województwo</option>
+        <option value="BRAK">Brak</option>
+        <option value="DOLNOSLAKIE">Dolnośląskie</option>
+        <option value="KUJAWSKOPOMORSKIE">Kujawsko-pomorskie</option>
+      </select>
 
       <ValidationProvider name="Telefon" rules="numeric|min:9" v-slot="{ errors }">
         <input v-model="phone" type="tel" placeholder="Telefon">
@@ -53,7 +54,6 @@
 
       <button type="submit">Edytuj dane</button>
     </form>
-  </ValidationObserver>
 </template>
 
 <script>
@@ -65,6 +65,7 @@ import {
 } from 'vee-validate/dist/rules';
 import pl from 'vee-validate/dist/locale/pl.json';
 import axios from 'axios';
+
 
 localize('pl', pl);
 
@@ -117,16 +118,19 @@ export default {
       ap_number: '',
       post_code: '',
       town: '',
-      woj: '',
+      selected: '',
       phone: '',
     };
   },
+  mounted() {
+    this.getUser();
+  },
   methods: {
-    EditUser() {
+    editUser() {
       // eslint-disable-next-line no-shadow,max-len,camelcase
       const {
         // eslint-disable-next-line camelcase
-        name, surname, pesel, street, street_number, ap_number, post_code, town, woj, phone,
+        name, surname, pesel, street, street_number, ap_number, post_code, town, selected, phone,
       } = this;
       const data = {
         name,
@@ -137,7 +141,7 @@ export default {
         nr_mieszkania: ap_number,
         kod_pocztowy: post_code,
         miasto: town,
-        wojewodztwo: woj,
+        wojewodztwo: selected,
         telefon: phone,
       };
       const token = localStorage.getItem('token');
@@ -153,7 +157,52 @@ export default {
         data,
       })
         .then((res) => {
+          this.name = res.data.name;
+          this.$router.push('/editprofile');
+        });
+    },
+    getUser() {
+      // eslint-disable-next-line no-shadow,max-len,camelcase
+      const {
+        // eslint-disable-next-line camelcase
+        name, surname, pesel, street, street_number, ap_number, post_code, town, selected, phone,
+      } = this;
+      const data = {
+        name,
+        surname,
+        pesel,
+        ulica: street,
+        nr_ulicy: street_number,
+        nr_mieszkania: ap_number,
+        kod_pocztowy: post_code,
+        miasto: town,
+        wojewodztwo: selected,
+        telefon: phone,
+      };
+      const token = localStorage.getItem('token');
+      const URL = 'http://localhost:8000/users/patient/profile/';
+      console.log('TOKEN: {0}', token);
+      axios({
+        method: 'get',
+        url: URL,
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Token ${token}`,
+        },
+        data,
+      })
+        .then((res) => {
           console.log(res.data);
+          this.name = res.data.name;
+          this.surname = res.data.surname;
+          this.pesel = res.data.pesel;
+          this.street = res.data.ulica;
+          this.street_number = res.data.nr_ulicy;
+          this.ap_number = res.data.nr_mieszkania;
+          this.post_code = res.data.kod_pocztowy;
+          this.town = res.data.miasto;
+          this.selected = res.data.wojewodztwo;
+          this.phone = res.data.telefon;
           this.$router.push('/editprofile');
         });
     },
@@ -164,11 +213,13 @@ export default {
 <style lang="scss" scoped>
   @import url('https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap');
   @import url('https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap');
-
   span {
     padding: 5px 0 5px 0;
     display: block;
     color: red;
+  }
+  strong {
+    color: black;
   }
   input {
     width: 40%;
