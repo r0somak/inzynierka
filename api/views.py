@@ -63,10 +63,14 @@ class GetCustomUserDataView(generics.RetrieveAPIView):
 
     def get(self, request, *args, **kwargs):
         user = request.user
+        flag = True
+        if user.fk_id_pacjent is None:
+            flag = False
         return Response(
             {
                 "username": user.username,
                 "email": user.email,
+                'flaga': flag,
             }
         )
 
