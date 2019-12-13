@@ -1,6 +1,6 @@
 <h1>Installation guide</h1>
 <ol>
-    <li>Make sure you have <code>pip</code>, <code>python 3.7</code> and <code>npm</code> with <code>@vue/cli</code> installed in your system</li>
+    <li>Make sure you have <code>pip</code>, <code>python 3.8</code> and <code>npm</code> with <code>@vue/cli</code> installed in your system</li>
     <li>Clone repository</li>
     <li>Cd to project directory</li>
     <li>Create python virtual enviroment with <code>$ virtualenv venv</code></li>
