@@ -2,7 +2,7 @@ from django.conf.urls import url, include
 from django.urls import path
 from rest_framework.authtoken import views
 from .views import UserCreateView, UserListView, ApiRootView, DoctorListView, PrzychodniaCreateView, GetAuthTokenView, DoctorCreateView, UserEditProfileView, DoctorEditProfileView, PrzychodniaListView
-from .views import WizytaCreateView, WizytaListView, GetCustomUserDataView
+from .views import WizytaCreateView, WizytaListView, GetCustomUserDataView, ObjawyListView
 
 urlpatterns = [
     path('create/user/', UserCreateView.as_view(), name=UserCreateView.name),
@@ -16,6 +16,7 @@ urlpatterns = [
     path('users/wizyty/', WizytaListView.as_view(), name=WizytaListView.name),
     path('users/doctor/profile/', DoctorEditProfileView.as_view(), name=DoctorEditProfileView.name),
     path('users/doctor/list/', DoctorListView.as_view(), name=DoctorListView.name),
+    path('objawy/list/', ObjawyListView.as_view(), name=ObjawyListView.name),
     url(r'^$', ApiRootView.as_view(), name=ApiRootView.name),
     url(r'^login_user/', GetAuthTokenView.as_view(), name=GetAuthTokenView.name),
     url(r'^api-auth/', include('rest_framework.urls')),

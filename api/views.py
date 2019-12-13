@@ -10,8 +10,8 @@ from django.contrib.auth import authenticate
 from django.db import IntegrityError
 
 from .serializers import UserSerializer, DoctorSerializer, UserProfileSerializer, DoctorProfileSerializer, PrzychodniaSerializer, WizytaSerializer
-from .serializers import CustomUserSerializer
-from database.models import Pacjent, Lekarz, Przychodnia, Wizyta, CustomUser
+from .serializers import CustomUserSerializer, ObjawySerializer
+from database.models import Pacjent, Lekarz, Przychodnia, Wizyta, CustomUser, Objawy
 import logging
 
 logger = logging.getLogger(__name__)
@@ -39,6 +39,7 @@ class ApiRootView(generics.GenericAPIView):
                 'doctor_list': reverse(DoctorListView.name, request=request),
                 'przychodnia_list': reverse(PrzychodniaListView.name, request=request),
                 'wizyta_list': reverse(WizytaListView.name, request=request),
+                'objawy_list': reverse(ObjawyListView.name, request=request),
                 'CUSTOM_USER': 'ENDPOINT DO UZYSKANIA EMAIL I USERNAME',
                 'basic_user_info': reverse(GetCustomUserDataView.name, request=request),
             }
@@ -222,4 +223,19 @@ class WizytaListView(generics.ListAPIView):
                 return queryset
             else:
                 pass
+
+
+class ObjawyListView(generics.ListAPIView):
+    name = 'objawy-list'
+    serializer_class = ObjawySerializer
+    permission_classes = (IsAuthenticated,)
+    filter_backends = [filters.OrderingFilter, filters.SearchFilter]
+    ordering_fields = ['id', 'nazwa']
+    search_fields = ['nazwa']
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_anonymous is False:
+            queryset = Objawy.objects.all()
+            return queryset
 

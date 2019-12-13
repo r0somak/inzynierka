@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
-from database.models import CustomUser, Pacjent, Lekarz, Przychodnia, Wizyta
+from database.models import CustomUser, Pacjent, Lekarz, Przychodnia, Wizyta, Objawy
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -159,6 +159,22 @@ class PrzychodniaSerializer(serializers.ModelSerializer):
             'telefon',
             'lekarze',
         )
+        extra_kwargs = {
+            'id':
+                {
+                    'read_only': True
+                }
+        }
+
+
+class ObjawySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Objawy
+        fields = (
+            'id',
+            'nazwa',
+        )
+
         extra_kwargs = {
             'id':
                 {
