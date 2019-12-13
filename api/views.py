@@ -231,7 +231,7 @@ class ObjawyListView(generics.ListAPIView):
     permission_classes = (IsAuthenticated,)
     filter_backends = [filters.OrderingFilter, filters.SearchFilter]
     ordering_fields = ['id', 'nazwa']
-    search_fields = ['nazwa']
+    search_fields = [u'nazwa']
 
     def get_queryset(self):
         user = self.request.user
