@@ -8,10 +8,12 @@ from rest_framework import filters
 
 from django.contrib.auth import authenticate
 from django.db import IntegrityError
+from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
 
 from .serializers import UserSerializer, DoctorSerializer, UserProfileSerializer, DoctorProfileSerializer, PrzychodniaSerializer, WizytaSerializer
-from .serializers import CustomUserSerializer
-from database.models import Pacjent, Lekarz, Przychodnia, Wizyta, CustomUser
+from .serializers import CustomUserSerializer, ObjawySerializer
+from database.models import Pacjent, Lekarz, Przychodnia, Wizyta, CustomUser, Objawy
 import logging
 
 logger = logging.getLogger(__name__)
@@ -31,14 +33,16 @@ class ApiRootView(generics.GenericAPIView):
                 'create_wizyta': reverse(WizytaCreateView.name, request=request),
                 'AUTHTOKEN': 'ENDPOINT DO UZYSKANIA AUTHTOKEN',
                 'user_login': reverse(GetAuthTokenView.name, request=request),
-                'EDYCJA PROFILU': 'ENDPOINTY DO EDYCJI PROFILU',
+                'EDYCJA DANYCH': 'ENDPOINTY DO POBRANIA I EDYCJI DANYCH',
                 'user_profile': reverse(UserEditProfileView.name, request=request),
                 'doctor_profile': reverse(DoctorEditProfileView.name, request=request),
+                'wizyta_details': 'http://127.0.0.1:8000/wizyta/details/<int:pk>/',
                 'LISTA': 'ENDPOINTY DO UZYSKANIA LISTY WSZYSTKICH OBIEKTÓW DANEGO TYPU',
                 'user_list': reverse(UserListView.name, request=request),
                 'doctor_list': reverse(DoctorListView.name, request=request),
                 'przychodnia_list': reverse(PrzychodniaListView.name, request=request),
                 'wizyta_list': reverse(WizytaListView.name, request=request),
+                'objawy_list': reverse(ObjawyListView.name, request=request),
                 'CUSTOM_USER': 'ENDPOINT DO UZYSKANIA EMAIL I USERNAME',
                 'basic_user_info': reverse(GetCustomUserDataView.name, request=request),
             }
@@ -59,10 +63,14 @@ class GetCustomUserDataView(generics.RetrieveAPIView):
 
     def get(self, request, *args, **kwargs):
         user = request.user
+        flag = True
+        if user.fk_id_pacjent is None:
+            flag = False
         return Response(
             {
                 "username": user.username,
                 "email": user.email,
+                'flaga': flag,
             }
         )
 
@@ -121,6 +129,32 @@ class DoctorCreateView(generics.CreateAPIView):
     authentication_classes = ()
     permission_classes = ()
     serializer_class = DoctorSerializer
+
+
+class WizytaDetailView(generics.RetrieveUpdateAPIView):
+    name = 'wizyta-detail'
+    serializer_class = WizytaSerializer
+    permission_classes = (IsAuthenticated, )
+
+    def get_queryset(self):
+        user = self.request.user
+        pk = self.kwargs['pk']
+        if user.fk_id_pacjent is not None:
+            wizyta = Wizyta.objects.filter(pk=pk, fk_id_pacjent=user.fk_id_pacjent.id)
+            return wizyta
+        elif user.fk_id_lekarz is not None:
+            wizyta = Wizyta.objects.filter(pk=pk, fk_id_lekarz=user.fk_id_lekarz.id)
+            return wizyta
+
+
+    # def get(self, request, *args, **kwargs):
+    #     user = request.user
+    #     wizyta = get_object_or_404(Wizyta, pk=kwargs['pk'])
+    #     serializer = WizytaSerializer(data=wizyta)
+    #     if serializer.is_valid():
+    #         return Response(serializer.data)
+    #     else:
+    #         return Response(status.HTTP_400_BAD_REQUEST)
 
 
 class DoctorEditProfileView(generics.RetrieveUpdateAPIView):
@@ -222,4 +256,19 @@ class WizytaListView(generics.ListAPIView):
                 return queryset
             else:
                 pass
+
+
+class ObjawyListView(generics.ListAPIView):
+    name = 'objawy-list'
+    serializer_class = ObjawySerializer
+    permission_classes = (IsAuthenticated,)
+    filter_backends = [filters.OrderingFilter, filters.SearchFilter]
+    ordering_fields = ['id', 'nazwa']
+    search_fields = [u'nazwa']
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_anonymous is False:
+            queryset = Objawy.objects.all()
+            return queryset
 
