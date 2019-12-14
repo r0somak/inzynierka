@@ -11,6 +11,7 @@
       <a>Twoje konto</a>
       <div class="dropdown-content">
         <router-link to="/editprofile">Edytuj dane</router-link>
+        <button @click="logOut">Wyloguj się</button>
       </div>
     </div>
     <div class="links">

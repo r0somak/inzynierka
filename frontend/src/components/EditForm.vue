@@ -44,7 +44,20 @@
         <option disabled value="">Wybierz województwo</option>
         <option value="BRAK">Brak</option>
         <option value="DOLNOSLAKIE">Dolnośląskie</option>
-        <option value="KUJAWSKOPOMORSKIE">Kujawsko-pomorskie</option>
+        <option value="LUBELSKIE">Lubelskie</option>
+        <option value="LUBUSKIE">Lubuskie</option>
+        <option value="LODZKIE">Łódzkie</option>
+        <option value="MALOPOLSKIE">Małopolskie</option>
+        <option value="MAZOWIECKIE">Mazowieckie</option>
+        <option value="OPOLSKIE">Opolskie</option>
+        <option value="PODKARPACKIE">Podkarpackie</option>
+        <option value="PODLASKIE">Podlaskie</option>
+        <option value="POMORSKIE">Pomorskie</option>
+        <option value="SLASKIE">Śląskie</option>
+        <option value="SWIETOKRZYSKIE">Świętokrzyskie</option>
+        <option value="WARMINSKOMAZURSKIE">Warmińsko-mazurskie</option>
+        <option value="WIELKOPOLSKIE">Wielkopolskie</option>
+        <option value="ZACHODNIOPOMORSKIE">Zachodniopomorskie'</option>
       </select>
 
       <ValidationProvider name="Telefon" rules="numeric|min:9" v-slot="{ errors }">
@@ -228,6 +241,15 @@ export default {
     font-family: 'Abril Fatface', cursive;
     font-size: 1em;
     border-radius: 20px;
+  }
+  select {
+    width: 40%;
+    padding: 1px;
+    border: 2px solid lightblue;
+    font-family: 'Abril Fatface', cursive;
+    font-size: 1em;
+    border-radius: 20px;
+    background-color: white;
   }
   button {
     margin: 20px;
