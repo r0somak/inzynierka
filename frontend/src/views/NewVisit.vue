@@ -1,71 +1,35 @@
 <template>
-  <div class="edit">
+  <div class="login">
     <div class="form">
-  <p>Edycja danych</p>
-      <EditFormDoc v-show="flaga  === false"/>
-      <EditFormUser v-show="flaga  === true"/>
+      <div class="nav">
+        <router-link to="/homeloged">Strona główna</router-link>
+      </div>
+      <p>Rezerwacja wizyty</p>
+      <VisitForm />
     </div>
-  <div class="backgroundimage">
-    <BackgroundImageHalf/>
-  </div>
+    <div class="backgroundimage">
+      <BackgroundImageHalf/>
+    </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-import EditFormUser from '@/components/EditFormUser.vue';
-import EditFormDoc from '@/components/EditFormDoc.vue';
+import VisitForm from '@/components/VisitForm.vue';
 import BackgroundImageHalf from '@/components/BackgroundImageHalf.vue';
 
 export default {
-  name: 'EditProfile',
+  name: 'NewVisit',
   components: {
-    EditFormUser,
-    EditFormDoc,
     BackgroundImageHalf,
-  },
-  data() {
-    return {
-      flaga: '',
-      EditFormUser: '',
-      EditFormDoc: '',
-    };
-  },
-  mounted() {
-    this.fetchUserDetails();
-  },
-  methods: {
-    fetchUserDetails() {
-      const { flaga } = this;
-      const data = {
-        flaga,
-      };
-      const token = localStorage.getItem('token');
-      const URL = 'http://localhost:8000/user/main_profile/';
-      console.log('TOKEN: {0}', token);
-      axios({
-        method: 'get',
-        url: URL,
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Token ${token}`,
-        },
-        data,
-      })
-        .then((res) => {
-          this.flaga = res.data.flaga;
-        })
-        .catch((err) => {
-          // eslint-disable-next-line
-          console.log(err)
-        });
-    },
+    VisitForm,
   },
 };
 </script>
 
 <style lang="scss" scoped>
   @import url('https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap');
+  @import url('https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap');
+
   .nav {
     padding: 30px;
     text-align: right;
@@ -113,7 +77,7 @@ export default {
     @media (max-width: 920px) {
       font-size: 20px;
     }
-    @media (max-width: 790px) {
+    @media (max-width: 800px) {
       font-size: 15px;
     }
     @media (max-width: 650px) {

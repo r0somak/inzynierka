@@ -120,7 +120,7 @@ extend('min', {
 
 
 export default {
-  name: 'EditForm',
+  name: 'EditFormUser',
   data() {
     return {
       name: '',

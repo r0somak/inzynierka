@@ -4,6 +4,7 @@ import Home from '../views/Home.vue';
 import Register from '../views/Register.vue';
 import HomeLoged from '../views/HomeLoged.vue';
 import EditProfile from '../views/EditProfile.vue';
+import NewVisit from '../views/NewVisit.vue';
 
 Vue.use(VueRouter);
 
@@ -35,6 +36,11 @@ const routes = [
     path: '/editprofile',
     name: 'editprofile',
     component: EditProfile,
+  },
+  {
+    path: '/visit',
+    name: 'newvisit',
+    component: NewVisit,
   },
 ];
 
