@@ -146,15 +146,23 @@ class WizytaDetailView(generics.RetrieveUpdateAPIView):
             wizyta = Wizyta.objects.filter(pk=pk, fk_id_lekarz=user.fk_id_lekarz.id)
             return wizyta
 
-
-    # def get(self, request, *args, **kwargs):
-    #     user = request.user
-    #     wizyta = get_object_or_404(Wizyta, pk=kwargs['pk'])
-    #     serializer = WizytaSerializer(data=wizyta)
-    #     if serializer.is_valid():
-    #         return Response(serializer.data)
-    #     else:
-    #         return Response(status.HTTP_400_BAD_REQUEST)
+    def patch(self, request, *args, **kwargs):
+        user = request.user
+        pk = kwargs['pk']
+        if user.fk_id_pacjent is not None:
+            wizyta = Wizyta.objects.filter(pk=pk, fk_id_pacjent=user.fk_id_pacjent.id)
+            serializer = WizytaSerializer(wizyta, data=request.data)
+            if serializer.is_valid():
+                return Response(serializer.data)
+            else:
+                return Response(status.HTTP_400_BAD_REQUEST)
+        elif user.fk_id_lekarz is not None:
+            wizyta = Wizyta.objects.filter(pk=pk, fk_id_lekarz=user.fk_id_lekarz.id)
+            serializer = WizytaSerializer(wizyta, data=request.data)
+            if serializer.is_valid():
+                return Response(serializer.data)
+            else:
+                return Response(status.HTTP_400_BAD_REQUEST)
 
 
 class DoctorEditProfileView(generics.RetrieveUpdateAPIView):
