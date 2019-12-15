@@ -166,6 +166,7 @@ class PrzychodniaSerializer(serializers.ModelSerializer):
                     'read_only': True
                 }
         }
+        depth = 1
 
 
 class ObjawySerializer(serializers.ModelSerializer):
