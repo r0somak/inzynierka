@@ -122,6 +122,7 @@ class WizytaSerializer(serializers.ModelSerializer):
                     'read_only': True
                 },
         }
+        depth = 1
 
 
 class DoctorProfileSerializer(serializers.ModelSerializer):
