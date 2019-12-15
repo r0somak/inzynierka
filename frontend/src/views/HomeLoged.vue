@@ -11,6 +11,7 @@
       <a>Twoje konto</a>
       <div class="dropdown-content">
         <router-link to="/editprofile">Edytuj dane</router-link>
+        <router-link to="/visitlist">Twoje wizyty</router-link>
         <button @click="logOut">Wyloguj się</button>
       </div>
     </div>
@@ -153,8 +154,13 @@ export default {
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     padding: 12px 16px;
     z-index: 1;
-    font-size: 18px;
+    font-size: 17px;
     border-radius: 40px;
+  }
+  .dropdown-content a {
+    display:block;
+    box-sizing:border-box;
+    width:100%;
   }
   .dropdown:hover .dropdown-content {
     display: block;
