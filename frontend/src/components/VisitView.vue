@@ -2,13 +2,28 @@
   <div class="list">
     <div v-for="result in results" :key="result.id" class="results-data">
       <div class="results-stats">
-        <div>
+          <div class="oneline">
+          <a>Data wizyty:</a>
           <span>{{result.data_wizyty}}</span>
-          <span>{{result.uwagi}}</span>
-          <span>{{result.objawy}}</span>
-          <span>{{result.fk_id_lekarz}}</span>
-          <span>{{result.fk_id_przychodnia}}</span>
-        </div>
+          </div>
+          <div id="details">
+            <div class="oneline">
+              <a>Lekarz:</a>
+              <p>{{result.fk_id_lekarz.name}}</p>
+              <span>{{result.fk_id_lekarz.surname}}</span>
+            </div>
+            <div class="oneline">
+              <a>Przychodnia:</a>
+              <p>{{result.fk_id_przychodnia.name}}</p>
+            </div>
+            <div class="oneline">
+              <a>Objawy:</a>
+              <div v-for="objaw in result.objawy" :key="objaw.id" class="results-data">
+              <p>{{objaw.nazwa}}, </p>
+              </div>
+            </div>
+          </div>
+        <button id='button' v-on:click="toggle">Szczegóły wizyty</button>
       </div>
     </div>
   </div>
@@ -28,6 +43,15 @@ export default {
     this.getVisits();
   },
   methods: {
+    toggle() {
+      const div = document.getElementById('details');
+      if (div.style.display === 'block') {
+        div.style.display = 'none';
+      } else {
+        div.style.display = 'block';
+      }
+    },
+
     getVisits() {
       // eslint-disable-next-line no-shadow,camelcase
       const {
@@ -59,11 +83,39 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  a {
+    margin: 0 10px 0 0;
+  }
   span {
     color: black;
     display: block;
   }
+  p {
+    margin: 0 5px 0 0;
+  }
   .results-stats {
     margin: 20px;
+  }
+  #details {
+    display: none;
+  }
+  .oneline {
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 10px 0;
+  }
+  button {
+    margin: 0 0 20px 0;
+    width: 30%;
+    padding: 5px;
+    text-align: center;
+    font-size: 15px;
+    font-family: 'Abril Fatface', cursive;
+    background-color: lightblue;
+    border: 3px solid lightblue;
+    border-radius: 40px;
+    box-shadow: none;
   }
 </style>
