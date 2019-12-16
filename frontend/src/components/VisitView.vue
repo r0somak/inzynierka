@@ -6,7 +6,7 @@
           <a>Data wizyty:</a>
           <span>{{result.data_wizyty}}</span>
           </div>
-          <div id="details">
+          <div :id="result.id" class="details">
             <div class="oneline">
               <a>Lekarz:</a>
               <p>{{result.fk_id_lekarz.name}}</p>
@@ -23,8 +23,8 @@
               </div>
             </div>
           </div>
-        <button id='button' v-on:click="toggle">Szczegóły wizyty</button>
       </div>
+      <button id='button' v-on:click="toggle(result.id)">Szczegóły wizyty</button>
     </div>
   </div>
 </template>
@@ -43,8 +43,8 @@ export default {
     this.getVisits();
   },
   methods: {
-    toggle() {
-      const div = document.getElementById('details');
+    toggle(id) {
+      const div = document.getElementById(id);
       if (div.style.display === 'block') {
         div.style.display = 'none';
       } else {
@@ -96,7 +96,7 @@ export default {
   .results-stats {
     margin: 20px;
   }
-  #details {
+  .details {
     display: none;
   }
   .oneline {
