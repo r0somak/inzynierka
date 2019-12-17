@@ -1,6 +1,9 @@
 <template>
   <div class="edit">
     <div class="form">
+      <div class="nav">
+        <router-link to="/homeloged">Strona główna</router-link>
+      </div>
   <p>Edycja danych</p>
       <EditFormDoc v-show="flaga  === false"/>
       <EditFormUser v-show="flaga  === true"/>
@@ -104,7 +107,7 @@ export default {
     }
   }
   p {
-    margin-top: 100px;
+    margin-top: 50px;
     font-size: 35px;
     font-family: 'Abril Fatface', cursive;
     @media (max-width: 1400px) {
@@ -127,6 +130,10 @@ export default {
   #BackgroundImageHalf {
     float:left;
     width:50%;
+    height: 100%;
+  }
+  template {
+    height: 100%;
   }
 
 </style>

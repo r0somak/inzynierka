@@ -171,7 +171,7 @@ export default {
       })
         .then((res) => {
           this.name = res.data.name;
-          this.$router.push('/editprofile');
+          // this.$router.push('/editprofile');
         });
     },
     getUser() {
@@ -216,7 +216,7 @@ export default {
           this.town = res.data.miasto;
           this.selected = res.data.wojewodztwo;
           this.phone = res.data.telefon;
-          this.$router.push('/editprofile');
+          // this.$router.push('/editprofile');
         });
     },
   },

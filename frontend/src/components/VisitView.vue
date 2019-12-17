@@ -14,7 +14,7 @@
             </div>
             <div class="oneline">
               <a>Przychodnia:</a>
-              <p>{{result.fk_id_przychodnia.name}}</p>
+              <p>{{result.fk_id_przychodnia.nazwa}}</p>
             </div>
             <div class="oneline">
               <a>Objawy:</a>
@@ -91,6 +91,7 @@ export default {
     display: block;
   }
   p {
+    margin-top: 50px;
     margin: 0 5px 0 0;
   }
   .results-stats {

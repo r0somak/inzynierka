@@ -121,7 +121,7 @@ export default {
       })
         .then((res) => {
           this.name = res.data.name;
-          this.$router.push('/editprofile');
+          // this.$router.push('/editprofile');
         });
     },
     getDoctor() {
@@ -156,7 +156,7 @@ export default {
           this.spec = res.data.specjalizacja;
           this.nr_pwz = res.data.nr_pwz;
           this.phone = res.data.telefon;
-          this.$router.push('/editprofile');
+          // this.$router.push('/editprofile');
         });
     },
   },

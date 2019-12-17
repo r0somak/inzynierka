@@ -5,7 +5,8 @@
         <router-link to="/homeloged">Strona główna</router-link>
       </div>
       <p>Twoje wizyty</p>
-      <VisitView />
+      <VisitView v-show="flaga  === true"/>
+      <VisitViewDoc v-show="flaga  === false"/>
     </div>
     <div class="backgroundimage">
       <BackgroundImageHalf/>
@@ -15,14 +16,54 @@
 
 <script>
 
+import axios from 'axios';
 import BackgroundImageHalf from '@/components/BackgroundImageHalf.vue';
 import VisitView from '@/components/VisitView.vue';
+import VisitViewDoc from '@/components/VisitViewDoc.vue';
 
 export default {
   name: 'VisitList',
   components: {
     BackgroundImageHalf,
     VisitView,
+    VisitViewDoc,
+  },
+  data() {
+    return {
+      flaga: '',
+      VisitView: '',
+      VisitViewDoc: '',
+    };
+  },
+  mounted() {
+    this.fetchUserDetails();
+  },
+  methods: {
+    fetchUserDetails() {
+      const { flaga } = this;
+      const data = {
+        flaga,
+      };
+      const token = localStorage.getItem('token');
+      const URL = 'http://localhost:8000/user/main_profile/';
+      console.log('TOKEN: {0}', token);
+      axios({
+        method: 'get',
+        url: URL,
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Token ${token}`,
+        },
+        data,
+      })
+        .then((res) => {
+          this.flaga = res.data.flaga;
+        })
+        .catch((err) => {
+          // eslint-disable-next-line
+          console.log(err)
+        });
+    },
   },
 };
 </script>
