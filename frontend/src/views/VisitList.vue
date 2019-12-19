@@ -5,8 +5,8 @@
         <router-link to="/homeloged">Strona główna</router-link>
       </div>
       <p>Twoje wizyty</p>
-      <VisitView v-show="flaga  === true"/>
-      <VisitViewDoc v-show="flaga  === false"/>
+      <VisitView v-if="flaga  === true"/>
+      <VisitViewDoc v-else/>
     </div>
     <div class="backgroundimage">
       <BackgroundImageHalf/>
@@ -31,8 +31,6 @@ export default {
   data() {
     return {
       flaga: '',
-      VisitView: '',
-      VisitViewDoc: '',
     };
   },
   mounted() {
