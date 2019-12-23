@@ -1,10 +1,5 @@
 <template>
   <div class="backgroundImage">
-    <div class="nav">
-      <router-link to="/">Strona główna</router-link>
-      <router-link to="/login">Logowanie</router-link>
-      <router-link to="/register">Rejestracja</router-link>
-    </div>
   </div>
 </template>
 

@@ -1,29 +1,68 @@
 <template>
-  <div class="register">
+  <div class="edit">
     <div class="form">
-  <div class="nav">
-    <router-link to="/">Strona główna</router-link>
-    <router-link to="/login">Logowanie</router-link>
-    <router-link to="/register">Rejestracja</router-link>
-  </div>
-  <p>REJESTRACJA</p>
-    <RegisterForm/>
-  </div>
-    <div class="backgroundimage">
-      <BackgroundImageHalf/>
+      <div class="nav">
+        <router-link to="/homeloged">Strona główna</router-link>
+      </div>
+  <p>Edycja danych</p>
+      <EditFormDoc v-show="flaga  === false"/>
+      <EditFormUser v-show="flaga  === true"/>
     </div>
+  <div class="backgroundimage">
+    <BackgroundImageHalf/>
+  </div>
   </div>
 </template>
 
 <script>
-import RegisterForm from '@/components/RegisterForm.vue';
+import axios from 'axios';
+import EditFormUser from '@/components/EditFormUser.vue';
+import EditFormDoc from '@/components/EditFormDoc.vue';
 import BackgroundImageHalf from '@/components/BackgroundImageHalf.vue';
 
 export default {
-  name: 'Register',
+  name: 'EditProfile',
   components: {
-    RegisterForm,
+    EditFormUser,
+    EditFormDoc,
     BackgroundImageHalf,
+  },
+  data() {
+    return {
+      flaga: '',
+      EditFormUser: '',
+      EditFormDoc: '',
+    };
+  },
+  mounted() {
+    this.fetchUserDetails();
+  },
+  methods: {
+    fetchUserDetails() {
+      const { flaga } = this;
+      const data = {
+        flaga,
+      };
+      const token = localStorage.getItem('token');
+      const URL = 'http://localhost:8000/user/main_profile/';
+      console.log('TOKEN: {0}', token);
+      axios({
+        method: 'get',
+        url: URL,
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Token ${token}`,
+        },
+        data,
+      })
+        .then((res) => {
+          this.flaga = res.data.flaga;
+        })
+        .catch((err) => {
+          // eslint-disable-next-line
+          console.log(err)
+        });
+    },
   },
 };
 </script>
@@ -68,7 +107,7 @@ export default {
     }
   }
   p {
-    margin-top: 100px;
+    margin-top: 50px;
     font-size: 35px;
     font-family: 'Abril Fatface', cursive;
     @media (max-width: 1400px) {
@@ -91,6 +130,10 @@ export default {
   #BackgroundImageHalf {
     float:left;
     width:50%;
+    height: 100%;
+  }
+  template {
+    height: 100%;
   }
 
 </style>

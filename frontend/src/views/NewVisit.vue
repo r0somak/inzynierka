@@ -1,14 +1,12 @@
 <template>
-  <div class="register">
+  <div class="login">
     <div class="form">
-  <div class="nav">
-    <router-link to="/">Strona główna</router-link>
-    <router-link to="/login">Logowanie</router-link>
-    <router-link to="/register">Rejestracja</router-link>
-  </div>
-  <p>REJESTRACJA</p>
-    <RegisterForm/>
-  </div>
+      <div class="nav">
+        <router-link to="/homeloged">Strona główna</router-link>
+      </div>
+      <p>Rezerwacja wizyty</p>
+      <VisitForm />
+    </div>
     <div class="backgroundimage">
       <BackgroundImageHalf/>
     </div>
@@ -16,20 +14,22 @@
 </template>
 
 <script>
-import RegisterForm from '@/components/RegisterForm.vue';
+import VisitForm from '@/components/VisitForm.vue';
 import BackgroundImageHalf from '@/components/BackgroundImageHalf.vue';
 
 export default {
-  name: 'Register',
+  name: 'NewVisit',
   components: {
-    RegisterForm,
     BackgroundImageHalf,
+    VisitForm,
   },
 };
 </script>
 
 <style lang="scss" scoped>
   @import url('https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap');
+  @import url('https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap');
+
   .nav {
     padding: 30px;
     text-align: right;
@@ -77,7 +77,7 @@ export default {
     @media (max-width: 920px) {
       font-size: 20px;
     }
-    @media (max-width: 790px) {
+    @media (max-width: 800px) {
       font-size: 15px;
     }
     @media (max-width: 650px) {

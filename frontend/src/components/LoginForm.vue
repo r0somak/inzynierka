@@ -1,6 +1,6 @@
 <template>
   <ValidationObserver v-slot="{ invalid }">
-    <form @submit.prevent="Login">
+    <form @submit.prevent="loginUser">
       <ValidationProvider name="Login" rules="required" v-slot="{ errors }">
         <input v-model="login" type="text" placeholder="Login">
         <span>{{ errors[0] }}</span>
@@ -11,12 +11,6 @@
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
       <button type="submit" :disabled="invalid">Zaloguj się</button>
-      <ul v-if="photos && photos.length">
-        <li v-for="photo of photos" v-bind:key="photo.id">
-          <p><strong>{{photo.title}}</strong></p>
-          <img :src="photo.url">
-        </li>
-      </ul>
     </form>
   </ValidationObserver>
 </template>
@@ -40,21 +34,37 @@ export default {
     return {
       login: '',
       password: '',
-      photos: [],
     };
   },
-  created() {
-    axios.get('http://jsonplaceholder.typicode.com/photos').then((response) => {
-      this.photos = response.data;
-    })
-      .catch((e) => {
-        console.error(e);
-      });
-  },
   methods: {
-    Login() {
-      console.log(this.login);
-      console.log(this.password);
+    loginUser() {
+      const { login, password } = this;
+      const data = {
+        username: login,
+        password,
+      };
+      const URL = 'http://localhost:8000/login_user/';
+      axios({
+        method: 'post',
+        url: URL,
+        headers: {
+          Accept: 'application/json',
+          Content: 'application/json',
+        },
+        data,
+      })
+        .then((res) => {
+          console.log(res);
+          const { token } = res.data;
+          localStorage.setItem('token', token);
+          this.$router.push('/homeloged');
+        })
+        .catch((err) => {
+          // eslint-disable-next-line
+          alert('Nieprawidłowa nazwa użytkownika lub hasło!');
+          // eslint-disable-next-line
+        console.log(err)
+        });
     },
   },
 };
@@ -67,29 +77,53 @@ export default {
     color: red;
   }
   input {
-    width: 30%;
+    width: 40%;
     padding: 1%;
     border: 2px solid lightblue;
-    border-radius: 5px;
+    border-radius: 40px;
+    font-size: 1em;
     font-family: 'Abril Fatface', cursive;
   }
   input:focus {
-    border: 2px solid blue;
-    border-radius: 4px;
+    border: 2px solid lightblue;
+    border-radius: 40px;
+    box-shadow: inset 0 0 0 0px #fff,
+    0 0 0 0px #fff,
+    -4px 4px 20px lightblue,
+    4px -4px 20px #10abff;
   }
   button {
     margin: 20px;
-    padding: 10px 20px 10px 20px;
+    width: 30%;
+    padding: 1%;
     text-align: center;
-    font-size: 14px;
+    font-size: 16px;
     font-family: 'Abril Fatface', cursive;
     background-color: lightblue;
     border: 3px solid lightblue;
-    border-radius: 5px;
+    border-radius: 40px;
     box-shadow: none;
   }
   button:focus {
     background-color: transparent;
     border: 3px solid lightblue;
+    border-radius: 40px;
+  }
+  button, button:focus, input, input:focus, span {
+    @media (max-width: 1400px) {
+      font-size: 15px;
+    }
+    @media (max-width: 920px) {
+      font-size: 12px;
+      padding: 5px 0 10px 0;
+    }
+    @media (max-width: 800px) {
+      font-size: 10px;
+      padding: 5px 0 5px 0;
+    }
+    @media (max-width: 650px) {
+      font-size: 5px;
+      padding: 5px 0 3px 0;
+    }
   }
 </style>

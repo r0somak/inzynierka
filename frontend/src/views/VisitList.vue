@@ -1,14 +1,13 @@
 <template>
-  <div class="register">
+  <div class="visit">
     <div class="form">
-  <div class="nav">
-    <router-link to="/">Strona główna</router-link>
-    <router-link to="/login">Logowanie</router-link>
-    <router-link to="/register">Rejestracja</router-link>
-  </div>
-  <p>REJESTRACJA</p>
-    <RegisterForm/>
-  </div>
+      <div class="nav">
+        <router-link to="/homeloged">Strona główna</router-link>
+      </div>
+      <p>Twoje wizyty</p>
+      <VisitView v-if="flaga  === true"/>
+      <VisitViewDoc v-else/>
+    </div>
     <div class="backgroundimage">
       <BackgroundImageHalf/>
     </div>
@@ -16,20 +15,61 @@
 </template>
 
 <script>
-import RegisterForm from '@/components/RegisterForm.vue';
+
+import axios from 'axios';
 import BackgroundImageHalf from '@/components/BackgroundImageHalf.vue';
+import VisitView from '@/components/VisitView.vue';
+import VisitViewDoc from '@/components/VisitViewDoc.vue';
 
 export default {
-  name: 'Register',
+  name: 'VisitList',
   components: {
-    RegisterForm,
     BackgroundImageHalf,
+    VisitView,
+    VisitViewDoc,
+  },
+  data() {
+    return {
+      flaga: '',
+    };
+  },
+  mounted() {
+    this.fetchUserDetails();
+  },
+  methods: {
+    fetchUserDetails() {
+      const { flaga } = this;
+      const data = {
+        flaga,
+      };
+      const token = localStorage.getItem('token');
+      const URL = 'http://localhost:8000/user/main_profile/';
+      console.log('TOKEN: {0}', token);
+      axios({
+        method: 'get',
+        url: URL,
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Token ${token}`,
+        },
+        data,
+      })
+        .then((res) => {
+          this.flaga = res.data.flaga;
+        })
+        .catch((err) => {
+          // eslint-disable-next-line
+          console.log(err)
+        });
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
   @import url('https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap');
+  @import url('https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap');
+
   .nav {
     padding: 30px;
     text-align: right;
@@ -68,7 +108,7 @@ export default {
     }
   }
   p {
-    margin-top: 100px;
+    margin-top: 50px;
     font-size: 35px;
     font-family: 'Abril Fatface', cursive;
     @media (max-width: 1400px) {
@@ -77,7 +117,7 @@ export default {
     @media (max-width: 920px) {
       font-size: 20px;
     }
-    @media (max-width: 790px) {
+    @media (max-width: 800px) {
       font-size: 15px;
     }
     @media (max-width: 650px) {
