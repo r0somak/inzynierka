@@ -96,7 +96,7 @@ export default {
   }
   p {
     margin-top: 50px;
-    margin: 50px 5px 0 0;
+    margin: 0 5px 0 0;
   }
   .results-stats {
     margin: 20px;

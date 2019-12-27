@@ -11,13 +11,14 @@
       <a>Twoje konto</a>
       <div class="dropdown-content">
         <router-link to="/editprofile">Edytuj dane</router-link>
-        <router-link to="/visitlist">Twoje wizyty</router-link>
+        <router-link to="/visitlist" v-if="flaga  === true">Twoje wizyty</router-link>
+        <router-link to="/visitlist" v-else>Wizyty</router-link>
         <button @click="logOut">Wyloguj się</button>
       </div>
     </div>
     <div class="links">
       <router-link to="/homeloged">Strona główna</router-link>
-      <router-link to="/visit">Umów wizytę</router-link>
+      <router-link to="/visit" v-if="flaga  === true">Umów wizytę</router-link>
     </div>
   </div>
   <BackgroundImage />
@@ -37,6 +38,7 @@ export default {
   data() {
     return {
       username: '',
+      flaga: '',
     };
   },
   mounted() {
@@ -44,9 +46,9 @@ export default {
   },
   methods: {
     fetchUserDetails() {
-      const { username } = this;
+      const { username, flaga } = this;
       const data = {
-        username,
+        username, flaga,
       };
       const token = localStorage.getItem('token');
       const URL = 'http://localhost:8000/user/main_profile/';
@@ -62,6 +64,7 @@ export default {
       })
         .then((res) => {
           this.username = res.data.username;
+          this.flaga = res.data.flaga;
         })
         .catch((err) => {
           // eslint-disable-next-line
