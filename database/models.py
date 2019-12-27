@@ -213,6 +213,9 @@ class DaneEpidemiologiczne(models.Model):
         id_string = str(self.data.year) + u', ' + self.dane_statystyczne.wojewodztwo + u', ' + self.jednostka_chorobowa.nazwa
         return id_string
 
+    def get_prevalence(self):
+        return self.liczba_zachorowan / self.dane_statystyczne.liczba_ludnosci
+
 
 class Badanie(models.Model):
     nazwa = models.CharField(max_length=200)

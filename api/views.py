@@ -8,15 +8,12 @@ from rest_framework import filters
 
 from django.contrib.auth import authenticate
 from django.db import IntegrityError
-from django.shortcuts import get_object_or_404
-from django.http import JsonResponse
 
 from .serializers import UserSerializer, DoctorSerializer, UserProfileSerializer, DoctorProfileSerializer, PrzychodniaSerializer, WizytaSerializer
 from .serializers import CustomUserSerializer, ObjawySerializer
-from database.models import Pacjent, Lekarz, Przychodnia, Wizyta, CustomUser, Objawy
+from database.models import Pacjent, Lekarz, Przychodnia, Wizyta, Objawy
 import logging
 
-logger = logging.getLogger(__name__)
 # Create your views here.
 
 
