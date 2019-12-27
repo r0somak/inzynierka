@@ -207,10 +207,10 @@ class DaneEpidemiologiczne(models.Model):
     prewalencja = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
-        ordering = ('dane_statystyczne__wojewodztwo', )
+        ordering = ('data', )
 
     def __str__(self):
-        id_string = str(self.id) + u', ' + self.jednostka_chorobowa.nazwa + u', ' + self.dane_statystyczne.wojewodztwo
+        id_string = str(self.data.year) + u', ' + self.jednostka_chorobowa.nazwa + u', ' + self.dane_statystyczne.wojewodztwo
         return id_string
 
 
