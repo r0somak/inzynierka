@@ -159,6 +159,22 @@ class Objawy(models.Model):
         return id_string
 
 
+class DaneStatystyczne(models.Model):
+    wojewodztwo = models.CharField(
+        max_length=100,
+        choices=WOJEWODZTWO,
+        default='BRAK',
+    )
+    liczba_ludnosci = models.BigIntegerField()
+
+    class Meta:
+        ordering = ('id', )
+
+    def __str__(self):
+        id_string = str(self.id) + u': ' + self.wojewodztwo + u', ludność: ' + str(self.liczba_ludnosci)
+        return id_string
+
+
 class JednostkaChorobowa(models.Model):
     nazwa = models.CharField(max_length=200, blank=True)
     opis = models.CharField(max_length=500, blank=True)
@@ -173,24 +189,28 @@ class JednostkaChorobowa(models.Model):
         return id_string
 
 
-class DaneStatystyczne(models.Model):
-    wojewodztwo = models.CharField(
-        max_length=100,
-        choices=WOJEWODZTWO,
-        default='BRAK',
-    )
-    liczba_zachorowan = models.BigIntegerField()
-    choroba = models.ForeignKey(
+class DaneEpidemiologiczne(models.Model):
+    jednostka_chorobowa = models.ForeignKey(
         JednostkaChorobowa,
-        on_delete=models.CASCADE,
+        models.SET_NULL,
+        blank=True,
         null=True,
     )
+    dane_statystyczne = models.ForeignKey(
+        DaneStatystyczne,
+        models.SET_NULL,
+        blank=True,
+        null=True,
+    )
+    data = models.DateField(null=True)
+    liczba_zachorowan = models.BigIntegerField()
+    prewalencja = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
-        ordering = ('id', )
+        ordering = ('dane_statystyczne__wojewodztwo', )
 
     def __str__(self):
-        id_string = str(self.id) + u': ' + self.wojewodztwo + u', ' + str(self.choroba)
+        id_string = str(self.id) + u', ' + self.jednostka_chorobowa.nazwa + u', ' + self.dane_statystyczne.wojewodztwo
         return id_string
 
 
