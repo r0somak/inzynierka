@@ -58,6 +58,11 @@
 <script>
 export default {
   name: 'Slider',
+  data() {
+    return {
+      slide: 0, // naprawia błąd w przeglądarce
+    };
+  },
 };
 </script>
 
