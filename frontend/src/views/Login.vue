@@ -1,10 +1,8 @@
 <template>
   <div class="login">
+    <NavBar/>
     <div class="form">
     <div class="nav">
-      <router-link to="/">Strona główna</router-link>
-      <router-link to="/login">Logowanie</router-link>
-      <router-link to="/register">Rejestracja</router-link>
           </div>
       <p>LOGOWANIE</p>
         <LoginForm />
@@ -18,9 +16,11 @@
 <script>
 import LoginForm from '@/components/LoginForm.vue';
 import BackgroundImageHalf from '@/components/BackgroundImageHalf.vue';
+import NavBar from '@/components/NavBar.vue';
 
 export default {
   components: {
+    NavBar,
     BackgroundImageHalf,
     LoginForm,
   },
@@ -30,7 +30,6 @@ export default {
 <style lang="scss" scoped>
   @import url('https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap');
   @import url('https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap');
-
   .nav {
     padding: 30px;
     text-align: right;

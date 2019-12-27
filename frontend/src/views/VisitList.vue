@@ -1,9 +1,7 @@
 <template>
   <div class="visit">
+    <NavBarLoged/>
     <div class="form">
-      <div class="nav">
-        <router-link to="/homeloged">Strona główna</router-link>
-      </div>
       <p>Twoje wizyty</p>
       <VisitView v-if="flaga  === true"/>
       <VisitViewDoc v-else/>
@@ -20,6 +18,8 @@ import axios from 'axios';
 import BackgroundImageHalf from '@/components/BackgroundImageHalf.vue';
 import VisitView from '@/components/VisitView.vue';
 import VisitViewDoc from '@/components/VisitViewDoc.vue';
+import NavBarLoged from '@/components/NavBarLoged.vue';
+
 
 export default {
   name: 'VisitList',
@@ -27,6 +27,7 @@ export default {
     BackgroundImageHalf,
     VisitView,
     VisitViewDoc,
+    NavBarLoged,
   },
   data() {
     return {

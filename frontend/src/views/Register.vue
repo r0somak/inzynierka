@@ -1,11 +1,7 @@
 <template>
   <div class="register">
+    <NavBar/>
     <div class="form">
-  <div class="nav">
-    <router-link to="/">Strona główna</router-link>
-    <router-link to="/login">Logowanie</router-link>
-    <router-link to="/register">Rejestracja</router-link>
-  </div>
   <p>REJESTRACJA</p>
     <RegisterForm/>
   </div>
@@ -18,10 +14,12 @@
 <script>
 import RegisterForm from '@/components/RegisterForm.vue';
 import BackgroundImageHalf from '@/components/BackgroundImageHalf.vue';
+import NavBar from '@/components/NavBar.vue';
 
 export default {
   name: 'Register',
   components: {
+    NavBar,
     RegisterForm,
     BackgroundImageHalf,
   },

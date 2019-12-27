@@ -1,9 +1,7 @@
 <template>
-  <div class="login">
+  <div class="newvisit">
+    <NavBarLoged/>
     <div class="form">
-      <div class="nav">
-        <router-link to="/homeloged">Strona główna</router-link>
-      </div>
       <p>Rezerwacja wizyty</p>
       <VisitForm />
     </div>
@@ -16,12 +14,14 @@
 <script>
 import VisitForm from '@/components/VisitForm.vue';
 import BackgroundImageHalf from '@/components/BackgroundImageHalf.vue';
+import NavBarLoged from '@/components/NavBarLoged.vue';
 
 export default {
   name: 'NewVisit',
   components: {
     BackgroundImageHalf,
     VisitForm,
+    NavBarLoged,
   },
 };
 </script>

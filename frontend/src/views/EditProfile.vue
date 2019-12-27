@@ -1,9 +1,7 @@
 <template>
   <div class="edit">
+    <NavBarLoged/>
     <div class="form">
-      <div class="nav">
-        <router-link to="/homeloged">Strona główna</router-link>
-      </div>
   <p>Edycja danych</p>
       <EditFormDoc v-show="flaga  === false"/>
       <EditFormUser v-show="flaga  === true"/>
@@ -19,6 +17,7 @@ import axios from 'axios';
 import EditFormUser from '@/components/EditFormUser.vue';
 import EditFormDoc from '@/components/EditFormDoc.vue';
 import BackgroundImageHalf from '@/components/BackgroundImageHalf.vue';
+import NavBarLoged from '@/components/NavBarLoged.vue';
 
 export default {
   name: 'EditProfile',
@@ -26,6 +25,7 @@ export default {
     EditFormUser,
     EditFormDoc,
     BackgroundImageHalf,
+    NavBarLoged,
   },
   data() {
     return {
