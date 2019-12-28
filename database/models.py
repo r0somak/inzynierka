@@ -1,5 +1,7 @@
 import datetime
 
+from operator import itemgetter
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 # Create your models here.
@@ -265,3 +267,19 @@ class Wizyta(models.Model):
     def __str__(self):
         id_string = str(self.id) + u': ' + str(self.data_wizyty) + u', pacjent: ' + str(self.fk_id_pacjent)
         return id_string
+
+    def get_probability(self):
+        choroby = JednostkaChorobowa.objects.get_queryset()
+        objawy_pacjenta = self.objawy.get_queryset()
+        wynik = []
+
+        for choroba in choroby:
+            objawy_choroby = choroba.objawy.get_queryset()
+            liczba_wspolnych_objawow = len(set(objawy_pacjenta).intersection(objawy_choroby))
+            liczba_objawow_choroby = len(objawy_choroby)
+            pokrycie = str((liczba_wspolnych_objawow / liczba_objawow_choroby)*100)[:4]
+            wynik.append((pokrycie, choroba.nazwa))
+
+        wynik.sort(reverse=True)
+        print(wynik)
+
