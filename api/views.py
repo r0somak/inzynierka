@@ -229,7 +229,7 @@ class WizytaCreateView(generics.CreateAPIView):
     def post(self, request, *args, **kwargs):
         user = request.user
         if user.fk_id_pacjent is not None:
-            serializer = WizytaSerializer(data=request.data)
+            serializer = WizytaCreateSerializer(data=request.data)
             if serializer.is_valid():
                 try:
                     serializer.save(fk_id_pacjent=user.fk_id_pacjent)
