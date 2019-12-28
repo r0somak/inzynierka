@@ -96,6 +96,34 @@ class DoctorSerializer(serializers.ModelSerializer):
         return user
 
 
+class WizytaCreateSerializer(serializers.ModelSerializer):
+    ## Format daty 2013-01-29T12:34:56.000000Z
+    class Meta:
+        model = Wizyta
+        fields = (
+            'id',
+            'data_wizyty',
+            'uwagi',
+            'fk_id_pacjent',
+            'fk_id_przychodnia',
+            'fk_id_lekarz',
+            'dokumenty',
+            'objawy',
+            'badania',
+            'diagnoza',
+        )
+        extra_kwargs = {
+            'id':
+                {
+                    'read_only': True
+                },
+            'fk_id_pacjent':
+                {
+                    'read_only': True
+                },
+        }
+
+
 class WizytaSerializer(serializers.ModelSerializer):
     ## Format daty 2013-01-29T12:34:56.000000Z
     class Meta:

@@ -1,5 +1,7 @@
 import datetime
 
+from operator import itemgetter
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 # Create your models here.
@@ -159,6 +161,22 @@ class Objawy(models.Model):
         return id_string
 
 
+class DaneStatystyczne(models.Model):
+    wojewodztwo = models.CharField(
+        max_length=100,
+        choices=WOJEWODZTWO,
+        default='BRAK',
+    )
+    liczba_ludnosci = models.BigIntegerField()
+
+    class Meta:
+        ordering = ('id', )
+
+    def __str__(self):
+        id_string = str(self.id) + u': ' + self.wojewodztwo + u', ludność: ' + str(self.liczba_ludnosci)
+        return id_string
+
+
 class JednostkaChorobowa(models.Model):
     nazwa = models.CharField(max_length=200, blank=True)
     opis = models.CharField(max_length=500, blank=True)
@@ -173,25 +191,32 @@ class JednostkaChorobowa(models.Model):
         return id_string
 
 
-class DaneStatystyczne(models.Model):
-    wojewodztwo = models.CharField(
-        max_length=100,
-        choices=WOJEWODZTWO,
-        default='BRAK',
-    )
-    liczba_zachorowan = models.BigIntegerField()
-    choroba = models.ForeignKey(
+class DaneEpidemiologiczne(models.Model):
+    jednostka_chorobowa = models.ForeignKey(
         JednostkaChorobowa,
-        on_delete=models.CASCADE,
+        models.SET_NULL,
+        blank=True,
         null=True,
     )
+    dane_statystyczne = models.ForeignKey(
+        DaneStatystyczne,
+        models.SET_NULL,
+        blank=True,
+        null=True,
+    )
+    data = models.DateField(null=True)
+    liczba_zachorowan = models.BigIntegerField()
+    prewalencja = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
-        ordering = ('id', )
+        ordering = ('data', 'dane_statystyczne__wojewodztwo', 'jednostka_chorobowa__nazwa', )
 
     def __str__(self):
-        id_string = str(self.id) + u': ' + self.wojewodztwo + u', ' + str(self.choroba)
+        id_string = str(self.data.year) + u', ' + self.dane_statystyczne.wojewodztwo + u', ' + self.jednostka_chorobowa.nazwa
         return id_string
+
+    def get_prevalence(self):
+        return self.liczba_zachorowan / self.dane_statystyczne.liczba_ludnosci
 
 
 class Badanie(models.Model):
@@ -242,3 +267,19 @@ class Wizyta(models.Model):
     def __str__(self):
         id_string = str(self.id) + u': ' + str(self.data_wizyty) + u', pacjent: ' + str(self.fk_id_pacjent)
         return id_string
+
+    def get_probability(self):
+        choroby = JednostkaChorobowa.objects.get_queryset()
+        objawy_pacjenta = self.objawy.get_queryset()
+        wynik = []
+
+        for choroba in choroby:
+            objawy_choroby = choroba.objawy.get_queryset()
+            liczba_wspolnych_objawow = len(set(objawy_pacjenta).intersection(objawy_choroby))
+            liczba_objawow_choroby = len(objawy_choroby)
+            pokrycie = str((liczba_wspolnych_objawow / liczba_objawow_choroby)*100)[:4]
+            wynik.append((pokrycie, choroba.nazwa))
+
+        wynik.sort(reverse=True)
+        print(wynik)
+
