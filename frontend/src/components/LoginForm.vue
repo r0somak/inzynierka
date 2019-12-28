@@ -91,6 +91,7 @@ export default {
     0 0 0 0px #fff,
     -4px 4px 20px lightblue,
     4px -4px 20px #10abff;
+    outline: none;
   }
   button {
     margin: 20px;
@@ -108,6 +109,7 @@ export default {
     background-color: transparent;
     border: 3px solid lightblue;
     border-radius: 40px;
+    outline: none;
   }
   button, button:focus, input, input:focus, span {
     @media (max-width: 1400px) {

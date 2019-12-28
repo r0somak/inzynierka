@@ -22,17 +22,11 @@
 
       <select multiple v-model="objawy" required>
         <option disabled value="">Wybierz objawy</option>
-        <option value="1">Ból gardła</option>
-        <option value="2">Nieżyt nosa</option>
-        <option value="3">Kaszel</option>
-        <option value="4">Duszność</option>
-        <option value="5">Sinica</option>
-        <option value="6">Krwioplucie</option>
-        <option value="7">Gorączka</option>
-        <option value="8">Zawroty głowy</option>
-        <option value="9">Osłabienie siły mięśniowej</option>
-        <option value="10">Ból głowy</option>
+        <option :value="result.id" v-for="result in results" :key="result.id">
+          {{result.nazwa}}
+        </option>
       </select>
+
       <button type="submit">Umów wizytę</button>
     </form>
 </template>
@@ -87,7 +81,11 @@ export default {
       przychodnia: '',
       lekarz: '',
       objawy: [],
+      results: [],
     };
+  },
+  mounted() {
+    this.getSympt();
   },
   methods: {
     newVisit() {
@@ -120,6 +118,33 @@ export default {
           this.data = res.data;
         });
     },
+    getSympt() {
+      // eslint-disable-next-line no-shadow,camelcase
+      const {
+        // eslint-disable-next-line camelcase
+        results,
+      } = this;
+      const data = {
+        results,
+      };
+      const token = localStorage.getItem('token');
+      const URL = 'http://localhost:8000/objawy/list/';
+      axios({
+        method: 'get',
+        url: URL,
+        headers: {
+          Accept: 'application/json',
+          Content: 'application/json',
+          Authorization: `Token ${token}`,
+        },
+        data,
+      })
+        .then((res) => {
+          console.log(res.data);
+          this.results = res.data.results;
+        });
+    },
+
   },
 };
 </script>
@@ -143,6 +168,9 @@ export default {
     border-radius: 20px;
     background-color: white;
   }
+  select:focus {
+    outline: none;
+  }
   input {
     width: 40%;
     padding: 1%;
@@ -152,12 +180,7 @@ export default {
     border-radius: 40px;
   }
   input:focus {
-    border: 2px solid lightblue;
-    border-radius: 40px;
-    box-shadow: inset 0 0 0 0px #fff,
-    0 0 0 0px #fff,
-    -4px 4px 20px lightblue,
-    4px -4px 20px #10abff;
+    outline: none;
   }
   button {
     margin: 20px;
@@ -175,6 +198,7 @@ export default {
     background-color: transparent;
     border: 3px solid lightblue;
     border-radius: 40px;
+    outline: none;
   }
   button, button:focus, input, input:focus, span {
     @media (max-width: 1400px) {

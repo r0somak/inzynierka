@@ -57,7 +57,7 @@
         <option value="SWIETOKRZYSKIE">Świętokrzyskie</option>
         <option value="WARMINSKOMAZURSKIE">Warmińsko-mazurskie</option>
         <option value="WIELKOPOLSKIE">Wielkopolskie</option>
-        <option value="ZACHODNIOPOMORSKIE">Zachodniopomorskie'</option>
+        <option value="ZACHODNIOPOMORSKIE">Zachodniopomorskie</option>
       </select>
 
       <ValidationProvider name="Telefon" rules="numeric|min:9" v-slot="{ errors }">
@@ -242,6 +242,9 @@ export default {
     font-size: 1em;
     border-radius: 20px;
   }
+  input:focus {
+    outline: none;
+  }
   select {
     width: 40%;
     padding: 1px;
@@ -250,6 +253,12 @@ export default {
     font-size: 1em;
     border-radius: 20px;
     background-color: white;
+    text-align: center;
+    text-align-last: center;
+    margin-bottom: 10px;
+  }
+  select:focus {
+    outline: none;
   }
   button {
     margin: 20px;
@@ -267,6 +276,7 @@ export default {
     background-color: transparent;
     border: 3px solid lightblue;
     border-radius: 40px;
+    outline: none;
   }
   button, button:focus, input, input:focus, span {
     @media (max-width: 1400px) {
