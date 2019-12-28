@@ -34,6 +34,7 @@ class ApiRootView(generics.GenericAPIView):
                 'user_profile': reverse(UserEditProfileView.name, request=request),
                 'doctor_profile': reverse(DoctorEditProfileView.name, request=request),
                 'wizyta_details': 'http://127.0.0.1:8000/wizyta/details/<int:pk>/',
+                'dane epidemiologiczne': 'http://127.0.0.1:8000/wizyta/epidemic/<int:pk>/',
                 'LISTA': 'ENDPOINTY DO UZYSKANIA LISTY WSZYSTKICH OBIEKTÓW DANEGO TYPU',
                 'user_list': reverse(UserListView.name, request=request),
                 'doctor_list': reverse(DoctorListView.name, request=request),
@@ -162,6 +163,23 @@ class WizytaDetailView(generics.RetrieveUpdateAPIView):
                 return Response(status.HTTP_400_BAD_REQUEST)
 
 
+class EpidemicDetailView(APIView):
+    u"""
+    Zwraca listę
+    """
+    name = "dane-epidemiologiczne"
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, *args, **kwargs):
+        pk = kwargs['pk']
+        wizyta = Wizyta.objects.get(pk=pk)
+        try:
+            data = wizyta.get_probability()
+        except Exception as e:
+            return Response({"exception": e})
+        return Response(data)
+
+
 class DoctorEditProfileView(generics.RetrieveUpdateAPIView):
     name = 'doctor-edit-profile'
     serializer_class = DoctorProfileSerializer
@@ -252,15 +270,14 @@ class WizytaListView(generics.ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        if user.is_anonymous is False:
-            if user.fk_id_pacjent is not None:
-                queryset = Wizyta.objects.filter(fk_id_pacjent=user.fk_id_pacjent)
-                return queryset
-            elif user.fk_id_lekarz is not None:
-                queryset = Wizyta.objects.filter(fk_id_lekarz=user.fk_id_lekarz)
-                return queryset
-            else:
-                pass
+        if user.fk_id_pacjent is not None:
+            queryset = Wizyta.objects.filter(fk_id_pacjent=user.fk_id_pacjent)
+            return queryset
+        elif user.fk_id_lekarz is not None:
+            queryset = Wizyta.objects.filter(fk_id_lekarz=user.fk_id_lekarz)
+            return queryset
+        else:
+            pass
 
 
 class ObjawyListView(generics.ListAPIView):
