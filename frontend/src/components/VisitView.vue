@@ -4,7 +4,7 @@
       <div class="results-stats">
           <div class="oneline">
           <a>Data wizyty:</a>
-          <span>{{result.data_wizyty}}</span>
+          <span>{{result.data_wizyty.replace('T',' ').replace('Z', ' ')}}</span>
           </div>
           <div :id="result.id" class="details">
             <div class="oneline">
