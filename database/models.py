@@ -216,7 +216,7 @@ class DaneEpidemiologiczne(models.Model):
         return id_string
 
     def get_prevalence(self):
-        return self.liczba_zachorowan / self.dane_statystyczne.liczba_ludnosci
+        return str((self.liczba_zachorowan / self.dane_statystyczne.liczba_ludnosci)*100)[:5]
 
 
 class Badanie(models.Model):
@@ -271,15 +271,18 @@ class Wizyta(models.Model):
     def get_probability(self):
         choroby = JednostkaChorobowa.objects.get_queryset()
         objawy_pacjenta = self.objawy.get_queryset()
+        dane_stat = DaneEpidemiologiczne.objects.get_queryset()
         wynik = []
-
+        now = datetime.datetime.now()
+        wojewodztwo = self.fk_id_przychodnia.wojewodztwo
         for choroba in choroby:
+            dd = dane_stat.get(jednostka_chorobowa=choroba.id, data__year=now.year, dane_statystyczne__wojewodztwo=wojewodztwo)
             objawy_choroby = choroba.objawy.get_queryset()
             liczba_wspolnych_objawow = len(set(objawy_pacjenta).intersection(objawy_choroby))
             liczba_objawow_choroby = len(objawy_choroby)
-            pokrycie = str((liczba_wspolnych_objawow / liczba_objawow_choroby)*100)[:4]
-            wynik.append((pokrycie, choroba.nazwa))
+            pokrycie = str((liczba_wspolnych_objawow / liczba_objawow_choroby)*100)[:5]
+            wynik.append({"pokrycie": pokrycie, "nazwa": choroba.nazwa, "prewalencja": dd.get_prevalence()})
 
-        wynik.sort(reverse=True)
-        print(wynik)
+        dane = sorted(wynik, key=lambda x: x['pokrycie'], reverse=True)
+        return dane[:5]
 
