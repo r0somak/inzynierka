@@ -6,6 +6,10 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework import filters
 
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_cookie
+
 from django.contrib.auth import authenticate
 from django.db import IntegrityError
 
@@ -285,6 +289,7 @@ class ObjawyListView(generics.ListAPIView):
     serializer_class = ObjawySerializer
     permission_classes = (IsAuthenticated,)
     filter_backends = [filters.OrderingFilter, filters.SearchFilter]
+    pagination_class = None
     ordering_fields = ['id', 'nazwa']
     search_fields = [u'nazwa']
 
