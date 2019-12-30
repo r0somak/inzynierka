@@ -1,10 +1,9 @@
 <template>
     <form @submit.prevent="newVisit">
-
       <input v-model="data_wizyty" type="datetime-local" required>
 
-      <ValidationProvider name="Uwagi" rules="min:5" v-slot="{ errors }">
-        <input v-model="uwagi" type="text" placeholder="Uwagi">
+      <ValidationProvider name="Uwagi"  rules="min:5" v-slot="{ errors }">
+        <textarea v-model="uwagi" type="text" class="uwagi" placeholder="Uwagi"/>
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
 
@@ -76,6 +75,7 @@ export default {
   name: 'VisitForm',
   data() {
     return {
+      // eslint-disable-next-line no-useless-concat
       data_wizyty: '',
       uwagi: '',
       przychodnia: '',
@@ -141,7 +141,7 @@ export default {
       })
         .then((res) => {
           console.log(res.data);
-          this.results = res.data.results;
+          this.results = res.data;
         });
     },
 
@@ -178,9 +178,25 @@ export default {
     font-family: 'Abril Fatface', cursive;
     font-size: 1em;
     border-radius: 40px;
+    text-align:center;
+    margin-top: 5px;
   }
   input:focus {
     outline: none;
+  }
+  textarea {
+    width: 40%;
+    padding: 1%;
+    border: 2px solid lightblue;
+    font-family: 'Abril Fatface', cursive;
+    font-size: 1em;
+    border-radius: 40px;
+    text-align:center;
+    margin-top: 5px;
+  }
+  .uwagi{
+    height: 100px;
+    border-radius: 20px;
   }
   button {
     margin: 20px;
