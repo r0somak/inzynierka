@@ -38,6 +38,7 @@ class ApiRootView(generics.GenericAPIView):
                 'user_profile': reverse(UserEditProfileView.name, request=request),
                 'doctor_profile': reverse(DoctorEditProfileView.name, request=request),
                 'wizyta_details': 'http://127.0.0.1:8000/wizyta/details/<int:pk>/',
+                'wizyta_patch': 'http://127.0.0.1:8000/wizyta/patch/<int:pk>/',
                 'dane epidemiologiczne': 'http://127.0.0.1:8000/wizyta/epidemic/<int:pk>/',
                 'LISTA': 'ENDPOINTY DO UZYSKANIA LISTY WSZYSTKICH OBIEKTÓW DANEGO TYPU',
                 'user_list': reverse(UserListView.name, request=request),
@@ -133,7 +134,7 @@ class DoctorCreateView(generics.CreateAPIView):
     serializer_class = DoctorSerializer
 
 
-class WizytaDetailView(generics.RetrieveUpdateAPIView):
+class WizytaDetailView(generics.RetrieveAPIView):
     name = 'wizyta-detail'
     serializer_class = WizytaSerializer
     permission_classes = (IsAuthenticated, )
@@ -148,11 +149,17 @@ class WizytaDetailView(generics.RetrieveUpdateAPIView):
             wizyta = Wizyta.objects.filter(pk=pk, fk_id_lekarz=user.fk_id_lekarz.id)
             return wizyta
 
+##TODO: ogarnac zapis i odczyt plikow
+class WizytaPatchDocView(generics.UpdateAPIView):
+    name = 'wizyta-patch-doc'
+    serializer_class = WizytaCreateSerializer
+    permission_classes = (IsAuthenticated,)
+
     def patch(self, request, *args, **kwargs):
         user = request.user
         pk = kwargs['pk']
         if user.fk_id_pacjent is not None:
-            wizyta = Wizyta.objects.filter(pk=pk, fk_id_pacjent=user.fk_id_pacjent.id)
+            wizyta = Wizyta.objects.get(pk=pk, fk_id_pacjent=user.fk_id_pacjent.id)
             serializer = WizytaSerializer(wizyta, data=request.data)
             if serializer.is_valid():
                 return Response(serializer.data)
