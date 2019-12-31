@@ -4,7 +4,12 @@
       <div class="results-stats">
         <div class="oneline">
           <a>Data wizyty:</a>
-          <span>{{result.data_wizyty}}</span>
+          <span>{{result.data_wizyty.replace('T',' ').replace('Z', ' ')}}</span>
+        </div>
+        <div class="oneline">
+          <a>Pacjent:</a>
+          <p>{{result.fk_id_pacjent.name}}</p>
+          <span>{{result.fk_id_pacjent.surname}}</span>
         </div>
         <div :id="result.id" class="details">
           <div class="oneline">
@@ -28,7 +33,10 @@
           </div>
         </div>
       </div>
-      <button id='button' v-on:click="togglee(result.id)">Szczegóły wizyty</button>
+      <button id='button' v-on:click="navigate_details()">
+        Szczegóły wizyty</button>
+      <button id='button_diag' v-on:click="navigate_diagnosis()">
+        Wstępna diagnoza</button>
     </div>
   </div>
 </template>
@@ -47,6 +55,64 @@ export default {
     this.getVisits();
   },
   methods: {
+    navigate_details() {
+      // eslint-disable-next-line no-shadow,camelcase
+      const {
+        // eslint-disable-next-line camelcase
+        results,
+      } = this;
+      const data = {
+        results,
+      };
+      const token = localStorage.getItem('token');
+      const URL = 'http://localhost:8000/users/wizyty/';
+      axios({
+        method: 'get',
+        url: URL,
+        headers: {
+          Accept: 'application/json',
+          Content: 'application/json',
+          Authorization: `Token ${token}`,
+        },
+        data,
+      })
+        .then((res) => {
+          console.log(res.data);
+          this.results = res.data.results;
+          const { id } = res.data.results[0];
+          // localStorage.setItem('id', id);
+          this.$router.push({ name: 'visitdetails', params: { id } });
+        });
+    },
+    navigate_diagnosis() {
+      // eslint-disable-next-line no-shadow,camelcase
+      const {
+        // eslint-disable-next-line camelcase
+        results,
+      } = this;
+      const data = {
+        results,
+      };
+      const token = localStorage.getItem('token');
+      const URL = 'http://localhost:8000/users/wizyty/';
+      axios({
+        method: 'get',
+        url: URL,
+        headers: {
+          Accept: 'application/json',
+          Content: 'application/json',
+          Authorization: `Token ${token}`,
+        },
+        data,
+      })
+        .then((res) => {
+          console.log(res.data);
+          this.results = res.data.results;
+          const { id } = res.data.results[0];
+          // localStorage.setItem('id', id);
+          this.$router.push({ name: 'visitdiagnosis', params: { id } });
+        });
+    },
     togglee(id) {
       const div = document.getElementById(id);
       if (div.style.display === 'block') {
@@ -112,7 +178,7 @@ export default {
     margin: 0 0 10px 0;
   }
   button {
-    margin: 0 0 20px 0;
+    margin: 0 5px 20px 5px;
     width: 30%;
     padding: 5px;
     text-align: center;

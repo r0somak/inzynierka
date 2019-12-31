@@ -6,6 +6,11 @@
           <a>Data wizyty:</a>
           <span>{{result.data_wizyty.replace('T',' ').replace('Z', ' ')}}</span>
           </div>
+        <div class="oneline">
+          <a>Lekarz:</a>
+          <p>{{result.fk_id_lekarz.name}}</p>
+          <span>{{result.fk_id_lekarz.surname}}</span>
+        </div>
           <div :id="result.id" class="details">
             <div class="oneline">
               <a>Lekarz:</a>
@@ -24,7 +29,8 @@
             </div>
           </div>
       </div>
-      <button id='button' v-on:click="toggle(result.id)">Szczegóły wizyty</button>
+      <button id='button' v-on:click="navigate()">
+        Szczegóły wizyty</button>
     </div>
   </div>
 </template>
@@ -43,6 +49,35 @@ export default {
     this.getVisits();
   },
   methods: {
+    navigate() {
+      // eslint-disable-next-line no-shadow,camelcase
+      const {
+        // eslint-disable-next-line camelcase
+        results,
+      } = this;
+      const data = {
+        results,
+      };
+      const token = localStorage.getItem('token');
+      const URL = 'http://localhost:8000/users/wizyty/';
+      axios({
+        method: 'get',
+        url: URL,
+        headers: {
+          Accept: 'application/json',
+          Content: 'application/json',
+          Authorization: `Token ${token}`,
+        },
+        data,
+      })
+        .then((res) => {
+          console.log(res.data);
+          this.results = res.data.results;
+          const { id } = res.data.results[0];
+          // localStorage.setItem('id', id);
+          this.$router.push({ name: 'visitdetails', params: { id } });
+        });
+    },
     toggle(id) {
       const div = document.getElementById(id);
       if (div.style.display === 'block') {
