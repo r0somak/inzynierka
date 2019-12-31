@@ -164,8 +164,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import url('https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap');
-  @import url('https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap');
+  @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap');
   span {
     padding: 5px 0 5px 0;
     display: block;
@@ -178,7 +177,7 @@ export default {
     width: 40%;
     padding: 1px;
     border: 2px solid lightblue;
-    font-family: 'Abril Fatface', cursive;
+    font-family: 'Source Sans Pro', sans-serif;
     font-size: 1em;
     border-radius: 20px;
   }
@@ -189,7 +188,7 @@ export default {
     width: 40%;
     padding: 1px;
     border: 2px solid lightblue;
-    font-family: 'Abril Fatface', cursive;
+    font-family: 'Source Sans Pro', sans-serif;
     font-size: 1em;
     border-radius: 20px;
     background-color: white;
@@ -203,7 +202,7 @@ export default {
     padding: 1%;
     text-align: center;
     font-size: 16px;
-    font-family: 'Abril Fatface', cursive;
+    font-family: 'Source Sans Pro', sans-serif;
     background-color: lightblue;
     border: 3px solid lightblue;
     border-radius: 40px;

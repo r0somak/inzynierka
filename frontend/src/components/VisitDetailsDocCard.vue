@@ -29,7 +29,30 @@
         </b-list-group-item>
         <b-list-group-item>Badania: {{ badania }}</b-list-group-item>
         <b-list-group-item>Dokumenty: {{ dokumenty }}</b-list-group-item>
-        <b-list-group-item>Kontakt do pacjenta: {{ telefon }}</b-list-group-item>
+        <b-list-group-item>Kontakt do pacjenta: {{ telefon }}<br><br></b-list-group-item>
+      </b-list-group>
+    </b-card>
+    <b-card
+      no-body
+      style="max-width: 25rem;"
+      align="center"
+    >
+      <template v-slot:header>
+        <h4 class="mb-0">Dane epidemiologiczne</h4>
+      </template>
+
+      <b-card-body>
+        <b-card-text>
+        </b-card-text>
+      </b-card-body>
+      <b-list-group flush>
+        <div v-for="item in results" :key="item.nazwa">
+          <b-list-group-item>
+            Pokrycie: {{ item.pokrycie }}<br>
+            Nazwa: {{ item.nazwa }}<br>
+            Prewalencja: {{ item.prewalencja }}
+          </b-list-group-item>
+        </div>
       </b-list-group>
 
       <b-card-footer></b-card-footer>
@@ -53,6 +76,7 @@ export default {
       badania: [],
       telefon: '',
       przekazanie_id: 0,
+      results: [],
 
 
     };
@@ -62,6 +86,7 @@ export default {
   },
   mounted() {
     this.getDetails();
+    this.getDiagnosis();
   },
   methods: {
     getDetails() {
@@ -105,6 +130,34 @@ export default {
           this.badania = res.data.badania;
           this.telefon = res.data.telefon;
           console.log(this.id);
+        });
+    },
+    getDiagnosis() {
+      // eslint-disable-next-line no-shadow,camelcase
+      const {
+        // eslint-disable-next-line camelcase,max-len
+        results,
+      } = this;
+      const data = {
+        results,
+      };
+      // const { id } = this.$route.params;
+      const token = localStorage.getItem('token');
+      // const id = localStorage.getItem('id');
+      const URL = `http://localhost:8000/wizyta/epidemic/${this.przekazanie_id}/`;
+      axios({
+        method: 'get',
+        url: URL,
+        headers: {
+          Accept: 'application/json',
+          Content: 'application/json',
+          Authorization: `Token ${token}`,
+        },
+        data,
+      })
+        .then((res) => {
+          console.log(res.data);
+          this.results = res.data;
         });
     },
   },

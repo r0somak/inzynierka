@@ -35,8 +35,6 @@
       </div>
       <button id='button' v-on:click="navigate_details()">
         Szczegóły wizyty</button>
-      <button id='button_diag' v-on:click="navigate_diagnosis()">
-        Wstępna diagnoza</button>
     </div>
   </div>
 </template>

@@ -10,7 +10,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import url('https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap');
+  @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap');;
 
   .backgroundImage {
     width: 100%;
@@ -28,7 +28,7 @@ export default {
     padding: 30px;
     text-align: right;
     font-size: 25px;
-    font-family: 'Abril Fatface', cursive;
+    font-family: 'Source Sans Pro', sans-serif;
     a {
       font-weight: bold;
       color: black;
