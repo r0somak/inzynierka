@@ -26,6 +26,24 @@
         </option>
       </select>
 
+      <b-form-file
+        class="badania"
+        v-model="badania"
+        :state="Boolean(badania)"
+        placeholder="Wybierz plik z badaniami..."
+        drop-placeholder="Albo przeciągnij..."
+      ></b-form-file>
+      <div class="mt-3">Wybrany plik z badaniami: {{ badania ? badania.name : '' }}</div>
+
+      <b-form-file
+        class="dokumenty"
+        v-model="dokumenty"
+        :state="Boolean(dokumenty)"
+        placeholder="Wybierz plik z dokumentami..."
+        drop-placeholder="Albo przeciągnij..."
+      ></b-form-file>
+      <div class="mt-3">Wybrany plik z dokumentami: {{ dokumenty ? dokumenty.name : '' }}</div>
+
       <button type="submit">Umów wizytę</button>
     </form>
 </template>
@@ -81,6 +99,8 @@ export default {
       przychodnia: '',
       lekarz: '',
       objawy: [],
+      badania: [],
+      dokumenty: [],
       results: [],
     };
   },
@@ -92,7 +112,7 @@ export default {
       // eslint-disable-next-line no-shadow,camelcase
       const {
         // eslint-disable-next-line camelcase
-        data_wizyty, uwagi, przychodnia, lekarz, objawy,
+        data_wizyty, uwagi, przychodnia, lekarz, objawy, badania, dokumenty,
       } = this;
       const data = {
         data_wizyty,
@@ -100,6 +120,8 @@ export default {
         fk_id_przychodnia: przychodnia,
         fk_id_lekarz: lekarz,
         objawy,
+        badania,
+        dokumenty,
       };
       const token = localStorage.getItem('token');
       const URL = 'http://localhost:8000/wizyta/create/';
@@ -170,6 +192,13 @@ export default {
   }
   select:focus {
     outline: none;
+  }
+  .badania, .dokumenty {
+    margin: 15px 0 0 0;
+    width: 80%;
+  }
+  .mt-3 {
+    margin: 0 0 20px 0;
   }
   input {
     width: 40%;
