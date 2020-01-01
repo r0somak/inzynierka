@@ -33,10 +33,8 @@
           </div>
         </div>
       </div>
-      <button id='button' v-on:click="navigate_details()">
+      <button id='button' v-on:click="navigate_details(result.id)">
         Szczegóły wizyty</button>
-      <button id='button_diag' v-on:click="navigate_diagnosis()">
-        Wstępna diagnoza</button>
     </div>
   </div>
 </template>
@@ -55,7 +53,7 @@ export default {
     this.getVisits();
   },
   methods: {
-    navigate_details() {
+    navigate_details(id) {
       // eslint-disable-next-line no-shadow,camelcase
       const {
         // eslint-disable-next-line camelcase
@@ -79,7 +77,7 @@ export default {
         .then((res) => {
           console.log(res.data);
           this.results = res.data.results;
-          const { id } = res.data.results[0];
+          // const { id } = res.data.results[0];
           // localStorage.setItem('id', id);
           this.$router.push({ name: 'visitdetails', params: { id } });
         });

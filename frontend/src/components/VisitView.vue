@@ -29,8 +29,10 @@
             </div>
           </div>
       </div>
-      <button id='button' v-on:click="navigate()">
+      <button id='button' v-on:click="navigate(result.id)">
         Szczegóły wizyty</button>
+      <button id='button2' v-on:click="addfiles(result.id)">
+        Dodaj pliki</button>
     </div>
   </div>
 </template>
@@ -49,7 +51,7 @@ export default {
     this.getVisits();
   },
   methods: {
-    navigate() {
+    navigate(id) {
       // eslint-disable-next-line no-shadow,camelcase
       const {
         // eslint-disable-next-line camelcase
@@ -73,9 +75,38 @@ export default {
         .then((res) => {
           console.log(res.data);
           this.results = res.data.results;
-          const { id } = res.data.results[0];
+          // const { id } = id_r;
           // localStorage.setItem('id', id);
           this.$router.push({ name: 'visitdetails', params: { id } });
+        });
+    },
+    addfiles(id) {
+      // eslint-disable-next-line no-shadow,camelcase
+      const {
+        // eslint-disable-next-line camelcase
+        results,
+      } = this;
+      const data = {
+        results,
+      };
+      const token = localStorage.getItem('token');
+      const URL = `http://localhost:8000/wizyta/details/${id}`;
+      axios({
+        method: 'get',
+        url: URL,
+        headers: {
+          Accept: 'application/json',
+          Content: 'application/json',
+          Authorization: `Token ${token}`,
+        },
+        data,
+      })
+        .then((res) => {
+          console.log(res.data);
+          this.results = res.data.results;
+          // const { id } = id_r;
+          // localStorage.setItem('id', id);
+          this.$router.push({ name: 'addfilespage', params: { id } });
         });
     },
     toggle(id) {

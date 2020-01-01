@@ -95,7 +95,7 @@ export default {
       })
         .then(() => {
           sessionStorage.removeItem('token');
-          this.$router.push('/login');
+          this.$router.push('/');
         })
         .catch((err) => {
           // eslint-disable-next-line

@@ -2,7 +2,7 @@
   <div class="newvisit">
     <NavBarLoged/>
     <div class="form">
-      <p>Rezerwacja wizyty</p>
+      <p><b>Rezerwacja wizyty</b></p>
       <VisitForm />
     </div>
     <div class="backgroundimage">
@@ -27,14 +27,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import url('https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap');
-  @import url('https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap');
+  @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap');
 
   .nav {
     padding: 30px;
     text-align: right;
     font-size: 25px;
-    font-family: 'Abril Fatface', cursive;
+    font-family: 'Source Sans Pro', sans-serif;
     a {
       font-weight: bold;
       color: black;
@@ -70,7 +69,7 @@ export default {
   p {
     margin-top: 100px;
     font-size: 35px;
-    font-family: 'Abril Fatface', cursive;
+    font-family: 'Source Sans Pro', sans-serif;
     @media (max-width: 1400px) {
       font-size: 25px;
     }

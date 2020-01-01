@@ -46,10 +46,10 @@ export default {
     this.przekazanie_id = this.$route.params.id;
   },
   mounted() {
-    this.getDetails();
+    this.getDiagnosis();
   },
   methods: {
-    getDetails() {
+    getDiagnosis() {
       // eslint-disable-next-line no-shadow,camelcase
       const {
         // eslint-disable-next-line camelcase,max-len
