@@ -220,10 +220,15 @@ class FileSerializer(serializers.ModelSerializer):
             'id',
             'data_dodania',
             'dokument',
+            'wizyta',
         )
 
         extra_kwargs = {
             'id':
+                {
+                    'read_only': True
+                },
+            'data_dodania':
                 {
                     'read_only': True
                 }

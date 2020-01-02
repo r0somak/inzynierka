@@ -66,22 +66,6 @@ class Przychodnia(models.Model):
         return id_string
 
 
-def user_dir_path(instance, filename):
-    return 'user_{0}/'.format(instance)
-
-
-class Dokument(models.Model):
-    data_dodania = models.DateTimeField(default=datetime.datetime.now)
-    dokument = models.FileField(upload_to=user_dir_path)
-
-    class Meta:
-        ordering = ('id', )
-
-    def __str__(self):
-        id_string = str(self.id) + u': ' + str(self.dokument)
-        return id_string
-
-
 class Pacjent(models.Model):
     name = models.CharField(max_length=100, blank=True)
     surname = models.CharField(max_length=100, blank=True)
@@ -97,12 +81,6 @@ class Pacjent(models.Model):
         default='BRAK',
     )
     telefon = models.CharField(max_length=100, blank=True)
-    dokumenty = models.ForeignKey(
-        Dokument,
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-    )
 
     class Meta:
         ordering = ('id', )
@@ -130,13 +108,6 @@ class CustomUser(AbstractUser):
 
     fk_id_pacjent = models.OneToOneField(
         Pacjent,
-        models.SET_NULL,
-        blank=True,
-        null=True,
-    )
-
-    fk_id_admin = models.OneToOneField(
-        Administrator,
         models.SET_NULL,
         blank=True,
         null=True,
@@ -241,7 +212,7 @@ class Wizyta(models.Model):
         Przychodnia,
         on_delete=models.CASCADE,
     )
-    dokumenty = models.ManyToManyField(Dokument, blank=True)
+    # dokumenty = models.ManyToManyField(Dokument, blank=True)
     objawy = models.ManyToManyField(Objawy, blank=True)
     badania = models.ManyToManyField(Badanie, blank=True)
     diagnoza = models.ForeignKey(
@@ -273,10 +244,11 @@ class Wizyta(models.Model):
         objawy_pacjenta = self.objawy.get_queryset()
         dane_stat = DaneEpidemiologiczne.objects.get_queryset()
         wynik = []
-        now = datetime.datetime.now()
+        # now = datetime.datetime.now()
+        now = 2019
         wojewodztwo = self.fk_id_przychodnia.wojewodztwo
         for choroba in choroby:
-            dd = dane_stat.get(jednostka_chorobowa=choroba.id, data__year=now.year, dane_statystyczne__wojewodztwo=wojewodztwo)
+            dd = dane_stat.get(jednostka_chorobowa=choroba.id, data__year=now, dane_statystyczne__wojewodztwo=wojewodztwo)
             objawy_choroby = choroba.objawy.get_queryset()
             liczba_wspolnych_objawow = len(set(objawy_pacjenta).intersection(objawy_choroby))
             liczba_objawow_choroby = len(objawy_choroby)
@@ -286,3 +258,23 @@ class Wizyta(models.Model):
         dane = sorted(wynik, key=lambda x: x['pokrycie'], reverse=True)
         return dane[:5]
 
+
+def user_dir_path(instance, filename):
+    return 'user_{0}/'.format(instance)
+
+
+class Dokument(models.Model):
+    data_dodania = models.DateTimeField(default=datetime.datetime.now)
+    dokument = models.FileField(upload_to=user_dir_path)
+    wizyta = models.ForeignKey(
+        Wizyta,
+        on_delete=models.SET_NULL,
+        null=True,
+    )
+
+    class Meta:
+        ordering = ('id',)
+
+    def __str__(self):
+        id_string = str(self.id) + u': ' + str(self.dokument)
+        return id_string
