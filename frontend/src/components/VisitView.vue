@@ -174,8 +174,8 @@ export default {
     margin: 0 0 10px 0;
   }
   button {
-    margin: 0 0 20px 0;
-    width: 30%;
+    margin: 0 5px 20px 5px;
+    width: 20%;
     padding: 5px;
     text-align: center;
     font-size: 15px;
@@ -184,5 +184,32 @@ export default {
     border: 3px solid lightblue;
     border-radius: 40px;
     box-shadow: none;
+  }
+  button:focus {
+    background-color: transparent;
+    border: 3px solid lightblue;
+    border-radius: 40px;
+    outline: none;
+  }
+  button {
+    @media (max-width: 1400px) {
+      font-size: 15px;
+    }
+    @media (max-width: 1226px) {
+      font-size: 11.5px;
+      padding: 5px 0 8px 0;
+    }
+    @media (max-width: 920px) {
+      font-size: 10px;
+      padding: 5px 0 7px 0;
+    }
+    @media (max-width: 800px) {
+      font-size: 9px;
+      padding: 5px 0 5px 0;
+    }
+    @media (max-width: 698px) {
+      font-size: 5px;
+      padding: 5px 0 3px 0;
+    }
   }
 </style>

@@ -236,10 +236,10 @@ export default {
   input {
     width: 40%;
     padding: 1px;
-    border: 2px solid lightblue;
+    border: 1px solid lightblue;
     font-family: 'Source Sans Pro', sans-serif;
     font-size: 1em;
-    border-radius: 20px;
+    border-radius: 5px;
   }
   input:focus {
     outline: none;
@@ -247,10 +247,10 @@ export default {
   select {
     width: 40%;
     padding: 1px;
-    border: 2px solid lightblue;
+    border: 1px solid lightblue;
     font-family: 'Source Sans Pro', sans-serif;
     font-size: 1em;
-    border-radius: 20px;
+    border-radius: 5px;
     background-color: white;
     text-align: center;
     text-align-last: center;

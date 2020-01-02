@@ -28,7 +28,7 @@
     ></b-form-file><br>
     <div class="mt-3">Wybrany plik z dokumentami: {{ dokumenty ? dokumenty.name : '' }}</div>
 
-    <b-button type="submit">Wyślij pliki</b-button>
+    <button type="submit">Wyślij pliki</button>
   </form>
   </b-card>
 </template>
