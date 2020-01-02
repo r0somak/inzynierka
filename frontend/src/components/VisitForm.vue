@@ -224,102 +224,101 @@ export default {
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style lang="scss" scoped>
   @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet');
-
-  .multiselect {
-    width: 60%;
-    display: inline-block;
-    margin: 0 0 20px 0;
-  }
-  label {
-    margin: 15px 0 0 0;
-    display: block;
-  }
-  span {
-    padding: 5px 0 12px 0;
-    display: block;
-    color: red;
-  }
-  select {
-    display: block;
-    width: 40%;
-    margin:10px 0 0 30%;
-    padding: 1px;
-    border: 2px solid lightblue;
-    font-family: 'Source Sans Pro', sans-serif;
-    font-size: 1em;
-    border-radius: 20px;
-    background-color: white;
-  }
-  select:focus {
-    outline: none;
-  }
-  .badania, .dokumenty {
-    margin: 15px 0 0 0;
-    width: 60%;
-  }
-  .mt-3 {
-    margin: 0 0 20px 0;
-  }
-  input {
-    width: 40%;
-    padding: 1%;
-    border: 2px solid lightblue;
-    font-family: 'Source Sans Pro', sans-serif;
-    font-size: 1em;
-    border-radius: 40px;
-    text-align:center;
-    margin-top: 5px;
-  }
-  input:focus {
-    outline: none;
-  }
-  textarea {
-    width: 40%;
-    padding: 1%;
-    border: 2px solid lightblue;
-    font-family: 'Source Sans Pro', sans-serif;
-    font-size: 1em;
-    border-radius: 40px;
-    text-align:center;
-    margin-top: 5px;
-  }
-  .uwagi{
-    height: 100px;
-    border-radius: 20px;
-  }
-  button {
-    margin: 20px;
-    width: 30%;
-    padding: 1%;
-    text-align: center;
-    font-size: 16px;
-    font-family: 'Source Sans Pro', sans-serif;
-    background-color: lightblue;
-    border: 3px solid lightblue;
-    border-radius: 40px;
-    box-shadow: none;
-  }
-  button:focus {
-    background-color: transparent;
-    border: 3px solid lightblue;
-    border-radius: 40px;
-    outline: none;
-  }
-  button, button:focus, input, input:focus, span {
-    @media (max-width: 1400px) {
-      font-size: 15px;
+    .multiselect {
+      width: 60%;
+      display: inline-block;
+      margin: 0 0 20px 0;
     }
-    @media (max-width: 920px) {
-      font-size: 12px;
-      padding: 5px 0 10px 0;
+    label {
+      margin: 15px 0 0 0;
+      display: block;
     }
-    @media (max-width: 800px) {
-      font-size: 10px;
-      padding: 5px 0 5px 0;
+    span {
+      padding: 5px 0 12px 0;
+      display: block;
+      color: red;
     }
-    @media (max-width: 650px) {
-      font-size: 5px;
-      padding: 5px 0 3px 0;
+    select {
+      display: block;
+      width: 40%;
+      margin:10px 0 0 30%;
+      padding: 1px;
+      border: 1px solid lightblue;
+      font-family: 'Source Sans Pro', sans-serif;
+      font-size: 1em;
+      border-radius: 5px;
+      background-color: white;
     }
-  }
+    select:focus {
+      outline: none;
+    }
+    .badania, .dokumenty {
+      margin: 15px 0 0 0;
+      width: 60%;
+    }
+    .mt-3 {
+      margin: 0 0 20px 0;
+    }
+    input {
+      width: 40%;
+      padding: 1%;
+      border: 1px solid lightblue;
+      font-family: 'Source Sans Pro', sans-serif;
+      font-size: 1em;
+      border-radius: 5px;
+      text-align:center;
+      margin-top: 5px;
+    }
+    input:focus {
+      outline: none;
+    }
+    textarea {
+      width: 40%;
+      padding: 1%;
+      border: 1px solid lightblue;
+      font-family: 'Source Sans Pro', sans-serif;
+      font-size: 1em;
+      border-radius: 10px;
+      text-align:center;
+      margin-top: 5px;
+    }
+    .uwagi{
+      height: 100px;
+      border-radius: 5px;
+    }
+    button {
+      margin: 20px;
+      width: 30%;
+      padding: 1%;
+      text-align: center;
+      font-size: 16px;
+      font-family: 'Source Sans Pro', sans-serif;
+      background-color: lightblue;
+      border: 3px solid lightblue;
+      border-radius: 40px;
+      box-shadow: none;
+    }
+    button:focus {
+      background-color: transparent;
+      border: 3px solid lightblue;
+      border-radius: 40px;
+      outline: none;
+    }
+    button, button:focus, input, input:focus, span {
+      @media (max-width: 1400px) {
+        font-size: 15px;
+      }
+      @media (max-width: 920px) {
+        font-size: 12px;
+        padding: 5px 0 10px 0;
+      }
+      @media (max-width: 800px) {
+        font-size: 10px;
+        padding: 5px 0 5px 0;
+      }
+      @media (max-width: 650px) {
+        font-size: 5px;
+        padding: 5px 0 3px 0;
+      }
+    }
 </style>
