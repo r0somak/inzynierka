@@ -259,12 +259,12 @@ class Wizyta(models.Model):
 
 
 def user_dir_path(instance, filename):
-    return 'user_{0}/'.format(instance)
+    return filename
 
 
 class Dokument(models.Model):
     data_dodania = models.DateTimeField(default=datetime.datetime.now)
-    dokument = models.FileField(upload_to=user_dir_path)
+    dokument = models.FileField()
     wizyta = models.ForeignKey(
         Wizyta,
         on_delete=models.SET_NULL,

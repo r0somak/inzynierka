@@ -7,10 +7,6 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework import filters
 
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
-from django.views.decorators.vary import vary_on_cookie
-
 from django.contrib.auth import authenticate
 from django.db import IntegrityError
 
@@ -155,17 +151,6 @@ class FIleUploadView(generics.CreateAPIView):
     name = 'wizyta-patch-doc'
     serializer_class = FileSerializer
     permission_classes = (IsAuthenticated,)
-
-    # def post(self, request, *args, **kwargs):
-    #     user = request.user
-    #     pk = kwargs['pk']
-    #     if user.fk_id_pacjent is not None:
-    #         wizyta = Wizyta.objects.get(pk=pk, fk_id_pacjent=user.fk_id_pacjent.id)
-    #         serializer = FileSerializer(data=request.data)
-    #         if serializer.is_valid():
-    #             return Response(serializer.data)
-    #         else:
-    #             return Response(status.HTTP_400_BAD_REQUEST)
 
 
 class EpidemicDetailView(APIView):
