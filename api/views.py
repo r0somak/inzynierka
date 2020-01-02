@@ -2,6 +2,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework import generics
+from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework import filters
@@ -14,7 +15,7 @@ from django.contrib.auth import authenticate
 from django.db import IntegrityError
 
 from .serializers import UserSerializer, DoctorSerializer, UserProfileSerializer, DoctorProfileSerializer, PrzychodniaSerializer, WizytaSerializer
-from .serializers import CustomUserSerializer, ObjawySerializer, WizytaCreateSerializer
+from .serializers import CustomUserSerializer, ObjawySerializer, WizytaCreateSerializer, FileSerializer
 from database.models import Pacjent, Lekarz, Przychodnia, Wizyta, Objawy
 import logging
 
@@ -38,7 +39,7 @@ class ApiRootView(generics.GenericAPIView):
                 'user_profile': reverse(UserEditProfileView.name, request=request),
                 'doctor_profile': reverse(DoctorEditProfileView.name, request=request),
                 'wizyta_details': 'http://127.0.0.1:8000/wizyta/details/<int:pk>/',
-                'wizyta_patch': 'http://127.0.0.1:8000/wizyta/patch/<int:pk>/',
+                'wizyta_patch': 'http://127.0.0.1:8000/wizyta/patchFile/<int:pk>/',
                 'dane epidemiologiczne': 'http://127.0.0.1:8000/wizyta/epidemic/<int:pk>/',
                 'LISTA': 'ENDPOINTY DO UZYSKANIA LISTY WSZYSTKICH OBIEKTÓW DANEGO TYPU',
                 'user_list': reverse(UserListView.name, request=request),
@@ -150,28 +151,21 @@ class WizytaDetailView(generics.RetrieveAPIView):
             return wizyta
 
 ##TODO: ogarnac zapis i odczyt plikow
-class WizytaPatchDocView(generics.UpdateAPIView):
+class FIleUploadView(generics.CreateAPIView):
     name = 'wizyta-patch-doc'
-    serializer_class = WizytaCreateSerializer
+    serializer_class = FileSerializer
     permission_classes = (IsAuthenticated,)
 
-    def patch(self, request, *args, **kwargs):
-        user = request.user
-        pk = kwargs['pk']
-        if user.fk_id_pacjent is not None:
-            wizyta = Wizyta.objects.get(pk=pk, fk_id_pacjent=user.fk_id_pacjent.id)
-            serializer = WizytaSerializer(wizyta, data=request.data)
-            if serializer.is_valid():
-                return Response(serializer.data)
-            else:
-                return Response(status.HTTP_400_BAD_REQUEST)
-        elif user.fk_id_lekarz is not None:
-            wizyta = Wizyta.objects.filter(pk=pk, fk_id_lekarz=user.fk_id_lekarz.id)
-            serializer = WizytaSerializer(wizyta, data=request.data)
-            if serializer.is_valid():
-                return Response(serializer.data)
-            else:
-                return Response(status.HTTP_400_BAD_REQUEST)
+    # def post(self, request, *args, **kwargs):
+    #     user = request.user
+    #     pk = kwargs['pk']
+    #     if user.fk_id_pacjent is not None:
+    #         wizyta = Wizyta.objects.get(pk=pk, fk_id_pacjent=user.fk_id_pacjent.id)
+    #         serializer = FileSerializer(data=request.data)
+    #         if serializer.is_valid():
+    #             return Response(serializer.data)
+    #         else:
+    #             return Response(status.HTTP_400_BAD_REQUEST)
 
 
 class EpidemicDetailView(APIView):
@@ -187,7 +181,7 @@ class EpidemicDetailView(APIView):
         try:
             data = wizyta.get_probability()
         except Exception as e:
-            return Response({"exception": e})
+            return Response(status.HTTP_400_BAD_REQUEST)
         return Response(data)
 
 

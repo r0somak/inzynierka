@@ -2,7 +2,7 @@ from django.conf.urls import url, include
 from django.urls import path
 from rest_framework.authtoken import views
 from .views import UserCreateView, UserListView, ApiRootView, DoctorListView, PrzychodniaCreateView, GetAuthTokenView, DoctorCreateView, UserEditProfileView, DoctorEditProfileView, PrzychodniaListView
-from .views import WizytaCreateView, WizytaListView, GetCustomUserDataView, ObjawyListView, WizytaDetailView, EpidemicDetailView, WizytaPatchDocView
+from .views import WizytaCreateView, WizytaListView, GetCustomUserDataView, ObjawyListView, WizytaDetailView, EpidemicDetailView, FIleUploadView
 
 urlpatterns = [
     path('create/user/', UserCreateView.as_view(), name=UserCreateView.name),
@@ -10,7 +10,7 @@ urlpatterns = [
     path('create/przychodnia/', PrzychodniaCreateView.as_view(), name=PrzychodniaCreateView.name),
     path('wizyta/create/', WizytaCreateView.as_view(), name=WizytaCreateView.name),
     path('wizyta/details/<int:pk>/', WizytaDetailView.as_view(), name=WizytaDetailView.name),
-    path('wizyta/patch/<int:pk>/', WizytaPatchDocView.as_view(), name=WizytaPatchDocView.name),
+    path('wizyta/patchFile/<int:pk>/', FIleUploadView.as_view(), name=FIleUploadView.name),
     path('wizyta/epidemic/<int:pk>/', EpidemicDetailView.as_view(), name=EpidemicDetailView.name),
     path('przychodnia/list/', PrzychodniaListView.as_view(), name=PrzychodniaListView.name),
     path('user/main_profile/', GetCustomUserDataView.as_view(), name=GetCustomUserDataView.name),
