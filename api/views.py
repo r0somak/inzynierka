@@ -154,9 +154,6 @@ class FIleUploadView(generics.CreateAPIView):
 
 
 class EpidemicDetailView(APIView):
-    u"""
-    Zwraca listę
-    """
     name = "dane-epidemiologiczne"
     permission_classes = (IsAuthenticated, )
 

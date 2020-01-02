@@ -26,6 +26,8 @@ WOJEWODZTWO = [
     ('ZACHODNIOPOMORSKIE', u'Zachodniopomorskie'),
 ]
 
+LICZBA_WYNIKOW = 5
+
 
 class Lekarz(models.Model):
     name = models.CharField(max_length=100, blank=True)
@@ -239,7 +241,7 @@ class Wizyta(models.Model):
         id_string = str(self.id) + u': ' + str(self.data_wizyty) + u', pacjent: ' + str(self.fk_id_pacjent)
         return id_string
 
-    def get_probability(self):
+    def get_probability(self) -> list:
         choroby = JednostkaChorobowa.objects.get_queryset()
         objawy_pacjenta = self.objawy.get_queryset()
         dane_stat = DaneEpidemiologiczne.objects.get_queryset()
@@ -247,15 +249,15 @@ class Wizyta(models.Model):
         now = datetime.datetime.now().year-1
         wojewodztwo = self.fk_id_przychodnia.wojewodztwo
         for choroba in choroby:
-            dd = dane_stat.get(jednostka_chorobowa=choroba.id, data__year=now, dane_statystyczne__wojewodztwo=wojewodztwo)
+            dane = dane_stat.get(jednostka_chorobowa=choroba.id, data__year=now, dane_statystyczne__wojewodztwo=wojewodztwo)
             objawy_choroby = choroba.objawy.get_queryset()
             liczba_wspolnych_objawow = len(set(objawy_pacjenta).intersection(objawy_choroby))
             liczba_objawow_choroby = len(objawy_choroby)
             pokrycie = str((liczba_wspolnych_objawow / liczba_objawow_choroby)*100)[:5]
-            wynik.append({"pokrycie": pokrycie, "nazwa": choroba.nazwa, "prewalencja": dd.get_prevalence()})
+            wynik.append({"pokrycie": pokrycie, "nazwa": choroba.nazwa, "prewalencja": dane.get_prevalence()})
 
         dane = sorted(wynik, key=lambda x: x['pokrycie'], reverse=True)
-        return dane[:5]
+        return dane[:LICZBA_WYNIKOW]
 
 
 def user_dir_path(instance, filename):
