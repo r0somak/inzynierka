@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="newVisit">
+    <form @submit.prevent="mix">
       <input v-model="data_wizyty" type="datetime-local" required>
 
       <ValidationProvider name="Uwagi"  rules="min:5" v-slot="{ errors }">
@@ -19,12 +19,34 @@
         <option value="3">Eligiusz Niewiadomski</option>
       </select>
 
-      <select multiple v-model="objawy" required>
+      <!--<select multiple v-model="objawy">
         <option disabled value="">Wybierz objawy</option>
         <option :value="result.id" v-for="result in results" :key="result.id">
           {{result.nazwa}}
         </option>
-      </select>
+      </select>-->
+
+      <div id="multi">
+        <label class="typo__label">Wybierz objawy</label>
+        <multiselect
+          v-model="objawy"
+          :options="results"
+          :multiple="true" :close-on-select="false"
+          :clear-on-select="false"
+          :preserve-search="true"
+          placeholder="Wybierz"
+          label="nazwa"
+          track-by="id"
+          selectLabel="Naciśnij aby wybrać"
+          selectedLabel="Wybrany"
+          deselectLabel="Naciśnij aby usunąć"
+          :preselect-first="true"
+          @input="updateId">
+          <template slot="selection" slot-scope="{ objaw, search, isOpen }">
+            <span class="multiselect__single" v-if="objaw &amp;&amp; !isOpen">
+              {{ objaw }} wybrane objawy</span></template>
+        </multiselect>
+      </div>
 
       <b-form-file
         class="badania"
@@ -55,6 +77,7 @@ import { extend, localize } from 'vee-validate';
 import { required, alpha_dash, email } from 'vee-validate/dist/rules';
 import pl from 'vee-validate/dist/locale/pl.json';
 import axios from 'axios';
+import Multiselect from 'vue-multiselect';
 
 localize('pl', pl);
 
@@ -92,6 +115,9 @@ extend('minmax', {
 
 export default {
   name: 'VisitForm',
+  components: {
+    Multiselect,
+  },
   data() {
     return {
       // eslint-disable-next-line no-useless-concat
@@ -103,24 +129,47 @@ export default {
       badania: [],
       dokumenty: [],
       results: [],
+      upid: [],
     };
   },
   mounted() {
     this.getSympt();
   },
   methods: {
+    mix() {
+      this.toast('b-toaster-top-center');
+      this.newVisit();
+    },
+    toast(toaster, append = false) {
+      this.$bvToast.toast('Wizyta została zarejestrowana w systemie', {
+        title: 'Informacja',
+        toaster,
+        solid: true,
+        appendToast: append,
+        variant: 'primary',
+      });
+    },
+    updateId(objawy) {
+      const upid = [];
+
+      objawy.forEach((objaw) => {
+        upid.push(objaw.id);
+      });
+
+      this.upid = upid;
+    },
     newVisit() {
       // eslint-disable-next-line no-shadow,camelcase
       const {
         // eslint-disable-next-line camelcase
-        data_wizyty, uwagi, przychodnia, lekarz, objawy, badania, dokumenty,
+        data_wizyty, uwagi, przychodnia, lekarz, upid, badania, dokumenty,
       } = this;
       const data = {
         data_wizyty,
         uwagi,
         fk_id_przychodnia: przychodnia,
         fk_id_lekarz: lekarz,
-        objawy,
+        objawy: upid,
         badania,
         dokumenty,
       };
@@ -139,6 +188,7 @@ export default {
         .then((res) => {
           sessionStorage.setItem('token', res.data.token);
           this.data = res.data;
+          console.log(res.data);
         });
     },
     getSympt() {
@@ -171,10 +221,19 @@ export default {
   },
 };
 </script>
-
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style lang="scss" scoped>
   @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet');
 
+  .multiselect {
+    width: 60%;
+    display: inline-block;
+    margin: 0 0 20px 0;
+  }
+  label {
+    margin: 15px 0 0 0;
+    display: block;
+  }
   span {
     padding: 5px 0 12px 0;
     display: block;
