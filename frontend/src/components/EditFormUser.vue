@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="editUser">
+    <form @submit.prevent="mix">
       <ValidationProvider name="Imię" rules="alpha|min:3" v-slot="{ errors }">
         <input v-model="name" type="text" placeholder="Imię">
         <span>{{ errors[0] }}</span>
@@ -139,6 +139,19 @@ export default {
     this.getUser();
   },
   methods: {
+    mix() {
+      this.toast('b-toaster-top-center');
+      this.editUser();
+    },
+    toast(toaster, append = false) {
+      this.$bvToast.toast('Dane zostały zaktualizowane w systemie ', {
+        title: 'Informacja',
+        toaster,
+        solid: true,
+        appendToast: append,
+        variant: 'primary',
+      });
+    },
     editUser() {
       // eslint-disable-next-line no-shadow,max-len,camelcase
       const {

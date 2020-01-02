@@ -37,6 +37,15 @@ export default {
     };
   },
   methods: {
+    toast(toaster, append = false) {
+      this.$bvToast.toast('Nieprawidłowa nazwa użytkownika lub hasło!', {
+        title: 'Informacja',
+        toaster,
+        solid: true,
+        appendToast: append,
+        variant: 'danger',
+      });
+    },
     loginUser() {
       const { login, password } = this;
       const data = {
@@ -61,9 +70,10 @@ export default {
         })
         .catch((err) => {
           // eslint-disable-next-line
-          alert('Nieprawidłowa nazwa użytkownika lub hasło!');
+          // alert('Nieprawidłowa nazwa użytkownika lub hasło!');
           // eslint-disable-next-line
-        console.log(err)
+          console.log(err);
+          this.toast('b-toaster-top-center');
         });
     },
   },

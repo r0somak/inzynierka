@@ -72,6 +72,15 @@ export default {
     };
   },
   methods: {
+    toast(toaster, append = false) {
+      this.$bvToast.toast('Istnieje użytkownik o takim loginie w systemie!', {
+        title: 'Informacja',
+        toaster,
+        solid: true,
+        appendToast: append,
+        variant: 'danger',
+      });
+    },
     registerUser() {
       // eslint-disable-next-line no-shadow
       const { login, email, password } = this;
@@ -93,6 +102,13 @@ export default {
         .then((res) => {
           sessionStorage.setItem('token', res.data.token);
           this.$router.push('/');
+        })
+        .catch((err) => {
+        // eslint-disable-next-line
+        // alert('Nieprawidłowa nazwa użytkownika lub hasło!');
+        // eslint-disable-next-line
+          console.log(err);
+          this.toast('b-toaster-top-center');
         });
     },
   },

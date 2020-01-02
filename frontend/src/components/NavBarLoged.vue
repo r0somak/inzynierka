@@ -12,7 +12,7 @@
         <b-navbar-nav class="ml-auto">
 
           <b-navbar-nav>
-            <b-nav-item href="/">Strona główna</b-nav-item>
+            <b-nav-item href="/homeloged">Strona główna</b-nav-item>
             <b-nav-item href="/visit" v-if="flaga  === true">Umów wizytę</b-nav-item>
           </b-navbar-nav>
 
