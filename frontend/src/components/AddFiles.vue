@@ -8,7 +8,7 @@
     class="mb-2">
     <b-card-text>
     </b-card-text>
-  <form>
+  <form @submit.prevent="mix">
     <b-form-file
       class="badania"
       v-model="badania"
@@ -49,6 +49,34 @@ export default {
     this.przekazanie_id = this.$route.params.id;
   },
   methods: {
+    mix() {
+      this.toast('b-toaster-top-center');
+      this.editFiles();
+      this.clear();
+    },
+    toast(toaster, append = false) {
+      this.$bvToast.toast('Pliki zostały wysłane do systemu', {
+        title: 'Informacja',
+        toaster,
+        solid: true,
+        appendToast: append,
+        variant: 'primary',
+      });
+    },
+    toasterror(toaster, append = false) {
+      this.$bvToast.toast('Nieprawidłowe rozszerzenie plików lub ich brak!', {
+        title: 'Informacja',
+        toaster,
+        solid: true,
+        appendToast: append,
+        variant: 'danger',
+      });
+    },
+    clear() {
+      this.badania = [];
+      this.dokumenty = [];
+      this.przekazanie_id = 0;
+    },
     editFiles() {
       // eslint-disable-next-line no-shadow,max-len,camelcase
       const {
@@ -75,6 +103,13 @@ export default {
           this.badania = res.data.badania;
           this.dokumenty = res.data.dokumenty;
           // this.$router.push('/editprofile');
+        })
+        .catch((err) => {
+          // eslint-disable-next-line
+          // alert('Nieprawidłowa nazwa użytkownika lub hasło!');
+          // eslint-disable-next-line
+          console.log(err);
+          this.toasterror('b-toaster-top-center');
         });
     },
   },

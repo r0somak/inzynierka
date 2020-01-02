@@ -2,7 +2,8 @@
   <div class="visit">
     <NavBarLoged/>
     <div class="form">
-      <p><b>Twoje wizyty</b></p>
+      <p v-if="flaga  === true"><b>Twoje wizyty</b></p>
+      <p v-else><b>Wizyty</b></p>
       <VisitView v-if="flaga  === true"/>
       <VisitViewDoc v-else/>
     </div>
