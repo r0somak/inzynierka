@@ -11,7 +11,7 @@
         </b-card-text>
         <template v-slot:footer>
           <small class="text-muted">
-            <a href="https://pulsmedycyny.pl/who-w-2018-r-odra-zabila-142-tys-osob-wiekszosc-to-dzieci-977478">
+            <a href="https://pulsmedycyny.pl/who-w-2018-r-odra-zabila-142-tys-osob-wiekszosc-to-dzieci-977478" target="_blank">
               Źródło: Puls Medycyny
             </a>
           </small>
@@ -25,7 +25,7 @@
         </b-card-text>
         <template v-slot:footer>
           <small class="text-muted">
-            <a href="https://pulsmedycyny.pl/dieta-ketogeniczna-pomaga-zwalczyc-grype-975739">
+            <a href="https://pulsmedycyny.pl/dieta-ketogeniczna-pomaga-zwalczyc-grype-975739" target="_blank">
               Źródło: Puls Medycyny
             </a>
           </small>
@@ -41,7 +41,7 @@
         </b-card-text>
         <template v-slot:footer>
           <small class="text-muted">
-            <a href="https://pulsmedycyny.pl/naukowcy-opracowali-skuteczniejsza-szczepionke-przeciwko-wsciekliznie-975695">
+            <a href="https://pulsmedycyny.pl/naukowcy-opracowali-skuteczniejsza-szczepionke-przeciwko-wsciekliznie-975695" target="_blank">
               Źródło: Puls Medycyny
             </a>
           </small>
@@ -57,7 +57,7 @@
         </b-card-text>
         <template v-slot:footer>
           <small class="text-muted">
-            <a href="https://pulsmedycyny.pl/sytuacja-epidemiologiczna-gruzlicy-w-polsce-i-europie-974753">
+            <a href="https://pulsmedycyny.pl/sytuacja-epidemiologiczna-gruzlicy-w-polsce-i-europie-974753" target="_blank">
               Źródło: Puls Medycyny
             </a>
           </small>
