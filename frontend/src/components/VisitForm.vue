@@ -139,6 +139,7 @@ export default {
     mix() {
       this.toast('b-toaster-top-center');
       this.newVisit();
+      this.clear();
     },
     toast(toaster, append = false) {
       this.$bvToast.toast('Wizyta została zarejestrowana w systemie', {
@@ -157,6 +158,16 @@ export default {
       });
 
       this.upid = upid;
+    },
+    clear() {
+      this.data_wizyty = '';
+      this.uwagi = '';
+      this.przychodnia = '';
+      this.lekarz = '';
+      this.objawy = '';
+      this.badania = [];
+      this.dokumenty = [];
+      this.upid = [];
     },
     newVisit() {
       // eslint-disable-next-line no-shadow,camelcase
