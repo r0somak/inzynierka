@@ -244,8 +244,7 @@ class Wizyta(models.Model):
         objawy_pacjenta = self.objawy.get_queryset()
         dane_stat = DaneEpidemiologiczne.objects.get_queryset()
         wynik = []
-        # now = datetime.datetime.now()
-        now = 2019
+        now = datetime.datetime.now().year-1
         wojewodztwo = self.fk_id_przychodnia.wojewodztwo
         for choroba in choroby:
             dd = dane_stat.get(jednostka_chorobowa=choroba.id, data__year=now, dane_statystyczne__wojewodztwo=wojewodztwo)
