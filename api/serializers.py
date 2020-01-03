@@ -107,7 +107,6 @@ class WizytaCreateSerializer(serializers.ModelSerializer):
             'fk_id_pacjent',
             'fk_id_przychodnia',
             'fk_id_lekarz',
-            'dokumenty',
             'objawy',
             'badania',
             'diagnoza',
@@ -135,7 +134,6 @@ class WizytaSerializer(serializers.ModelSerializer):
             'fk_id_pacjent',
             'fk_id_przychodnia',
             'fk_id_lekarz',
-            'dokumenty',
             'objawy',
             'badania',
             'diagnoza',
@@ -220,6 +218,7 @@ class FileSerializer(serializers.ModelSerializer):
             'id',
             'data_dodania',
             'dokument',
+            'wizyta',
             'wizyta',
         )
 
