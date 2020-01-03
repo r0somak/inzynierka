@@ -7,7 +7,7 @@
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
 
-      <select v-model="przychodnia" required>
+      <!--<select v-model="przychodnia" required>
         <option disabled value="">Wybierz przychodnie</option>
         <option value="1">Najlepsza</option>
       </select>
@@ -19,12 +19,15 @@
         <option value="3">Eligiusz Niewiadomski</option>
       </select>
 
-      <!--<select multiple v-model="objawy">
+      <select multiple v-model="objawy">
         <option disabled value="">Wybierz objawy</option>
         <option :value="result.id" v-for="result in results" :key="result.id">
           {{result.nazwa}}
         </option>
       </select>-->
+
+      <div id="multi_przych">
+      </div>
 
       <div id="multi">
         <label class="typo__label">Wybierz objawy</label>
@@ -67,7 +70,7 @@
       ></b-form-file><br>
       <div class="mt-3">Wybrany plik z dokumentami: {{ dokumenty ? dokumenty.name : '' }}</div>
 
-      <button type="submit">Umów wizytę</button>
+      <b-button type="submit">Umów wizytę</b-button>
     </form>
 </template>
 
@@ -299,20 +302,18 @@ export default {
     }
     button {
       margin: 20px;
-      width: 30%;
+      width: 20%;
       padding: 1%;
       text-align: center;
       font-size: 16px;
+      color: black;
       font-family: 'Source Sans Pro', sans-serif;
       background-color: lightblue;
       border: 3px solid lightblue;
-      border-radius: 40px;
-      box-shadow: none;
     }
     button:focus {
       background-color: transparent;
       border: 3px solid lightblue;
-      border-radius: 40px;
       outline: none;
     }
     button, button:focus, input, input:focus, span {

@@ -8,7 +8,7 @@
       <VisitViewDoc v-else/>
     </div>
     <div class="backgroundimage">
-      <BackgroundImageLong/>
+      <BackgroundImageHalf/>
     </div>
   </div>
 </template>
@@ -16,7 +16,7 @@
 <script>
 
 import axios from 'axios';
-import BackgroundImageLong from '@/components/BackgroundImageLong.vue';
+import BackgroundImageHalf from '@/components/BackgroundImageHalf.vue';
 import VisitView from '@/components/VisitView.vue';
 import VisitViewDoc from '@/components/VisitViewDoc.vue';
 import NavBarLoged from '@/components/NavBarLoged.vue';
@@ -25,7 +25,7 @@ import NavBarLoged from '@/components/NavBarLoged.vue';
 export default {
   name: 'VisitList',
   components: {
-    BackgroundImageLong,
+    BackgroundImageHalf,
     VisitView,
     VisitViewDoc,
     NavBarLoged,

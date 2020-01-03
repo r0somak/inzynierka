@@ -15,7 +15,7 @@ export default {
   .backgroundImage {
     background-image: url('../assets/medbackground.jpg');
     width: 50%;
-    min-height: 840px;
+    min-height: 950px;
     background-position: top left;
     background-repeat: no-repeat;
     background-size: cover;

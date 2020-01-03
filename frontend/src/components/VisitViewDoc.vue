@@ -33,8 +33,25 @@
           </div>
         </div>
       </div>
-      <button id='button' v-on:click="navigate_details(result.id)">
-        Szczegóły wizyty</button>
+      <b-button id='button3' v-on:click="navigate_details(result.id)">
+        Szczegóły wizyty</b-button>
+    </div>
+    <div class="oneline">
+      <b-button-toolbar key-nav aria-label="Toolbar with button groups">
+        <b-button-group class="mx-1" size="lg">
+          <b-button
+            v-on:click="previousPage(previous)"
+            :disabled="previous === null"
+            variant="info">
+            &lsaquo;</b-button>
+        </b-button-group>
+        <b-button-group class="mx-1" size="lg">
+          <b-button v-on:click="nextPage(next)"
+                    :disabled="next === null"
+                    variant="info">
+            &rsaquo;</b-button>
+        </b-button-group>
+      </b-button-toolbar>
     </div>
   </div>
 </template>
@@ -47,12 +64,79 @@ export default {
   data() {
     return {
       results: [],
+      next: '',
+      previous: '',
     };
   },
   mounted() {
     this.getVisits();
   },
   methods: {
+    nextPage(ne) {
+      const {
+        // eslint-disable-next-line camelcase
+        results,
+        next,
+        previous,
+      } = this;
+      const data = {
+        results,
+        next,
+        previous,
+      };
+      console.log(ne);
+      const token = localStorage.getItem('token');
+      axios({
+        method: 'get',
+        url: ne,
+        headers: {
+          Accept: 'application/json',
+          Content: 'application/json',
+          Authorization: `Token ${token}`,
+        },
+        data,
+      })
+        .then((res) => {
+          console.log(res.data);
+          this.results = res.data.results;
+          this.next = res.data.next;
+          this.previous = res.data.previous;
+          console.log(this.next);
+        });
+    },
+    previousPage(pr) {
+      console.log(pr);
+      const {
+        // eslint-disable-next-line camelcase
+        results,
+        previous,
+        next,
+      } = this;
+      const data = {
+        results,
+        previous,
+        next,
+      };
+      console.log(pr);
+      const token = localStorage.getItem('token');
+      axios({
+        method: 'get',
+        url: pr,
+        headers: {
+          Accept: 'application/json',
+          Content: 'application/json',
+          Authorization: `Token ${token}`,
+        },
+        data,
+      })
+        .then((res) => {
+          console.log(res.data);
+          this.results = res.data.results;
+          this.previous = res.data.previous;
+          this.next = res.data.next;
+          console.log(this.next);
+        });
+    },
     navigate_details(id) {
       // eslint-disable-next-line no-shadow,camelcase
       const {
@@ -125,9 +209,13 @@ export default {
       const {
         // eslint-disable-next-line camelcase
         results,
+        next,
+        previous,
       } = this;
       const data = {
         results,
+        next,
+        previous,
       };
       const token = localStorage.getItem('token');
       const URL = 'http://localhost:8000/users/wizyty/';
@@ -144,6 +232,10 @@ export default {
         .then((res) => {
           console.log(res.data);
           this.results = res.data.results;
+          this.next = res.data.next;
+          this.previous = res.data.previous;
+          console.log(this.next);
+          console.log(this.previous);
         });
     },
   },
@@ -159,7 +251,7 @@ export default {
     display: block;
   }
   p {
-    margin-top: 50px;
+    margin-top: 40px;
     margin: 0 5px 0 0;
   }
   .results-stats {
@@ -168,26 +260,28 @@ export default {
   .details {
     display: none;
   }
+  .btn-toolbar {
+    margin: 30px;
+  }
   .oneline {
     display:flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin: 0 0 10px 0;
+    margin: 0 0 2px 0;
   }
-  button {
+  #button3 {
     margin: 0 5px 20px 5px;
     width: 20%;
     padding: 5px;
     text-align: center;
+    color: black;
     font-size: 15px;
     font-family: 'Abril Fatface', cursive;
     background-color: lightblue;
     border: 3px solid lightblue;
-    border-radius: 40px;
-    box-shadow: none;
   }
-  button {
+  #button3 {
     @media (max-width: 1400px) {
       font-size: 15px;
     }
