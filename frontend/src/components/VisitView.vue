@@ -29,9 +29,9 @@
             </div>
           </div>
       </div>
-      <b-button id='button3' v-on:click="navigate(result.id)">
+      <b-button class='button1' v-on:click="navigate(result.id)">
         Szczegóły wizyty</b-button>
-      <b-button id='button24' v-on:click="addfiles(result.id)">
+      <b-button class='button2' v-on:click="addfiles(result.id)">
         Dodaj pliki</b-button>
     </div>
     <div class="oneline">
@@ -268,7 +268,7 @@ export default {
     align-items: center;
     margin: 0 0 2px 0;
   }
-  #button3, #button24 {
+  .button1, .button2 {
     margin: 0 5px 20px 5px;
     width: 20%;
     padding: 5px;
@@ -279,25 +279,7 @@ export default {
     background-color: lightblue;
     border: 3px solid lightblue;
   }
-  #button, #button2 {
-    margin: 0 5px 20px 5px;
-    width: 20%;
-    padding: 5px;
-    text-align: center;
-    font-size: 15px;
-    font-family: 'Abril Fatface', cursive;
-    background-color: lightblue;
-    border: 3px solid lightblue;
-    border-radius: 40px;
-    box-shadow: none;
-  }
-  #button:focus, #button2:focus {
-    background-color: transparent;
-    border: 3px solid lightblue;
-    border-radius: 40px;
-    outline: none;
-  }
-  #button3, #button24 {
+  .button1, .button2 {
     @media (max-width: 1400px) {
       font-size: 15px;
     }

@@ -107,7 +107,7 @@ export default {
     }
   }
   p {
-    margin-top: 50px;
+    margin-top: 100px;
     font-size: 35px;
     font-family: 'Source Sans Pro', sans-serif;
     @media (max-width: 1400px) {

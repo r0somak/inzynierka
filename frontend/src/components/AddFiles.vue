@@ -28,7 +28,7 @@
     ></b-form-file><br>
     <div class="mt-3">Wybrany plik z dokumentami: {{ dokumenty ? dokumenty.name : '' }}</div>
 
-    <button type="submit">Wyślij pliki</button>
+    <b-button type="submit">Wyślij pliki</b-button>
   </form>
   </b-card>
 </template>
@@ -140,16 +140,10 @@ export default {
     font-family: 'Source Sans Pro', sans-serif;
     background-color: lightblue;
     border: 3px solid lightblue;
-    border-radius: 40px;
-    box-shadow: none;
+    color:black;
   }
-  button:focus {
-    background-color: transparent;
-    border: 3px solid lightblue;
-    border-radius: 40px;
-    outline: none;
-  }
-  button, button:focus {
+
+  button {
   @media (max-width: 1400px) {
     font-size: 15px;
   }

@@ -7,40 +7,19 @@
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
 
-      <!--<select v-model="przychodnia" required>
+      <select v-model="przychodnia" required>
         <option disabled value="">Wybierz przychodnie</option>
-        <option value="1">Najlepsza</option>
+        <option :value="result.id" v-for="result in results_przych" :key="result.id">
+          {{ result.nazwa }}
+        </option>
       </select>
 
       <select v-model="lekarz" required>
         <option disabled value="">Wybierz lekarza</option>
-        <option value="1">Michał Napnap</option>
-        <option value="2">Marczek Kłodka</option>
-        <option value="3">Eligiusz Niewiadomski</option>
-      </select>
-
-      <select multiple v-model="objawy">
-        <option disabled value="">Wybierz objawy</option>
-        <option :value="result.id" v-for="result in results" :key="result.id">
-          {{result.nazwa}}
+        <option :value="result.id" v-for="result in results_doc" :key="result.id">
+          {{ result.name }} {{ result.surname }}
         </option>
-      </select>-->
-
-      <div id="multi_przych">
-        <label class="typo__label">Wybierz przychodnie</label>
-        <multiselect
-          v-model="przychodnia"
-          deselect-label="Nie można usunąć"
-          track-by="nazwa" label="nazwa"
-          placeholder="Wybierz"
-          :options="results_przych"
-          :searchable="false"
-          :allow-empty="false">
-          <template slot="singleLabel" slot-scope="{ result_przych }">
-            <strong>{{ result_przych.results.results }}</strong>
-          </template>
-        </multiselect>
-      </div>
+      </select>
 
       <div id="multi">
         <label class="typo__label">Wybierz objawy</label>
@@ -273,6 +252,7 @@ export default {
         .then((res) => {
           console.log(res.data);
           this.results_przych = res.data.results;
+          console.log('przychodnia', res.data.results);
         });
     },
 
@@ -333,6 +313,8 @@ export default {
       font-size: 1em;
       border-radius: 5px;
       background-color: white;
+      text-align: center;
+      text-align-last: center;
     }
     select:focus {
       outline: none;
@@ -367,6 +349,9 @@ export default {
       text-align:center;
       margin-top: 5px;
     }
+    textarea:focus {
+      outline: none;
+  }
     .uwagi{
       height: 100px;
       border-radius: 5px;
@@ -382,12 +367,7 @@ export default {
       background-color: lightblue;
       border: 3px solid lightblue;
     }
-    button:focus {
-      background-color: transparent;
-      border: 3px solid lightblue;
-      outline: none;
-    }
-    button, button:focus, input, input:focus, span {
+    button, textarea, input, input:focus, span {
       @media (max-width: 1400px) {
         font-size: 15px;
       }

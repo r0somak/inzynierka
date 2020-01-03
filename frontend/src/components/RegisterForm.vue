@@ -16,7 +16,7 @@
         <input v-model="password" type="password" placeholder="Hasło">
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
-      <button type="submit" :disabled="invalid">Zarejestruj się</button>
+      <b-button type="submit" :disabled="invalid">Zarejestruj się</b-button>
     </form>
   </ValidationObserver>
 </template>
@@ -129,11 +129,11 @@ export default {
     border: 2px solid lightblue;
     font-family: 'Source Sans Pro', sans-serif;
     font-size: 1em;
-    border-radius: 40px;
+    border-radius: 5px;
   }
   input:focus {
     border: 2px solid lightblue;
-    border-radius: 40px;
+    border-radius: 5px;
     box-shadow: inset 0 0 0 0px #fff,
     0 0 0 0px #fff,
     -4px 4px 20px lightblue,
@@ -149,16 +149,9 @@ export default {
     font-family: 'Source Sans Pro', sans-serif;
     background-color: lightblue;
     border: 3px solid lightblue;
-    border-radius: 40px;
-    box-shadow: none;
+    color: black;
   }
-  button:focus {
-    background-color: transparent;
-    border: 3px solid lightblue;
-    border-radius: 40px;
-    outline: none;
-  }
-  button, button:focus, input, input:focus, span {
+  button, input, input:focus, span {
     @media (max-width: 1400px) {
       font-size: 15px;
     }

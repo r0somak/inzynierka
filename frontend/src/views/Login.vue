@@ -4,7 +4,7 @@
     <div class="form">
     <div class="nav">
           </div>
-      <p><b>LOGOWANIE</b></p>
+      <p><b>Logowanie</b></p>
         <LoginForm />
     </div>
     <div class="backgroundimage">

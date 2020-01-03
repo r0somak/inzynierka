@@ -33,7 +33,7 @@
           </div>
         </div>
       </div>
-      <b-button id='button3' v-on:click="navigate_details(result.id)">
+      <b-button class='button3' v-on:click="navigate_details(result.id)">
         Szczegóły wizyty</b-button>
     </div>
     <div class="oneline">
@@ -161,49 +161,9 @@ export default {
         .then((res) => {
           console.log(res.data);
           this.results = res.data.results;
-          // const { id } = res.data.results[0];
-          // localStorage.setItem('id', id);
           this.$router.push({ name: 'visitdetails', params: { id } });
         });
     },
-    navigate_diagnosis() {
-      // eslint-disable-next-line no-shadow,camelcase
-      const {
-        // eslint-disable-next-line camelcase
-        results,
-      } = this;
-      const data = {
-        results,
-      };
-      const token = localStorage.getItem('token');
-      const URL = 'http://localhost:8000/users/wizyty/';
-      axios({
-        method: 'get',
-        url: URL,
-        headers: {
-          Accept: 'application/json',
-          Content: 'application/json',
-          Authorization: `Token ${token}`,
-        },
-        data,
-      })
-        .then((res) => {
-          console.log(res.data);
-          this.results = res.data.results;
-          const { id } = res.data.results[0];
-          // localStorage.setItem('id', id);
-          this.$router.push({ name: 'visitdiagnosis', params: { id } });
-        });
-    },
-    togglee(id) {
-      const div = document.getElementById(id);
-      if (div.style.display === 'block') {
-        div.style.display = 'none';
-      } else {
-        div.style.display = 'block';
-      }
-    },
-
     getVisits() {
       // eslint-disable-next-line no-shadow,camelcase
       const {
@@ -270,7 +230,7 @@ export default {
     align-items: center;
     margin: 0 0 2px 0;
   }
-  #button3 {
+  .button3 {
     margin: 0 5px 20px 5px;
     width: 20%;
     padding: 5px;
@@ -281,7 +241,7 @@ export default {
     background-color: lightblue;
     border: 3px solid lightblue;
   }
-  #button3 {
+  .button3 {
     @media (max-width: 1400px) {
       font-size: 15px;
     }

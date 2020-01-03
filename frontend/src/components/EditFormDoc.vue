@@ -25,7 +25,7 @@
       <span>{{ errors[0] }}</span>
     </ValidationProvider>
 
-    <button type="submit">Edytuj dane</button>
+    <b-button type="submit">Edytuj dane</b-button>
   </form>
 </template>
 
@@ -218,16 +218,9 @@ export default {
     font-family: 'Source Sans Pro', sans-serif;
     background-color: lightblue;
     border: 3px solid lightblue;
-    border-radius: 40px;
-    box-shadow: none;
+    color: black;
   }
-  button:focus {
-    background-color: transparent;
-    border: 3px solid lightblue;
-    border-radius: 40px;
-    outline: none;
-  }
-  button, button:focus, input, input:focus, span {
+  button, input, input:focus, span {
     @media (max-width: 1400px) {
       font-size: 15px;
     }
