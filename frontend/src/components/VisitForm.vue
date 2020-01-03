@@ -27,6 +27,19 @@
       </select>-->
 
       <div id="multi_przych">
+        <label class="typo__label">Wybierz przychodnie</label>
+        <multiselect
+          v-model="przychodnia"
+          deselect-label="Nie można usunąć"
+          track-by="nazwa" label="nazwa"
+          placeholder="Wybierz"
+          :options="results_przych"
+          :searchable="false"
+          :allow-empty="false">
+          <template slot="singleLabel" slot-scope="{ result_przych }">
+            <strong>{{ result_przych.results.results }}</strong>
+          </template>
+        </multiselect>
       </div>
 
       <div id="multi">
@@ -132,11 +145,15 @@ export default {
       badania: [],
       dokumenty: [],
       results: [],
+      results_przych: [],
+      results_doc: [],
       upid: [],
     };
   },
   mounted() {
     this.getSympt();
+    this.getPrzych();
+    this.getDoc();
   },
   methods: {
     mix() {
@@ -229,6 +246,60 @@ export default {
         .then((res) => {
           console.log(res.data);
           this.results = res.data;
+        });
+    },
+
+    getPrzych() {
+      // eslint-disable-next-line no-shadow,camelcase
+      const {
+        // eslint-disable-next-line camelcase
+        results_przych,
+      } = this;
+      const data = {
+        results: results_przych,
+      };
+      const token = localStorage.getItem('token');
+      const URL = 'http://localhost:8000/przychodnia/list/';
+      axios({
+        method: 'get',
+        url: URL,
+        headers: {
+          Accept: 'application/json',
+          Content: 'application/json',
+          Authorization: `Token ${token}`,
+        },
+        data,
+      })
+        .then((res) => {
+          console.log(res.data);
+          this.results_przych = res.data.results;
+        });
+    },
+
+    getDoc() {
+      // eslint-disable-next-line no-shadow,camelcase
+      const {
+        // eslint-disable-next-line camelcase
+        results_doc,
+      } = this;
+      const data = {
+        results: results_doc,
+      };
+      const token = localStorage.getItem('token');
+      const URL = 'http://localhost:8000/users/doctor/list/';
+      axios({
+        method: 'get',
+        url: URL,
+        headers: {
+          Accept: 'application/json',
+          Content: 'application/json',
+          Authorization: `Token ${token}`,
+        },
+        data,
+      })
+        .then((res) => {
+          console.log(res.data);
+          this.results_doc = res.data.results;
         });
     },
 
