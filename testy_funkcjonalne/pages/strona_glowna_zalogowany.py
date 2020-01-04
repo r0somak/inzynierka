@@ -17,5 +17,5 @@ class StronaGlownaZalogowany:
         login_nav.click()
 
     def checkLogedText(self, phrase):
-            message = self.browser.find_element(*self.KOMUNIKAT_TEKST).text
-            assert message == phrase
+        message = self.browser.find_element(*self.KOMUNIKAT_TEKST).text
+        assert message == phrase
