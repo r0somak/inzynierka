@@ -10,7 +10,7 @@
         <input v-model="password" type="password" placeholder="Hasło">
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
-      <b-button type="submit" :disabled="invalid">Zaloguj się</b-button>
+      <b-button id="button_login" type="submit" :disabled="invalid">Zaloguj się</b-button>
     </form>
   </ValidationObserver>
 </template>

@@ -2,7 +2,7 @@
   <div>
     <b-navbar toggleable="lg" type="dark" variant="info">
       <b-navbar-brand tag="h1" class="mb-0">MEDIVI</b-navbar-brand>
-      <b-nav-text>Jesteś zalogowany jako {{ username }}</b-nav-text>
+      <b-nav-text id="message_login">Jesteś zalogowany jako {{ username }}</b-nav-text>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
