@@ -4,6 +4,7 @@ from operator import itemgetter
 
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from decimal import *
 # Create your models here.
 
 WOJEWODZTWO = [
@@ -189,7 +190,8 @@ class DaneEpidemiologiczne(models.Model):
         return id_string
 
     def get_prevalence(self):
-        return str((self.liczba_zachorowan / self.dane_statystyczne.liczba_ludnosci)*100)[:5]
+        getcontext().prec = 5
+        return (Decimal(self.liczba_zachorowan) / Decimal(self.dane_statystyczne.liczba_ludnosci))*100
 
 
 class Badanie(models.Model):
@@ -242,6 +244,8 @@ class Wizyta(models.Model):
         return id_string
 
     def get_probability(self) -> list:
+        getcontext().prec = 5
+
         choroby = JednostkaChorobowa.objects.get_queryset()
         objawy_pacjenta = self.objawy.get_queryset()
         dane_stat = DaneEpidemiologiczne.objects.get_queryset()
@@ -253,7 +257,7 @@ class Wizyta(models.Model):
             objawy_choroby = choroba.objawy.get_queryset()
             liczba_wspolnych_objawow = len(set(objawy_pacjenta).intersection(objawy_choroby))
             liczba_objawow_choroby = len(objawy_choroby)
-            pokrycie = str((liczba_wspolnych_objawow / liczba_objawow_choroby)*100)[:5]
+            pokrycie = (Decimal(liczba_wspolnych_objawow) / Decimal(liczba_objawow_choroby))*100
             wynik.append({"pokrycie": pokrycie, "nazwa": choroba.nazwa, "prewalencja": dane.get_prevalence()})
 
         dane = sorted(wynik, key=lambda x: x['pokrycie'], reverse=True)
