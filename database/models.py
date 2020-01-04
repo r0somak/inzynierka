@@ -190,7 +190,8 @@ class DaneEpidemiologiczne(models.Model):
         return id_string
 
     def get_prevalence(self):
-        return str((self.liczba_zachorowan / self.dane_statystyczne.liczba_ludnosci)*100)[:5]
+        getcontext().prec = 5
+        return (Decimal(self.liczba_zachorowan) / Decimal(self.dane_statystyczne.liczba_ludnosci))*100
 
 
 class Badanie(models.Model):
