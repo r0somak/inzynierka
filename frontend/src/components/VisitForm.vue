@@ -1,20 +1,20 @@
 <template>
     <form @submit.prevent="mix">
-      <input v-model="data_wizyty" type="datetime-local" required>
+      <input v-model="data_wizyty" id="data" type="datetime-local" required>
 
       <ValidationProvider name="Uwagi"  rules="min:5" v-slot="{ errors }">
         <textarea v-model="uwagi" type="text" class="uwagi" placeholder="Uwagi"/>
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
 
-      <select v-model="przychodnia" required>
+      <select v-model="przychodnia" id="przychodnia" required>
         <option disabled value="">Wybierz przychodnie</option>
         <option :value="result.id" v-for="result in results_przych" :key="result.id">
           {{ result.nazwa }}
         </option>
       </select>
 
-      <select v-model="lekarz" required>
+      <select v-model="lekarz" id="lekarz" required>
         <option disabled value="">Wybierz lekarza</option>
         <option :value="result.id" v-for="result in results_doc" :key="result.id">
           {{ result.name }} {{ result.surname }}
@@ -36,6 +36,7 @@
           selectedLabel="Wybrany"
           deselectLabel="Naciśnij aby usunąć"
           :preselect-first="true"
+          id="objawy"
           @input="updateId">
           <template slot="selection" slot-scope="{ objaw, search, isOpen }">
             <span class="multiselect__single" v-if="objaw &amp;&amp; !isOpen">
@@ -62,7 +63,7 @@
       ></b-form-file><br>
       <div class="mt-3">Wybrany plik z dokumentami: {{ dokumenty ? dokumenty.name : '' }}</div>
 
-      <b-button type="submit">Umów wizytę</b-button>
+      <b-button type="submit" id="button_visit">Umów wizytę</b-button>
     </form>
 </template>
 

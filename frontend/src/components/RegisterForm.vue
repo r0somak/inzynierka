@@ -2,21 +2,21 @@
   <ValidationObserver v-slot="{ invalid }">
     <form @submit.prevent="registerUser">
       <ValidationProvider name="Login" rules="required|alpha_dash|min:3" v-slot="{ errors }">
-        <input v-model="login" type="text" placeholder="Login">
+        <input v-model="login" type="text" id="login" placeholder="Login">
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
 
       <ValidationProvider name="Email" rules="required|email" v-slot="{ errors }">
-        <input v-model="email" type="email" placeholder="Email">
+        <input v-model="email" type="email" id="email" placeholder="Email">
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
 
       <ValidationProvider name="Hasło" rules="required|alpha_dash|minmax:7,30"
        v-slot="{ errors }">
-        <input v-model="password" type="password" placeholder="Hasło">
+        <input v-model="password" type="password" id="password" placeholder="Hasło">
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
-      <b-button type="submit" :disabled="invalid">Zarejestruj się</b-button>
+      <b-button id="button_register" type="submit" :disabled="invalid">Zarejestruj się</b-button>
     </form>
   </ValidationObserver>
 </template>

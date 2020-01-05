@@ -2,12 +2,12 @@
   <ValidationObserver v-slot="{ invalid }">
     <form @submit.prevent="loginUser">
       <ValidationProvider name="Login" rules="required" v-slot="{ errors }">
-        <input v-model="login" type="text" placeholder="Login">
+        <input v-model="login" type="text" id="login" placeholder="Login">
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
       <ValidationProvider name="Hasło" rules="required"
                           v-slot="{ errors }">
-        <input v-model="password" type="password" placeholder="Hasło">
+        <input v-model="password" type="password" id="password" placeholder="Hasło">
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
       <b-button id="button_login" type="submit" :disabled="invalid">Zaloguj się</b-button>

@@ -19,12 +19,12 @@
           <b-nav-item-dropdown right>
             <!-- Using 'button-content' slot -->
             <template v-slot:button-content>
-              <em>Twoje konto</em>
+              <em id="drop_text">Twoje konto</em>
             </template>
             <b-dropdown-item href="/editprofile">Edytuj dane</b-dropdown-item>
             <b-dropdown-item href="/visitlist" v-if="flaga  === true">Twoje wizyty</b-dropdown-item>
             <b-dropdown-item href="/visitlist" v-else>Wizyty</b-dropdown-item>
-            <b-dropdown-item-button @click="logOut">Wyloguj się
+            <b-dropdown-item-button @click="logOut" id="button_logout">Wyloguj się
             </b-dropdown-item-button>
           </b-nav-item-dropdown>
 

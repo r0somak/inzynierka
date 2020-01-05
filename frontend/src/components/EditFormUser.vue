@@ -1,46 +1,46 @@
 <template>
     <form @submit.prevent="mix">
       <ValidationProvider name="Imię" rules="alpha|min:3" v-slot="{ errors }">
-        <input v-model="name" type="text" placeholder="Imię">
+        <input v-model="name" type="text" placeholder="Imię" id="name">
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
 
       <ValidationProvider name="Nazwisko" rules="alpha|min:3" v-slot="{ errors }">
-        <input v-model="surname" type="text" placeholder="Nazwisko">
+        <input v-model="surname" type="text" placeholder="Nazwisko" id="surname">
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
 
       <ValidationProvider name="Pesel" rules="digits:11" v-slot="{ errors }">
-        <input v-model="pesel" type="text" placeholder="Pesel">
+        <input v-model="pesel" type="text" placeholder="Pesel" id="pesel">
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
 
       <ValidationProvider name="Ulica" rules="alpha|min:3" v-slot="{ errors }">
-        <input v-model="street" type="text" placeholder="Ulica">
+        <input v-model="street" type="text" placeholder="Ulica" id="street">
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
 
       <ValidationProvider name="Nr ulicy" rules="numeric|min:1" v-slot="{ errors }">
-        <input v-model="street_number" type="text" placeholder="Numer ulicy">
+        <input v-model="street_number" type="text" placeholder="Numer ulicy" id="num_street">
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
 
       <ValidationProvider name="Nr mieszkania" rules="numeric|min:1" v-slot="{ errors }">
-        <input v-model="ap_number" type="text" placeholder="Numer mieszkania">
+        <input v-model="ap_number" type="text" placeholder="Numer mieszkania" id="num_ap">
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
 
       <ValidationProvider name="Kod pocztowy" rules="alpha_dash|min:6" v-slot="{ errors }">
-        <input v-model="post_code" type="text" placeholder="Kod pocztowy">
+        <input v-model="post_code" type="text" placeholder="Kod pocztowy" id="post_code">
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
 
       <ValidationProvider name="Miasto" rules="alpha|min:3" v-slot="{ errors }">
-        <input v-model="town" type="text" placeholder="Miasto">
+        <input v-model="town" type="text" placeholder="Miasto" id="town">
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
 
-      <select v-model="selected">
+      <select v-model="selected" id="province">
         <option disabled value="">Wybierz województwo</option>
         <option value="BRAK">Brak</option>
         <option value="DOLNOSLAKIE">Dolnośląskie</option>
@@ -61,11 +61,11 @@
       </select>
 
       <ValidationProvider name="Telefon" rules="numeric|min:9" v-slot="{ errors }">
-        <input v-model="phone" type="tel" placeholder="Telefon">
+        <input v-model="phone" type="tel" placeholder="Telefon" id="phone_num">
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
 
-      <b-button type="submit">Edytuj dane</b-button>
+      <b-button type="submit" id="button_edit">Edytuj dane</b-button>
     </form>
 </template>
 
