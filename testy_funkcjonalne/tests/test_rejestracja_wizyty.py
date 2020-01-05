@@ -2,7 +2,7 @@ import random
 import string
 
 import pytest
-from pages.logowanie import StronaLogowania
+from pages.strona_logowanie import StronaLogowania
 from pages.strona_glowna import StronaGlowna
 from pages.strona_glowna_zalogowany import StronaGlownaZalogowany
 from pages.strona_rejestracji_wizyty import StronaRejestracjiWizyty
