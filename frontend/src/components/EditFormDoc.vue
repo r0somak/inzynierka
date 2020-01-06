@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="editDoctor">
+  <form @submit.prevent="mix">
     <ValidationProvider name="Imię" rules="alpha|min:3" v-slot="{ errors }">
       <input v-model="name" type="text" placeholder="Imię">
       <span>{{ errors[0] }}</span>
@@ -25,7 +25,7 @@
       <span>{{ errors[0] }}</span>
     </ValidationProvider>
 
-    <button type="submit">Edytuj dane</button>
+    <b-button type="submit">Edytuj dane</b-button>
   </form>
 </template>
 
@@ -94,6 +94,19 @@ export default {
     this.getDoctor();
   },
   methods: {
+    mix() {
+      this.toast('b-toaster-top-center');
+      this.editDoctor();
+    },
+    toast(toaster, append = false) {
+      this.$bvToast.toast('Dane zostały zaktualizowane w systemie ', {
+        title: 'Informacja',
+        toaster,
+        solid: true,
+        appendToast: append,
+        variant: 'primary',
+      });
+    },
     editDoctor() {
       // eslint-disable-next-line no-shadow,max-len,camelcase
       const {
@@ -164,8 +177,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import url('https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap');
-  @import url('https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap');
+  @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap');
   span {
     padding: 5px 0 5px 0;
     display: block;
@@ -178,18 +190,24 @@ export default {
     width: 40%;
     padding: 1px;
     border: 2px solid lightblue;
-    font-family: 'Abril Fatface', cursive;
+    font-family: 'Source Sans Pro', sans-serif;
     font-size: 1em;
-    border-radius: 20px;
+    border-radius: 5px;
+  }
+  input:focus {
+    outline: none;
   }
   select {
     width: 40%;
     padding: 1px;
     border: 2px solid lightblue;
-    font-family: 'Abril Fatface', cursive;
+    font-family: 'Source Sans Pro', sans-serif;
     font-size: 1em;
-    border-radius: 20px;
+    border-radius: 5px;
     background-color: white;
+    text-align: center;
+    text-align-last: center;
+    margin-bottom: 10px;
   }
   button {
     margin: 20px;
@@ -197,18 +215,12 @@ export default {
     padding: 1%;
     text-align: center;
     font-size: 16px;
-    font-family: 'Abril Fatface', cursive;
+    font-family: 'Source Sans Pro', sans-serif;
     background-color: lightblue;
     border: 3px solid lightblue;
-    border-radius: 40px;
-    box-shadow: none;
+    color: black;
   }
-  button:focus {
-    background-color: transparent;
-    border: 3px solid lightblue;
-    border-radius: 40px;
-  }
-  button, button:focus, input, input:focus, span {
+  button, input, input:focus, span {
     @media (max-width: 1400px) {
       font-size: 15px;
     }

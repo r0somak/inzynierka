@@ -2,15 +2,15 @@
   <ValidationObserver v-slot="{ invalid }">
     <form @submit.prevent="loginUser">
       <ValidationProvider name="Login" rules="required" v-slot="{ errors }">
-        <input v-model="login" type="text" placeholder="Login">
+        <input v-model="login" type="text" id="login" placeholder="Login">
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
       <ValidationProvider name="Hasło" rules="required"
                           v-slot="{ errors }">
-        <input v-model="password" type="password" placeholder="Hasło">
+        <input v-model="password" type="password" id="password" placeholder="Hasło">
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
-      <button type="submit" :disabled="invalid">Zaloguj się</button>
+      <b-button id="button_login" type="submit" :disabled="invalid">Zaloguj się</b-button>
     </form>
   </ValidationObserver>
 </template>
@@ -37,6 +37,15 @@ export default {
     };
   },
   methods: {
+    toast(toaster, append = false) {
+      this.$bvToast.toast('Nieprawidłowa nazwa użytkownika lub hasło!', {
+        title: 'Informacja',
+        toaster,
+        solid: true,
+        appendToast: append,
+        variant: 'danger',
+      });
+    },
     loginUser() {
       const { login, password } = this;
       const data = {
@@ -61,9 +70,10 @@ export default {
         })
         .catch((err) => {
           // eslint-disable-next-line
-          alert('Nieprawidłowa nazwa użytkownika lub hasło!');
+          // alert('Nieprawidłowa nazwa użytkownika lub hasło!');
           // eslint-disable-next-line
-        console.log(err)
+          console.log(err);
+          this.toast('b-toaster-top-center');
         });
     },
   },
@@ -79,18 +89,19 @@ export default {
   input {
     width: 40%;
     padding: 1%;
-    border: 2px solid lightblue;
-    border-radius: 40px;
     font-size: 1em;
     font-family: 'Abril Fatface', cursive;
+    border: 2px solid lightblue;
+    border-radius: 5px;
   }
   input:focus {
     border: 2px solid lightblue;
-    border-radius: 40px;
+    border-radius: 5px;
     box-shadow: inset 0 0 0 0px #fff,
     0 0 0 0px #fff,
     -4px 4px 20px lightblue,
     4px -4px 20px #10abff;
+    outline: none;
   }
   button {
     margin: 20px;
@@ -101,15 +112,9 @@ export default {
     font-family: 'Abril Fatface', cursive;
     background-color: lightblue;
     border: 3px solid lightblue;
-    border-radius: 40px;
-    box-shadow: none;
+    color: black;
   }
-  button:focus {
-    background-color: transparent;
-    border: 3px solid lightblue;
-    border-radius: 40px;
-  }
-  button, button:focus, input, input:focus, span {
+  button, input, input:focus, span {
     @media (max-width: 1400px) {
       font-size: 15px;
     }

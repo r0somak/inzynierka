@@ -2,21 +2,21 @@
   <ValidationObserver v-slot="{ invalid }">
     <form @submit.prevent="registerUser">
       <ValidationProvider name="Login" rules="required|alpha_dash|min:3" v-slot="{ errors }">
-        <input v-model="login" type="text" placeholder="Login">
+        <input v-model="login" type="text" id="login" placeholder="Login">
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
 
       <ValidationProvider name="Email" rules="required|email" v-slot="{ errors }">
-        <input v-model="email" type="email" placeholder="Email">
+        <input v-model="email" type="email" id="email" placeholder="Email">
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
 
       <ValidationProvider name="Hasło" rules="required|alpha_dash|minmax:7,30"
        v-slot="{ errors }">
-        <input v-model="password" type="password" placeholder="Hasło">
+        <input v-model="password" type="password" id="password" placeholder="Hasło">
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
-      <button type="submit" :disabled="invalid">Zarejestruj się</button>
+      <b-button id="button_register" type="submit" :disabled="invalid">Zarejestruj się</b-button>
     </form>
   </ValidationObserver>
 </template>
@@ -72,6 +72,15 @@ export default {
     };
   },
   methods: {
+    toast(toaster, append = false) {
+      this.$bvToast.toast('Istnieje użytkownik o takim loginie w systemie!', {
+        title: 'Informacja',
+        toaster,
+        solid: true,
+        appendToast: append,
+        variant: 'danger',
+      });
+    },
     registerUser() {
       // eslint-disable-next-line no-shadow
       const { login, email, password } = this;
@@ -93,6 +102,13 @@ export default {
         .then((res) => {
           sessionStorage.setItem('token', res.data.token);
           this.$router.push('/');
+        })
+        .catch((err) => {
+        // eslint-disable-next-line
+        // alert('Nieprawidłowa nazwa użytkownika lub hasło!');
+        // eslint-disable-next-line
+          console.log(err);
+          this.toast('b-toaster-top-center');
         });
     },
   },
@@ -100,8 +116,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import url('https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap');
-  @import url('https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap');
+  @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap');
 
   span {
     padding: 5px 0 12px 0;
@@ -112,17 +127,18 @@ export default {
     width: 40%;
     padding: 1%;
     border: 2px solid lightblue;
-    font-family: 'Abril Fatface', cursive;
+    font-family: 'Source Sans Pro', sans-serif;
     font-size: 1em;
-    border-radius: 40px;
+    border-radius: 5px;
   }
   input:focus {
     border: 2px solid lightblue;
-    border-radius: 40px;
+    border-radius: 5px;
     box-shadow: inset 0 0 0 0px #fff,
     0 0 0 0px #fff,
     -4px 4px 20px lightblue,
     4px -4px 20px #10abff;
+    outline: none;
   }
   button {
     margin: 20px;
@@ -130,18 +146,12 @@ export default {
     padding: 1%;
     text-align: center;
     font-size: 16px;
-    font-family: 'Abril Fatface', cursive;
+    font-family: 'Source Sans Pro', sans-serif;
     background-color: lightblue;
     border: 3px solid lightblue;
-    border-radius: 40px;
-    box-shadow: none;
+    color: black;
   }
-  button:focus {
-    background-color: transparent;
-    border: 3px solid lightblue;
-    border-radius: 40px;
-  }
-  button, button:focus, input, input:focus, span {
+  button, input, input:focus, span {
     @media (max-width: 1400px) {
       font-size: 15px;
     }

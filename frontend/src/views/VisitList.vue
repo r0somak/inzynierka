@@ -1,10 +1,9 @@
 <template>
   <div class="visit">
+    <NavBarLoged/>
     <div class="form">
-      <div class="nav">
-        <router-link to="/homeloged">Strona główna</router-link>
-      </div>
-      <p>Twoje wizyty</p>
+      <p v-if="flaga  === true"><b>Twoje wizyty</b></p>
+      <p v-else><b>Wizyty</b></p>
       <VisitView v-if="flaga  === true"/>
       <VisitViewDoc v-else/>
     </div>
@@ -20,6 +19,8 @@ import axios from 'axios';
 import BackgroundImageHalf from '@/components/BackgroundImageHalf.vue';
 import VisitView from '@/components/VisitView.vue';
 import VisitViewDoc from '@/components/VisitViewDoc.vue';
+import NavBarLoged from '@/components/NavBarLoged.vue';
+
 
 export default {
   name: 'VisitList',
@@ -27,6 +28,7 @@ export default {
     BackgroundImageHalf,
     VisitView,
     VisitViewDoc,
+    NavBarLoged,
   },
   data() {
     return {
@@ -67,14 +69,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import url('https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap');
-  @import url('https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap');
+  @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap');
 
   .nav {
     padding: 30px;
     text-align: right;
     font-size: 25px;
-    font-family: 'Abril Fatface', cursive;
+    font-family: 'Source Sans Pro', sans-serif;
     a {
       font-weight: bold;
       color: black;
@@ -110,7 +111,7 @@ export default {
   p {
     margin-top: 50px;
     font-size: 35px;
-    font-family: 'Abril Fatface', cursive;
+    font-family: 'Source Sans Pro', sans-serif;
     @media (max-width: 1400px) {
       font-size: 25px;
     }

@@ -1,12 +1,10 @@
 <template>
   <div class="login">
+    <NavBar/>
     <div class="form">
     <div class="nav">
-      <router-link to="/">Strona główna</router-link>
-      <router-link to="/login">Logowanie</router-link>
-      <router-link to="/register">Rejestracja</router-link>
           </div>
-      <p>LOGOWANIE</p>
+      <p><b>Logowanie</b></p>
         <LoginForm />
     </div>
     <div class="backgroundimage">
@@ -18,9 +16,11 @@
 <script>
 import LoginForm from '@/components/LoginForm.vue';
 import BackgroundImageHalf from '@/components/BackgroundImageHalf.vue';
+import NavBar from '@/components/NavBar.vue';
 
 export default {
   components: {
+    NavBar,
     BackgroundImageHalf,
     LoginForm,
   },
@@ -28,14 +28,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import url('https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap');
-  @import url('https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap');
-
+  @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap');
   .nav {
     padding: 30px;
     text-align: right;
     font-size: 25px;
-    font-family: 'Abril Fatface', cursive;
+    font-family: 'Source Sans Pro', sans-serif;
     a {
       font-weight: bold;
       color: black;
@@ -71,7 +69,7 @@ export default {
   p {
     margin-top: 100px;
     font-size: 35px;
-    font-family: 'Abril Fatface', cursive;
+    font-family: 'Source Sans Pro', sans-serif;
     @media (max-width: 1400px) {
       font-size: 25px;
     }

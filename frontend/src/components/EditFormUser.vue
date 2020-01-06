@@ -1,46 +1,46 @@
 <template>
-    <form @submit.prevent="editUser">
+    <form @submit.prevent="mix">
       <ValidationProvider name="Imię" rules="alpha|min:3" v-slot="{ errors }">
-        <input v-model="name" type="text" placeholder="Imię">
+        <input v-model="name" type="text" placeholder="Imię" id="name">
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
 
       <ValidationProvider name="Nazwisko" rules="alpha|min:3" v-slot="{ errors }">
-        <input v-model="surname" type="text" placeholder="Nazwisko">
+        <input v-model="surname" type="text" placeholder="Nazwisko" id="surname">
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
 
       <ValidationProvider name="Pesel" rules="digits:11" v-slot="{ errors }">
-        <input v-model="pesel" type="text" placeholder="Pesel">
+        <input v-model="pesel" type="text" placeholder="Pesel" id="pesel">
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
 
       <ValidationProvider name="Ulica" rules="alpha|min:3" v-slot="{ errors }">
-        <input v-model="street" type="text" placeholder="Ulica">
+        <input v-model="street" type="text" placeholder="Ulica" id="street">
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
 
       <ValidationProvider name="Nr ulicy" rules="numeric|min:1" v-slot="{ errors }">
-        <input v-model="street_number" type="text" placeholder="Numer ulicy">
+        <input v-model="street_number" type="text" placeholder="Numer ulicy" id="num_street">
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
 
       <ValidationProvider name="Nr mieszkania" rules="numeric|min:1" v-slot="{ errors }">
-        <input v-model="ap_number" type="text" placeholder="Numer mieszkania">
+        <input v-model="ap_number" type="text" placeholder="Numer mieszkania" id="num_ap">
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
 
       <ValidationProvider name="Kod pocztowy" rules="alpha_dash|min:6" v-slot="{ errors }">
-        <input v-model="post_code" type="text" placeholder="Kod pocztowy">
+        <input v-model="post_code" type="text" placeholder="Kod pocztowy" id="post_code">
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
 
       <ValidationProvider name="Miasto" rules="alpha|min:3" v-slot="{ errors }">
-        <input v-model="town" type="text" placeholder="Miasto">
+        <input v-model="town" type="text" placeholder="Miasto" id="town">
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
 
-      <select v-model="selected">
+      <select v-model="selected" id="province">
         <option disabled value="">Wybierz województwo</option>
         <option value="BRAK">Brak</option>
         <option value="DOLNOSLAKIE">Dolnośląskie</option>
@@ -57,15 +57,15 @@
         <option value="SWIETOKRZYSKIE">Świętokrzyskie</option>
         <option value="WARMINSKOMAZURSKIE">Warmińsko-mazurskie</option>
         <option value="WIELKOPOLSKIE">Wielkopolskie</option>
-        <option value="ZACHODNIOPOMORSKIE">Zachodniopomorskie'</option>
+        <option value="ZACHODNIOPOMORSKIE">Zachodniopomorskie</option>
       </select>
 
       <ValidationProvider name="Telefon" rules="numeric|min:9" v-slot="{ errors }">
-        <input v-model="phone" type="tel" placeholder="Telefon">
+        <input v-model="phone" type="tel" placeholder="Telefon" id="phone_num">
         <span>{{ errors[0] }}</span>
       </ValidationProvider>
 
-      <button type="submit">Edytuj dane</button>
+      <b-button type="submit" id="button_edit">Edytuj dane</b-button>
     </form>
 </template>
 
@@ -139,6 +139,19 @@ export default {
     this.getUser();
   },
   methods: {
+    mix() {
+      this.toast('b-toaster-top-center');
+      this.editUser();
+    },
+    toast(toaster, append = false) {
+      this.$bvToast.toast('Dane zostały zaktualizowane w systemie ', {
+        title: 'Informacja',
+        toaster,
+        solid: true,
+        appendToast: append,
+        variant: 'primary',
+      });
+    },
     editUser() {
       // eslint-disable-next-line no-shadow,max-len,camelcase
       const {
@@ -224,8 +237,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import url('https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap');
-  @import url('https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap');
+  @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap');
   span {
     padding: 5px 0 5px 0;
     display: block;
@@ -237,19 +249,28 @@ export default {
   input {
     width: 40%;
     padding: 1px;
-    border: 2px solid lightblue;
-    font-family: 'Abril Fatface', cursive;
+    border: 1px solid lightblue;
+    font-family: 'Source Sans Pro', sans-serif;
     font-size: 1em;
-    border-radius: 20px;
+    border-radius: 5px;
+  }
+  input:focus {
+    outline: none;
   }
   select {
     width: 40%;
     padding: 1px;
-    border: 2px solid lightblue;
-    font-family: 'Abril Fatface', cursive;
+    border: 1px solid lightblue;
+    font-family: 'Source Sans Pro', sans-serif;
     font-size: 1em;
-    border-radius: 20px;
+    border-radius: 5px;
     background-color: white;
+    text-align: center;
+    text-align-last: center;
+    margin-bottom: 10px;
+  }
+  select:focus {
+    outline: none;
   }
   button {
     margin: 20px;
@@ -257,18 +278,12 @@ export default {
     padding: 1%;
     text-align: center;
     font-size: 16px;
-    font-family: 'Abril Fatface', cursive;
+    font-family: 'Source Sans Pro', sans-serif;
     background-color: lightblue;
     border: 3px solid lightblue;
-    border-radius: 40px;
-    box-shadow: none;
+    color: black;
   }
-  button:focus {
-    background-color: transparent;
-    border: 3px solid lightblue;
-    border-radius: 40px;
-  }
-  button, button:focus, input, input:focus, span {
+  button, input, input:focus, span {
     @media (max-width: 1400px) {
       font-size: 15px;
     }

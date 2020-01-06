@@ -6,6 +6,9 @@ import HomeLoged from '../views/HomeLoged.vue';
 import EditProfile from '../views/EditProfile.vue';
 import NewVisit from '../views/NewVisit.vue';
 import VisitList from '../views/VisitList.vue';
+import VisitDetails from '../views/VisitDetails.vue';
+import VisitDiagnosis from '../views/VisitDiagnosis.vue';
+import AddFilesPage from '../views/AddFilesPage.vue';
 
 Vue.use(VueRouter);
 
@@ -47,6 +50,21 @@ const routes = [
     path: '/visitlist',
     name: 'visitlist',
     component: VisitList,
+  },
+  {
+    path: '/visitdetails/:id',
+    name: 'visitdetails',
+    component: VisitDetails,
+  },
+  {
+    path: '/visitdiagnosis/:id',
+    name: 'visitdiagnosis',
+    component: VisitDiagnosis,
+  },
+  {
+    path: '/addfilespage/:id',
+    name: 'addfilespage',
+    component: AddFilesPage,
   },
 ];
 
