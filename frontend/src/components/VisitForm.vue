@@ -137,17 +137,17 @@ export default {
   },
   methods: {
     mix() {
-      this.toast('b-toaster-top-center');
+      // this.toast('b-toaster-top-center');
       this.newVisit();
       this.clear();
     },
-    toast(toaster, append = false) {
-      this.$bvToast.toast('Wizyta została zarejestrowana w systemie', {
+    toast(toaster, toastMsg, wariant, append = false) {
+      this.$bvToast.toast(toastMsg, {
         title: 'Informacja',
         toaster,
         solid: true,
         appendToast: append,
-        variant: 'primary',
+        variant: wariant,
       });
     },
     updateId(objawy) {
@@ -200,6 +200,13 @@ export default {
           sessionStorage.setItem('token', res.data.token);
           this.data = res.data;
           console.log(res.data);
+          this.toast('b-toaster-top-center', 'Wizyta została zarejestrowana w systemie', 'primary');
+        }).catch((err) => {
+          // eslint-disable-next-line
+          // alert('Nieprawidłowa nazwa użytkownika lub hasło!');
+          // eslint-disable-next-line
+          console.log(err);
+          this.toast('b-toaster-top-center', 'Już istnieje wizyta do lekarza na daną godzinę.', 'danger');
         });
     },
     getSympt() {

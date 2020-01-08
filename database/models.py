@@ -233,7 +233,6 @@ class Wizyta(models.Model):
                 fields=[
                     'data_wizyty',
                     'fk_id_lekarz',
-                    'fk_id_pacjent',
                 ],
                 name='Unikatowosc wizyty'
             )

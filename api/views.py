@@ -239,7 +239,7 @@ class WizytaCreateView(generics.CreateAPIView):
                 try:
                     serializer.save(fk_id_pacjent=user.fk_id_pacjent)
                 except IntegrityError as e:
-                    return Response(status.HTTP_400_BAD_REQUEST)
+                    return Response({"error": str(e)}, status=400)
                 return Response(serializer.data)
             else:
                 return Response(status.HTTP_400_BAD_REQUEST)
